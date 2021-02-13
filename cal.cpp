@@ -6,12 +6,13 @@
 #include <ctime>
 using namespace std; 
 
-class calEvent {
+class cal {
     public:
         string timezone, DTSTART, DTEND, freq, weekstop, untillD, byday, location, Ename;
         // this is for testing purpose only need REAL UUID generator.
         string UUID = "53688870-6D46-11EB-8572-0800200C9A66";
 
+        // function to creat iCal event.
         void createEvent(ofstream &file, string s) {   
             parseInfo(s);
             file << "BEGIN:VEVENT" << '\n';
@@ -25,8 +26,33 @@ class calEvent {
             file << "END:VEVENT" << '\n';
 
         }
+        
+        // function to create iCal Header.
+        void calHeader(ofstream &file) {
+            file << "BEGIN:VCALENDAR" << '\n';
+            file << "PRODID:-//Uics Project//Schedule//EN" << '\n';
+            file << "VERSION:2.0" << '\n';
+            file << "CALSCALE:GREGORIAN" << '\n';
+            file << "METHOD:PUBLISH" << '\n';
+            file << "BEGIN:VTIMEZONE" << '\n';
+            file << "TZID:Asia/Bangkok" << '\n';
+            file << "BEGIN:STANDARD" << '\n';
+            file << "TZOFFSETFROM:+0700" << '\n';
+            file << "TZOFFSETTO:+0700" << '\n';
+            file << "TZNAME:+07" << '\n';
+            file << "DTSTART:19700101T000000" << '\n';
+            file << "END:STANDARD" << '\n';
+            file << "END:VTIMEZONE" << '\n'; 
+        }
+
+        // function to create iCal Footer.
+        void calFooter(ofstream &file) {
+            file << "END:VCALENDAR";
+        }
 
     private:
+
+        // function to parse info from string and assign it to object.
         void parseInfo(string s) {
             vector<string> sArr = split(s, ','); 
             Ename = sArr[0];
@@ -35,7 +61,8 @@ class calEvent {
             DTEND = checkDT(sArr[2], 1);
             location = sArr[3];
         }
-     
+
+        // function to parse byday to iCal format **need more work.
         string checkbyday(string s) {
             if (s == "Mth") return "MO,TH";
             if (s == "TuF") return "FR,TU";
@@ -45,6 +72,7 @@ class calEvent {
             return "";       
         }
 
+        // function to get Timestamp (when the function was called) in iCal format.
         string getTstamp() {
             time_t t = time(0);
             tm* now = localtime(&t);
@@ -54,13 +82,13 @@ class calEvent {
             return Tstamp;
         }
 
+        // function that check the inputs and return Date/Time in iCal format.
         string checkDT(string s, int pos) {
             vector<string> arr = split(s, '-');
-            time_t t = time(0);
-
             return getTstamp() + arr[pos].erase(arr[pos].find(':'), 1) + "00";
         }
 
+        // function to split string.
         vector<string> split(string s, char delimeter) {
             vector<string> sArr;
             string token;
@@ -73,38 +101,15 @@ class calEvent {
 };
 
 
-void calHeader(ofstream &file) {
-    file << "BEGIN:VCALENDAR" << '\n';
-    file << "PRODID:-//Uics Project//Schedule//EN" << '\n';
-    file << "VERSION:2.0" << '\n';
-    file << "CALSCALE:GREGORIAN" << '\n';
-    file << "METHOD:PUBLISH" << '\n';
-    file << "BEGIN:VTIMEZONE" << '\n';
-    file << "TZID:Asia/Bangkok" << '\n';
-    file << "BEGIN:STANDARD" << '\n';
-    file << "TZOFFSETFROM:+0700" << '\n';
-    file << "TZOFFSETTO:+0700" << '\n';
-    file << "TZNAME:+07" << '\n';
-    file << "DTSTART:19700101T000000" << '\n';
-    file << "END:STANDARD" << '\n';
-    file << "END:VTIMEZONE" << '\n'; 
-}
-
-void calFooter(ofstream &file) {
-    file << "END:VCALENDAR";
-}
-
-
 int main() {
+    // Testing driver code below
     ofstream file("calendar.ics", ios::app);   
-    calEvent Event;
-    calHeader(file);
-
+    cal Event;
+    Event.calHeader(file);
     Event.timezone = "Asia/Bangkok";
     Event.weekstop = "SU";
     Event.freq = "WEEKLY";
     Event.untillD = "20210228T000000Z";
-    Event.createEvent(file, "TEST,Sa,09:30-11:00,somewhere");
-
-    calFooter(file);
+    Event.createEvent(file, "TEST,Sa,09:30-11:00,somewhere"); // the second parameter is in this [Eventname,Day,Time frame,Location] format.
+    Event.calFooter(file);
 }
