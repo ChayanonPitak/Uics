@@ -1,2 +1,10 @@
-# Uics
-If not done, drop. Otherwise F.
+# Uics (University schedule .ics creator.)
+
+# Milestone
+
+- [ ] [#1](https://github.com/ChayanonPitak/Uics/issues/1)
+
+# License
+
+This program and source code is licened under MIT License.
+For more information please see the license file.
