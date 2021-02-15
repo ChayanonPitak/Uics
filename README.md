@@ -1,6 +1,6 @@
 # Uics (University schedule .ics creator.)
 
-# Milestone
+# Checklist
 
 - [ ] [#1](https://github.com/ChayanonPitak/Uics/issues/1)
 
