@@ -6,7 +6,7 @@
 #include <ctime>
 using namespace std; 
 
-class cal {
+class calendar {
     public:
         string timezone, DTSTART, DTEND, freq, weekstop, untillD, byday, location, Ename;
         // this is for testing purpose only need REAL UUID generator.
@@ -16,8 +16,8 @@ class cal {
         void createEvent(ofstream &file, string s) {   
             parseInfo(s);
             file << "BEGIN:VEVENT" << '\n';
-            file << "DTSTART; TZID=" << timezone << ":" << DTSTART << '\n';
-            file << "DTEND; TZID=" << timezone << ":" << DTEND << '\n';
+            file << "DTSTART:" << DTSTART << '\n';
+            file << "DTEND:" << DTEND << '\n';
             file << "RRULE:FREQ=" << freq << ";WKST=" << weekstop << ";UNTIL=" << untillD << ";BYDAY=" << byday << '\n';
             file << "DTSTAMP:" << getTstamp() + "000000" << '\n';
             file << "UID:" << UUID << '\n';
@@ -104,7 +104,7 @@ class cal {
 int main() {
     // Testing driver code below
     ofstream file("calendar.ics", ios::app);   
-    cal Event;
+    calendar Event;
     Event.calHeader(file);
     Event.timezone = "Asia/Bangkok";
     Event.weekstop = "SU";
