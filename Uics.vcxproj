@@ -106,7 +106,12 @@
     <ClCompile Include="cal.h">
       <FileType>CppHeader</FileType>
     </ClCompile>
-    <ClCompile Include="GUI.cpp" />
+    <ClCompile Include="mainApp.cpp" />
+    <ClCompile Include="mainFrame.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="mainApp.h" />
+    <ClInclude Include="mainFrame.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
