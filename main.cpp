@@ -1,16 +1,25 @@
 #include <fstream>
 #include <cal.h>
-
+#include <tesseract/baseapi.h>
+#include <allheaders.h>
 
 int main() {
-    // Testing driver code below
-    std::ofstream file("calendar.ics", std::ios::app);   
-    ical::calendar Event;
-    Event.calHeader(file);
-    Event.timezone = "Asia/Bangkok";
-    Event.weekstop = "SU";
-    Event.freq = "WEEKLY";
-    Event.untillD = "20210228T000000Z";
-    Event.createEvent(file, "TEST,Sa,09:30-11:00,somewhere"); // the second parameter is in this [Eventname,Day,Time frame,Location] format.
-    Event.calFooter(file);
+    char *outText;
+    tesseract::TessBaseAPI *api = new tesseract::TessBaseAPI();
+
+    if (api->Init("/Projects/cpp/CPEPROJECT/Uics/tessdata", "eng")) {
+        std::cout << "Could not initialize tesseract.\n";
+        exit(1);
+    }
+
+    Pix *image  = pixRead("/Projects/cpp/CPEPROJECT/Uics/Untitled.png");
+    api->SetImage(image);
+    outText = api->GetUTF8Text();
+    std::cout << "OCR output:\n" << outText;
+    api->End();
+    delete api;
+    delete [] outText;
+    pixDestroy(&image);
+
+    return 0;
 }
