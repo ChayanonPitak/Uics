@@ -7,20 +7,22 @@ Build and [setup the environment variable](https://wiki.wxwidgets.org/Adding_an_
 # Milestone
 
 ### Schedule input
-- - [ ] Course schedule input.
-- - - [ ] Class schedule.
-- - - [ ] Examination schedule.
-- - [ ] Semester period & holiday input.
-- - - [ ] Semester period.
-- - - [ ] Examination period.
-- - - [ ] Hoiday
-- - - - [ ] *Bonus : Get holiday data from API.*
-- - [ ] Schedule list.
+
+- [ ] **Course schedule input.**
+- [x] Class schedule.
+- [ ] Examination schedule.
+- [ ] **Semester period & holiday input.**
+- [ ] Semester period.
+- [ ] Examination period.
+- [ ] **Hoiday**
+- [ ] *Bonus : Get holiday data from API.*
+- [ ] **Schedule list.**
 
 ### Save & Exporting.
-- - [ ] Export to .ics
-- - [ ] Save to custom file.
-- - [ ] Load from custom file.
+
+- [ ] Export to .ics
+- [ ] Save to custom file.
+- [ ] Load from custom file.
 
 # License
 
