@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.19)
 
-project(wiht_ocr CXX)
-set(CMAKE_CXX_STANDARD 14)
+project(with_ocr CXX)
+set(CMAKE_CXX_STANDARD 17)
 set(SW_BUILD_SHARED_LIBS 1)
 set(DEPENDENCIES
     org.sw.demo.google.tesseract.libtesseract-master

@@ -35,5 +35,6 @@
 *.png
 
 # Folder
+/.vscode
 /build
-/tessdata
+/images

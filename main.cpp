@@ -4,21 +4,24 @@
 #include <allheaders.h>
 
 int main() {
-    char *outText;
     tesseract::TessBaseAPI *api = new tesseract::TessBaseAPI();
 
-    if (api->Init("/Projects/cpp/CPEPROJECT/Uics/tessdata", "eng")) {
+    if (api->Init("/Projects/cpp/CPEPROJECT/Uics/tessdata", "eng+tha")) {
         std::cout << "Could not initialize tesseract.\n";
         exit(1);
     }
 
-    Pix *image  = pixRead("/Projects/cpp/CPEPROJECT/Uics/Untitled.png");
+    Pix *image  = pixRead("/Projects/cpp/CPEPROJECT/Uics/images/1.png");
+    
     api->SetImage(image);
+    
+    char * outText;
     outText = api->GetUTF8Text();
-    std::cout << "OCR output:\n" << outText;
+    printf("OCR output:\n%s", outText);
+
+
     api->End();
     delete api;
-    delete [] outText;
     pixDestroy(&image);
 
     return 0;
