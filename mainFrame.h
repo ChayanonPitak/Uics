@@ -9,7 +9,7 @@ public:
 
 public:
 	//TextStyle
-	wxFont *Header1, *Header2, *TextCtrl1, *TextCtrl2;
+	wxFont *Header1 = NULL, *Header2 = NULL, *TextCtrl1 = NULL, *TextCtrl2 = NULL;
 	//MenuBar
 	wxMenuBar* menuBar = NULL;
 
@@ -23,12 +23,14 @@ public:
 	wxTextCtrl* SubjectIDTextCtrl = NULL;
 	wxStaticText* SubjectNameLabel = NULL;
 	wxTextCtrl* SubjectNameTextCtrl = NULL;
+	wxStaticText* LocationLabel = NULL;
+	wxTextCtrl* LocationtextCtrl = NULL;
 	wxStaticText* StartTimeLabel = NULL;
 	wxTimePickerCtrl* StartTimePicker = NULL;
 	wxStaticText* EndTimeLabel = NULL;
 	wxTimePickerCtrl* EndTimePicker = NULL;
-	wxStaticText* LocationLabel = NULL;
-	wxTextCtrl* LocationtextCtrl = NULL;
+	wxStaticText* DayLabel = NULL;
+	wxCheckBox *SunCheckmark = NULL, *MonCheckmark = NULL, *TueCheckmark = NULL, *WedCheckmark = NULL, *ThuCheckmark = NULL, *FriCheckmark = NULL, *SatCheckmark = NULL;
 	wxButton* AddButton = NULL;
 	
 	//Functions

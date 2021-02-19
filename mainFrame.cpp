@@ -45,7 +45,7 @@ mainFrame::mainFrame() : wxFrame(NULL, wxID_ANY, "Uics", wxPoint(100, 100), wxSi
 	SetMenuBar(menuBar);
 
 	CreateStatusBar();
-	SetStatusText("Uics by SixtyNine.");
+	SetStatusText("");
 }
 
 void mainFrame::SetTextStyle()
@@ -83,35 +83,70 @@ void mainFrame::OnNew(wxCommandEvent& evt)
 		"",
 		wxPoint(90, 50), wxSize(200, 25));
 	SubjectNameTextCtrl->SetFont(*TextCtrl2);
+	//Location
+	LocationLabel = new wxStaticText(this, wxID_ANY,
+		"Location",
+		wxPoint(300, 35));
+	LocationLabel->SetFont(*Header2);
+	LocationtextCtrl = new wxTextCtrl(this, wxID_ANY,
+		"",
+		wxPoint(300, 50), wxSize(150, 25));
+	LocationtextCtrl->SetFont(*TextCtrl2);
 	//StartTime
 	StartTimeLabel = new wxStaticText(this, wxID_ANY,
 		"Start time",
-		wxPoint(300, 35));
+		wxPoint(20, 75));
 	StartTimeLabel->SetFont(*Header2);
 	StartTimePicker = new wxTimePickerCtrl(this, wxID_ANY,
 		wxDateTime(0,0,0,0),
-		wxPoint(300, 50), wxSize(85, 25));
+		wxPoint(20, 90), wxSize(85, 25));
 	StartTimePicker->SetFont(*TextCtrl2);
 	//EndTime
 	EndTimeLabel = new wxStaticText(this, wxID_ANY,
 		"End time",
-		wxPoint(395, 35));
+		wxPoint(110, 75));
 	EndTimeLabel->SetFont(*Header2);
 	EndTimePicker = new wxTimePickerCtrl(this, wxID_ANY,
 		wxDateTime(0, 0, 0, 0),
-		wxPoint(395, 50), wxSize(85, 25));
+		wxPoint(110, 90), wxSize(85, 25));
 	EndTimePicker->SetFont(*TextCtrl2);
-	//Location
-	LocationLabel = new wxStaticText(this, wxID_ANY,
-		"Location",
-		wxPoint(490, 35));
-	LocationtextCtrl = new wxTextCtrl(this, wxID_ANY,
-		"",
-		wxPoint(490, 50), wxSize(150, 25));
+	//Day
+	DayLabel = new wxStaticText(this, wxID_ANY,
+		"Day",
+		wxPoint(200, 75));
+	DayLabel->SetFont(*Header2);
+	MonCheckmark = new wxCheckBox(this, wxID_ANY,
+		"Monday",
+		wxPoint(200, 90));
+	MonCheckmark->SetFont(*TextCtrl2);
+	TueCheckmark = new wxCheckBox(this, wxID_ANY,
+		"Tuesday",
+		wxPoint(200, 105));
+	TueCheckmark->SetFont(*TextCtrl2);
+	WedCheckmark = new wxCheckBox(this, wxID_ANY,
+		"Wednesday",
+		wxPoint(270, 90));
+	WedCheckmark->SetFont(*TextCtrl2);
+	ThuCheckmark = new wxCheckBox(this, wxID_ANY,
+		"Thursday",
+		wxPoint(270, 105));
+	ThuCheckmark->SetFont(*TextCtrl2);
+	FriCheckmark = new wxCheckBox(this, wxID_ANY,
+		"Friday",
+		wxPoint(360, 97));
+	FriCheckmark->SetFont(*TextCtrl2);
+	SatCheckmark = new wxCheckBox(this, wxID_ANY,
+		"Saturday",
+		wxPoint(420, 90));
+	SatCheckmark->SetFont(*TextCtrl2);
+	SunCheckmark = new wxCheckBox(this, wxID_ANY,
+		"Sunday",
+		wxPoint(420, 105));
+	SunCheckmark->SetFont(*TextCtrl2);
 	//Add
 	AddButton = new wxButton(this, ID_AddEvent,
 		"Export",
-		wxPoint(10, 90), wxSize(100, 30));
+		wxPoint(10, 120), wxSize(100, 30));
 	AddButton->SetFont(*Header1);
 	FileMenu->Enable(ID_New, false);
 }
@@ -145,10 +180,19 @@ void mainFrame::AddSchedule(wxCommandEvent& event)
 	StartTimePicker->GetTime(&StartHr, &StartMin, &StartSec);
 	int EndHr, EndMin, EndSec;
 	EndTimePicker->GetTime(&EndHr, &EndMin, &EndSec);
-	Event.createEvent(dest, 
-		std::string((SubjectIDTextCtrl->GetLineText(0)).mb_str()) + " " +std::string((SubjectNameTextCtrl->GetLineText(0)).mb_str()) + "," +
-		"TuF" + "," + std::to_string(StartHr) + ":" + std::to_string(StartMin) + "-" + std::to_string(EndHr) + ":" + std::to_string(EndMin) + "," + 
-		std::string((LocationtextCtrl->GetLineText(0)).mb_str()));
+	unsigned int dayBinary =
+		MonCheckmark->GetValue() +
+		TueCheckmark->GetValue() * 2 +
+		WedCheckmark->GetValue() * 4 + 
+		ThuCheckmark->GetValue() * 8 + 
+		FriCheckmark->GetValue() * 16 + 
+		SatCheckmark->GetValue() * 32 + 
+		SunCheckmark->GetValue() * 64;
+	Event.createEvent(dest,
+		std::string((SubjectIDTextCtrl->GetLineText(0)).mb_str()) + " " + std::string((SubjectNameTextCtrl->GetLineText(0)).mb_str()),	//Name
+		std::string((LocationtextCtrl->GetLineText(0)).mb_str()),	//location
+		dayBinary,	//Day
+		StartHr, StartMin, StartSec, EndHr, EndMin, EndSec);	//Time
 	//Copy from cal.h no further change now.
 	Event.calFooter(dest);
 	event.Skip();
