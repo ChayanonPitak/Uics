@@ -2,11 +2,8 @@
 #include <cal.h>
 #include <tesseract/baseapi.h>
 #include <allheaders.h>
-#include <sstream>
 
-/**
- * Function to convert char* to vector<string> by splitting char* on '\\n'
-*/
+// Function to convert char* to vector<string> by splitting char* on '\\n'
 std::vector<std::string> tostrVector(char * in) {
     std::vector<std::string> text;
     size_t i = 0, j = 0;
@@ -15,6 +12,7 @@ std::vector<std::string> tostrVector(char * in) {
         if (in[i] == '\n') {
             size_t line_size = &in[i] - &in[j];
             std::string t = "";
+            // this work but there are overflow in this j-1 when j = 0, maybe need a better way to write this.
             for (size_t a = j; a < line_size + (j-1); a++) t.push_back(in[a]);
             text.push_back(t);
             j = i+1;
@@ -26,6 +24,7 @@ std::vector<std::string> tostrVector(char * in) {
 }
 
 int main() {
+    
     tesseract::TessBaseAPI *api = new tesseract::TessBaseAPI();
     if (api->Init("/Projects/cpp/CPEPROJECT/Uics/tessdata", "eng")) {
         std::cout << "Could not initialize tesseract.\n";
@@ -40,19 +39,26 @@ int main() {
     outText = api->GetUTF8Text();
 
     std::vector<std::string> texts = tostrVector(outText);
-    for (std::string text:texts) std::cout << text << '\n';
+    //for (std::string text:texts) std::cout << text << '\n';
+    
 
-
-    // need string parser to extract data
-    std::string nums, add;
-    std::istringstream ss(texts[0]);
-    ss >> nums >> add;
-    std::cout << nums << " " << add;
-
-
+    // testing code
+    std::ofstream file("../calender.ics", std::ios::app);
+    if (!file) std::cout << "ERROR OPENING FILE FOR OUTPUT\n";
+    ical::calendar Event;
+    Event.calHeader(file);
+    Event.timezone = "Asia/Bangkok";
+    Event.weekstop = "SU";
+    Event.freq = "WEEKLY";
+    Event.untillD = "20210228T000000Z";
+    Event.createEvent(file, texts[0], 1); // testing first line on image.
+    Event.calFooter(file);
+    
     delete [] outText;
     api->End();
     delete api;
     pixDestroy(&image);
+    
     return 0;
+
 }

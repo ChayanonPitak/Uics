@@ -11,18 +11,16 @@ namespace ical {
 class calendar {
     public:
         std::string timezone, DTSTART, DTEND, freq, weekstop, untillD, byday, location, Ename;
-        // this is for testing purpose only need REAL UUID generator.
-        std::string UUID = "53688870-6D46-11EB-8572-0800200C9A66";
 
-        // function to creat iCal event.
-        void createEvent(std::ofstream &file, std::string s) {   
-            parseInfo(s);
+        // function to creat iCal event. (filename, [Eventname,Day,Time frame,Location])
+        void createEvent(std::ofstream &file, std::string s, int mode = 0) {   
+            if (mode == 0) parseInfo(s);
+            if (mode == 1) sparser(s);
             file << "BEGIN:VEVENT" << '\n';
             file << "DTSTART:" << DTSTART << '\n';
             file << "DTEND:" << DTEND << '\n';
             file << "RRULE:FREQ=" << freq << ";WKST=" << weekstop << ";UNTIL=" << untillD << ";BYDAY=" << byday << '\n';
             file << "DTSTAMP:" << getTstamp() + "000000" << '\n';
-            file << "UID:" << UUID << '\n';
             file << "LOCATION:" << location << '\n';
             file << "SUMMARY:" << Ename << '\n';
             file << "END:VEVENT" << '\n';
@@ -52,7 +50,40 @@ class calendar {
             file << "END:VCALENDAR";
         }
 
-    private:
+    private:       
+        // parser for with-ocr branch **need more work (make it better or cleaner).
+        void sparser(std::string text) {
+            std::string nums, addr, name, time, day;
+            std::istringstream iss(text);
+            bool flag = 0;
+
+            iss >> nums >> addr;
+            for (size_t i = 9; i < (text.size() - 2); i++) {
+                name += text[i];
+                if (text[i+2] == '.') break;     
+            }
+
+            for (size_t i = (text.size()-1); i > 0; i--) {
+                if (text[i] == ' ') {
+                    if (flag == 1) break;
+                    if (i != text.size()-1) flag = 1;
+                }
+                if (flag == 0) {
+                    if (text[i] != ' ') time += text[i];
+                }
+                if (flag == 1) {
+                    if (text[i] != ' ') day += text[i];
+                }
+            }
+            time = std::string(time.rbegin(), time.rend());
+            day = std::string(day.rbegin(), day.rend());
+            
+            Ename = name + addr;
+            byday = checkbyday(day);
+            DTSTART = checkDT(time, 0);
+            DTEND = checkDT(time, 1);
+        }
+
 
         // function to parse info from string and assign it to object.
         void parseInfo(std::string s) {
@@ -66,11 +97,12 @@ class calendar {
 
         // function to parse byday to iCal format **need more work.
         std::string checkbyday(std::string s) {
-            if (s == "Mth") return "MO,TH";
-            if (s == "TuF") return "FR,TU";
-            if (s == "We") return "WE";
-            if (s == "Sa") return "SA";
-            if (s == "Su") return "SU";
+            for (auto & c : s) c = (char) toupper(c);
+            if (s == "MTH") return "MO,TH";
+            if (s == "TUF") return "FR,TU";
+            if (s == "WE") return "WE";
+            if (s == "SA") return "SA";
+            if (s == "SU") return "SU";
             return "";       
         }
 
@@ -87,7 +119,7 @@ class calendar {
         // function that check the inputs and return Date/Time in iCal format.
         std::string checkDT(std::string s, int pos) {
             std::vector<std::string> arr = split(s, '-');
-            return getTstamp() + arr[pos].erase(arr[pos].find(':'), 1) + "00";
+            return getTstamp() + arr[pos] + "00";
         }
 
         // function to split string.
