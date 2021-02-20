@@ -14,5 +14,5 @@ sw_execute()
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME} with_ocr.cpp)
 target_link_libraries(${PROJECT_NAME} ${DEPENDENCIES})
