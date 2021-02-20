@@ -9,12 +9,14 @@
 namespace ical {
 
     class calendar {
+
     public:
         std::string timezone, DTSTART, DTEND, freq, weekstop, untillD, byday, location, Ename;
         // this is for testing purpose only need REAL UUID generator.
         std::string UUID = "53688870-6D46-11EB-8572-0800200C9A66";
 
         // function to creat iCal event.
+
         void createEvent(std::ofstream& file, std::string name, std::string location,unsigned int DayBinary, unsigned short StartHr, unsigned short StartMin, unsigned short StartSec, unsigned short EndHr, unsigned short EndMin, unsigned int EndSec) {
             file << "BEGIN:VEVENT" << '\n';
             file << "DTSTART:" << checkDT(StartHr, StartMin, StartSec) << '\n';
@@ -52,7 +54,6 @@ namespace ical {
         }
 
     private:
-
         // function to parse byday to iCal format
         std::string checkbyday(unsigned int DayBinary) {
             //Binary represend each day.
