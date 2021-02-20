@@ -381,4 +381,6 @@ MigrationBackup/
 .ionide/
 
 *.ics
+*.vcxproj.filters
+*.vcxproj.user
 *.vcxproj
