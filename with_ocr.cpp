@@ -45,11 +45,8 @@ int main() {
     // testing code
     std::ofstream file("../calender.ics", std::ios::app);
     if (!file) std::cout << "ERROR OPENING FILE FOR OUTPUT\n";
-    ical::calendar Event;
+    ical::calendar Event("Asia/Bangkok", "SU", "WEEKLY");
     Event.calHeader(file);
-    Event.timezone = "Asia/Bangkok";
-    Event.weekstop = "SU";
-    Event.freq = "WEEKLY";
     Event.untillD = "20210228T000000Z";
     Event.createEvent(file, texts[0], 1); // testing first line on image.
     Event.calFooter(file);

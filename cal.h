@@ -12,10 +12,17 @@ class calendar {
     public:
         std::string timezone, DTSTART, DTEND, freq, weekstop, untillD, byday, location, Ename;
 
+        // Constructor
+        calendar(std::string TZ, std::string WT, std::string f) {
+            timezone = TZ;
+            weekstop = WT;
+            freq = f;
+        }
+
         // function to creat iCal event. (filename, [Eventname,Day,Time frame,Location])
         void createEvent(std::ofstream &file, std::string s, int mode = 0) {   
             if (mode == 0) parseInfo(s);
-            if (mode == 1) sparser(s);
+            if (mode == 1) ocr_parser(s);
             file << "BEGIN:VEVENT" << '\n';
             file << "DTSTART:" << DTSTART << '\n';
             file << "DTEND:" << DTEND << '\n';
@@ -52,7 +59,7 @@ class calendar {
 
     private:       
         // parser for with-ocr branch **need more work (make it better or cleaner).
-        void sparser(std::string text) {
+        void ocr_parser(std::string text) {
             std::string nums, addr, name, time, day;
             std::istringstream iss(text);
             bool flag = 0;
