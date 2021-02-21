@@ -122,10 +122,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ClassSchedule.cpp" />
     <ClCompile Include="mainApp.cpp" />
     <ClCompile Include="mainFrame.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ClassSchedule.h" />
     <ClInclude Include="cal.h" />
     <ClInclude Include="mainApp.h" />
     <ClInclude Include="mainFrame.h" />
