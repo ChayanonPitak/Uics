@@ -7,11 +7,10 @@ class ClassSchedule : public wxPanel
 public :
 	ClassSchedule(wxWindow* parent);
 public :
-	//TextStyle
-	wxFont Header1 ,  Header2 ,  TextCtrl1 ,  TextCtrl2 ;
+	//Style
+	wxFont Header1, Header2, TextCtrl1, TextCtrl2;
 
 	//Widgets
-	wxStaticText* AddClassScheduleHeader = NULL;
 	wxStaticText* SubjectIDLabel = NULL;
 	wxTextCtrl* SubjectIDTextCtrl = NULL;
 	wxStaticText* SubjectNameLabel = NULL;
