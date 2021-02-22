@@ -1,5 +1,8 @@
 #pragma once
+#include "Period.h"
 #include "ClassSchedule.h"
+#include "ExamSchedule.h"
+#include "FileManagement.h"
 
 #include <wx/wxprec.h>
 #include <wx/listbook.h>
@@ -10,11 +13,17 @@ public:
 	mainFrame();
 
 public:
-	//Toolbook
+	//Style
+	wxFont ListbookHeader;
+
+	//Listbook
 	wxListbook* listBook = NULL;
 
 	//Panel
+	Period* PeriodPanel = NULL;
 	ClassSchedule* ClassSchedulePanel = NULL;
+	ExamSchedule* ExamSchedulePanel = NULL;
+	FileManagement* FileManagementPanel = NULL;
 
 	//MenuBar
 	wxMenuBar* menuBar = NULL;
@@ -24,8 +33,8 @@ public:
 	wxMenu* HelpMenu = NULL;		//Help
 
 	//Functions
+	void SetStyle();
 	void OnAbout(wxCommandEvent& event);
 	void OnExit(wxCommandEvent& event);
-	//void AddSchedule(wxCommandEvent& event);
 	wxDECLARE_EVENT_TABLE();
 };
