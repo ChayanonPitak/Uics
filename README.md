@@ -1,10 +1,5 @@
 # Uics (University schedule .ics creator.)
-This branch is shit
-
-# Checklist
-
-- [x] [#1](https://github.com/ChayanonPitak/Uics/issues/1)
-- [ ] more features
+This branch is ok now.
 
 # Requirements
 - CMake version > 3.19 (https://cmake.org/install/)
