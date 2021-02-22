@@ -1,0 +1,23 @@
+#pragma once
+#include <wx/wxprec.h>
+#include <wx/datectrl.h>
+
+class Period : public wxPanel
+{
+public:
+	Period(wxWindow* parent);
+public:
+	//Style
+	wxFont Header1, Header2, TextCtrl1, TextCtrl2;
+
+	//Widgets
+	wxStaticText* PeriodStartLabel = NULL;
+	wxDatePickerCtrl* PeriodStartDatePickerLabel = NULL;
+	wxStaticText* PeriodEndLabel = NULL;
+	wxDatePickerCtrl* PeriodEndDatePickerLabel = NULL;
+
+	//Functions
+	void SetStyle();
+
+	//wxDECLARE_EVENT_TABLE();
+};
