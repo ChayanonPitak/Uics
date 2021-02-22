@@ -383,3 +383,8 @@ MigrationBackup/
 *.ics
 *.vcxproj.filters
 *.vcxproj.user
+*.vcxproj
+
+# build folder for cmake 
+/build
+/.vscode
