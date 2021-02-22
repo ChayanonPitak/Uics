@@ -1,4 +1,5 @@
 #include "mainFrame.h"
+#include "p_About.h"
 #include "ClassSchedule.h"
 
 #include <wx/wxprec.h>
@@ -44,9 +45,8 @@ mainFrame::mainFrame() : wxFrame(NULL, wxID_ANY, "Uics", wxPoint(100, 100), wxSi
 
 void mainFrame::OnAbout(wxCommandEvent& event)
 {
-	wxMessageBox("Uics\nMade by Sixtynine",
-		"About",
-		wxOK | wxCENTRE);
+	p_About* aboutFrame = new p_About(this); 
+	aboutFrame->Show(true);
 }
 void mainFrame::OnExit(wxCommandEvent& event)
 {

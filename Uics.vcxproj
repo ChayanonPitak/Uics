@@ -125,12 +125,14 @@
     <ClCompile Include="ClassSchedule.cpp" />
     <ClCompile Include="mainApp.cpp" />
     <ClCompile Include="mainFrame.cpp" />
+    <ClCompile Include="p_About.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ClassSchedule.h" />
     <ClInclude Include="cal.h" />
     <ClInclude Include="mainApp.h" />
     <ClInclude Include="mainFrame.h" />
+    <ClInclude Include="p_About.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
