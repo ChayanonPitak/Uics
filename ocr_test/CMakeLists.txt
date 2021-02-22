@@ -12,7 +12,8 @@ find_package(SW REQUIRED)
 sw_add_package(${DEPENDENCIES})
 sw_execute()
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(../)
 
-add_executable(${PROJECT_NAME} with_ocr.cpp)
-target_link_libraries(${PROJECT_NAME} ${DEPENDENCIES})
+# if building GUI add WIN32 after main
+add_executable(main with_ocr.cpp)
+target_link_libraries(main ${DEPENDENCIES})
