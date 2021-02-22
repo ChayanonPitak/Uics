@@ -1,9 +1,12 @@
 #include "mainFrame.h"
 #include "p_About.h"
+#include "Period.h"
 #include "ClassSchedule.h"
+#include "ExamSchedule.h"
 
 #include <wx/wxprec.h>
 #include <wx/listbook.h>
+#include <wx/listctrl.h>
 #include <fstream>
 #include <string>
 
@@ -14,6 +17,7 @@ wxEND_EVENT_TABLE()
 
 mainFrame::mainFrame() : wxFrame(NULL, wxID_ANY, "Uics", wxPoint(100, 100), wxSize(750, 500))
 {
+	SetStyle();
 	//Menu
 	FileMenu = new wxMenu;		//Menu - File
 	FileMenu->Append(wxID_EXIT,		//Exit
@@ -31,18 +35,28 @@ mainFrame::mainFrame() : wxFrame(NULL, wxID_ANY, "Uics", wxPoint(100, 100), wxSi
 	SetMenuBar(menuBar);
 
 	//Panel
-	ClassSchedulePanel = new ClassSchedule(this);			//ClassSchedule
+	PeriodPanel = new Period(this);						//SemesterPeriod
+	ClassSchedulePanel = new ClassSchedule(this);		//ClassSchedule
+	ExamSchedulePanel = new ExamSchedule(this);			//ExamSchedule
+	FileManagementPanel = new FileManagement(this);	//FileManagement
 	
 
-	//Toolbook
+	//Listbook
 	listBook = new wxListbook(this, wxID_ANY, wxPoint(0, 0), wxSize(750, 500), wxLB_TOP);
-	listBook->AddPage(ClassSchedulePanel, "Class Schedule"); //ClassSchedule
+	listBook->AddPage(PeriodPanel, "Semester Period");				//SemesterPeriod
+	listBook->AddPage(ClassSchedulePanel, "Class Schedule");		//ClassSchedule
+	listBook->AddPage(ExamSchedulePanel, "Examination Schedule");	//ExamSchedule
+	listBook->AddPage(FileManagementPanel, "File Management");		//ExamSchedule
 
 	CreateStatusBar();
 	SetStatusText("");
 
 }
 
+void mainFrame::SetStyle()
+{
+
+}
 void mainFrame::OnAbout(wxCommandEvent& event)
 {
 	p_About* aboutFrame = new p_About(this); 
