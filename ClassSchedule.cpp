@@ -1,5 +1,4 @@
 #include "ClassSchedule.h"
-#include "cal.h"
 
 #include <wx/wxprec.h>
 #include <wx/valnum.h>
@@ -110,36 +109,40 @@ void ClassSchedule::SetTextStyle()
 	TextCtrl2 = wxFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 }
 
+void ClassSchedule::updateEvent(ical::event event) {
+	int StartHr, StartMin, StartSec;
+	int EndHr, EndMin, EndSec;
+	unsigned int dayBinary =
+		 MonCheckmark->GetValue() +
+		 TueCheckmark->GetValue() * 2 +
+		 WedCheckmark->GetValue() * 4 + 
+		 ThuCheckmark->GetValue() * 8 + 
+		 FriCheckmark->GetValue() * 16 + 
+		 SatCheckmark->GetValue() * 32 + 
+		 SunCheckmark->GetValue() * 64;
+	
+	//Get schedule time.
+	StartTimePicker->GetTime(&StartHr, &StartMin, &StartSec);
+	EndTimePicker->GetTime(&EndHr, &EndMin, &EndSec);
+	 
+	event.untillD = "20210228T000000Z";
+
+	event.name = std::string((SubjectIDTextCtrl->GetLineText(0).mb_str())) 
+					 + " " + std::string((SubjectNameTextCtrl->GetLineText(0)).mb_str());
+	event.location = std::string((LocationtextCtrl->GetLineText(0)).mb_str()); 
+
+	event.day = ical::checkbyday(dayBinary);
+
+	event.DTstart = ical::checkDT(StartHr, StartMin, StartSec);
+	event.DTend = ical::checkDT(EndHr, EndMin, EndSec);
+}
+
 void ClassSchedule::AddSchedule(wxCommandEvent& event)
 {
-	//Initialize the file.
-	std::ofstream dest("calendar.ics", std::ios::app);
-	//Copy from cal.h no further change now.
-	ical::calendar Event;
-	Event.calHeader(dest);
-	Event.timezone = "Asia/Bangkok";
-	Event.weekstop = "SU";
-	Event.freq = "WEEKLY";
-	Event.untillD = "20210228T000000Z";
-	//Get schedule time.
-	int StartHr, StartMin, StartSec;
-	StartTimePicker->GetTime(&StartHr, &StartMin, &StartSec);
-	int EndHr, EndMin, EndSec;
-	EndTimePicker->GetTime(&EndHr, &EndMin, &EndSec);
-	unsigned int dayBinary =				//Use addition to create binary array. Rightmost digit is monday
-		MonCheckmark->GetValue() +			//Mon 0b0000001
-		TueCheckmark->GetValue() * 2 +		//Tue 0b0000010
-		WedCheckmark->GetValue() * 4 +		//Wed 0b0000100
-		ThuCheckmark->GetValue() * 8 +		//Thu 0b0001000
-		FriCheckmark->GetValue() * 16 +		//Fri 0b0010000
-		SatCheckmark->GetValue() * 32 +		//Sat 0b0100000
-		SunCheckmark->GetValue() * 64;		//Sun 0b1000000
-	Event.createEvent(dest,
-		std::string((SubjectIDTextCtrl->GetLineText(0)).mb_str()) + " " + std::string((SubjectNameTextCtrl->GetLineText(0)).mb_str()),	//Name
-		std::string((LocationtextCtrl->GetLineText(0)).mb_str()),	//location+
-		dayBinary,	//Day
-		StartHr, StartMin, StartSec, EndHr, EndMin, EndSec);	//Time
-	//Copy from cal.h no further change now.
-	Event.calFooter(dest);
+	// update event obj
+	ClassSchedule::updateEvent(this->EVENT);
+	// append copy of event obj to list
+	this->listSchedule.push_back(this->EVENT);
+
 	event.Skip();
 }

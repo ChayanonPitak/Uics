@@ -1,4 +1,5 @@
 #pragma once
+#include <cal.h>
 #include <wx/wxprec.h>
 #include <wx/timectrl.h>
 
@@ -6,6 +7,11 @@ class ClassSchedule : public wxPanel
 {
 public :
 	ClassSchedule(wxWindow* parent);
+	std::vector<ical::event> listSchedule;
+
+	ical::event EVENT;
+	void updateEvent(ical::event event);
+
 public :
 	//Style
 	wxFont Header1, Header2, TextCtrl1, TextCtrl2;
