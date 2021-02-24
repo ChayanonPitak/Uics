@@ -15,6 +15,14 @@ public:
 	wxDatePickerCtrl* PeriodStartDatePickerLabel = NULL;
 	wxStaticText* PeriodEndLabel = NULL;
 	wxDatePickerCtrl* PeriodEndDatePickerLabel = NULL;
+	wxStaticText* MidtermExaminationStartLabel = NULL;
+	wxDatePickerCtrl* MidtermExaminationStartDatePickerCtrl = NULL;
+	wxStaticText* MidtermExaminationEndLabel = NULL;
+	wxDatePickerCtrl* MidtermExaminationEndDatePickerCtrl = NULL;
+	wxStaticText* FinalExaminationStartLabel = NULL;
+	wxDatePickerCtrl* FinalExaminationStartDatePickerCtrl = NULL;
+	wxStaticText* FinalExaminationEndLabel = NULL;
+	wxDatePickerCtrl* FinalExaminationEndDatePickerCtrl = NULL;
 
 	//Functions
 	void SetStyle();
