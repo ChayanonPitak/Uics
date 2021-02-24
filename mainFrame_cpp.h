@@ -1,8 +1,9 @@
 #include "mainFrame.h"
-#include "p_About.h"
-#include "Period.h"
-#include "ClassSchedule.h"
-#include "ExamSchedule.h"
+#include "p_About_cpp.h"
+#include "Period_cpp.h"
+#include "ClassSchedule_cpp.h"
+#include "ExamSchedule_cpp.h"
+#include <FileManagement_cpp.h>
 
 #include <wx/wxprec.h>
 #include <wx/listbook.h>

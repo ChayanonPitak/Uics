@@ -1,5 +1,6 @@
+#include <wxcmake.h>
 #include "mainApp.h"
-#include "mainFrame.h"
+#include "mainFrame_cpp.h"
 
 #include <wx/wxprec.h>
 

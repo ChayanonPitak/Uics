@@ -383,3 +383,6 @@ MigrationBackup/
 *.ics
 *.vcxproj.filters
 *.vcxproj.user
+
+# ignore build folder
+/build
