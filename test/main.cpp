@@ -1,16 +1,32 @@
 #include <fstream>
 #include <cal.h>
-
+#include <boost/archive/text_oarchive.hpp>
+#include <boost/archive/text_iarchive.hpp>
 
 int main() {
     // Testing driver code below
-    std::ofstream file("calendar.ics", std::ios::app);   
-    ical::calendar Event;
-    Event.calHeader(file);
-    Event.timezone = "Asia/Bangkok";
-    Event.weekstop = "SU";
-    Event.freq = "WEEKLY";
-    Event.untillD = "20210228T000000Z";
-    Event.createEvent(file, "TEST,Sa,09:30-11:00,somewhere"); // the second parameter is in this [Eventname,Day,Time frame,Location] format.
-    Event.calFooter(file);
+    using namespace std;
+    vector<ical::event> lists;
+    ical::event EVENT;
+
+    /*
+    for (size_t i = 0; i < 5; i++) {
+        EVENT.name = to_string(i);
+        lists.push_back(EVENT);
+    }
+    ofstream ofs("../test");
+
+    ical::saveEvent(lists, ofs);
+    */
+
+    ifstream ifs("../test");
+
+    ical::loadEvent(lists, ifs);
+
+    for (size_t i = 0; i < lists.size(); i++) {
+        cout << lists[i].name << " ";
+    } 
+
+
+    return 0;
 }

@@ -4,6 +4,8 @@
 #include <vector>
 #include <sstream>
 #include <ctime>
+#include <boost/archive/text_oarchive.hpp>
+#include <boost/archive/text_iarchive.hpp>
 #pragma once
 
 namespace ical {
@@ -100,6 +102,20 @@ class event {
         }
 
     private:
+        friend class boost::serialization::access;
+        template<class Archive>
+        void serialize(Archive & ar, const unsigned int version) {
+            ar & freq;
+            ar & weekstop;
+            ar & name;
+            ar & location;
+            ar & day;
+            ar & DTstart;
+            ar & DTend;
+            ar & untillD;
+            ar & startD;
+        }
+
         // function to split string.
         std::vector<std::string> split(std::string s, char delimeter) {
             std::vector<std::string> sArr;
@@ -114,7 +130,7 @@ class event {
 }; //end calendar class
 
     // function to creat iCal event.
-    void createEvent(std::ofstream& file, event event) {
+    void createEvent(event event, std::ofstream &file) {
         file << "BEGIN:VEVENT" << '\n';
         file << "DTSTART:" << event.DTstart << '\n';
         file << "DTEND:" << event.DTend << '\n';
@@ -123,6 +139,33 @@ class event {
         file << "LOCATION:" << event.location << '\n';
         file << "SUMMARY:" << event.name << '\n';
         file << "END:VEVENT" << '\n';
+    }
+
+    void saveEvent(std::vector<event> list, std::ofstream &file) {
+        file << list.size() << '\n';
+        boost::archive::text_oarchive archive(file);
+        for (size_t i = 0; i < list.size(); i++) {
+            archive << list[i];
+        }
+    }
+
+    void loadEvent(std::vector<event> &list, std::ifstream &file) {      
+        size_t listSize = 0;
+        file >> listSize;
+        boost::archive::text_iarchive archive(file);
+        event EVENT;
+        for (size_t i = 0; i < listSize; i++) {
+            archive >> EVENT;
+            list.push_back(EVENT);
+        }
+    }
+
+    void exportEvent(std::vector<event> list, std::ofstream &file) {
+        calHeader(file);
+        for (size_t i = 0; i < list.size(); i++) {
+            createEvent(list[i], file);
+        }
+        calFooter(file);
     }
 
 } // end namespace ical 
