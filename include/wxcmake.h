@@ -12,5 +12,6 @@
 #include <wx/button.h>
 #include <wx/menu.h>
 #include <wx/sizer.h>
+#include <wx/timectrl.h>
 
 

@@ -3,19 +3,19 @@
 namespace ical {
 
     // function to get Timestamp (when the function was called) in iCal format.
-    std::string getTstamp() {
+    str getTstamp() {
         time_t t = time(0);
         tm* now = localtime(&t);
-        std::string Tstamp;
+        str Tstamp;
         if ((now->tm_mon + 1) < 10) Tstamp = std::to_string(now->tm_year + 1900) + "0" + std::to_string(now->tm_mon + 1) + std::to_string(now->tm_mday) + "T";
         else Tstamp = std::to_string(now->tm_year + 1900) + std::to_string(now->tm_mon + 1) + std::to_string(now->tm_mday) + "T";
         return Tstamp;
     }
 
     // function to split string.
-    std::vector<std::string> split(std::string s, char delimeter) {
-        std::vector<std::string> sArr;
-        std::string token;
+    strVector split(str s, char delimeter) {
+        strVector sArr;
+        str token;
         std::istringstream tokenStream(s);
         while (std::getline(tokenStream, token, delimeter)) {
             sArr.push_back(token);
@@ -23,23 +23,29 @@ namespace ical {
         return sArr;
     }
 
-    std::string intTostrD2(int val)
+    str intTostrD2(int val)
     {
         if (val < 10) return "0" + std::to_string(val);
         else return std::to_string(val);
     }
 
     // function that check the inputs and return Date/Time in iCal format.
-    std::string checkDT(unsigned short hr, unsigned short min, unsigned short sec) {
+    str checkDT(unsigned short hr, unsigned short min, unsigned short sec) {
         return getTstamp() + intTostrD2(hr) + intTostrD2(min) + intTostrD2(sec);
+    }
+    
+    // function that check the inputs and return Date/Time in iCal format.
+    str checkDT(str s, int pos) {
+        strVector arr = split(s, '-');
+        return getTstamp() + arr[pos] + "00";
     }
     
 
     // function to parse byday to iCal format
-    std::string checkbyday(unsigned int DayBinary) {
+    str checkbyday(unsigned int DayBinary) {
         //Binary represend each day.
         //First digit (2^0) represent Monday and increasing to Sunday.
-        std::string Day = "";
+        str Day = "";
         bool isSeperate = false;
         if (DayBinary & 1) { Day += "MO"; isSeperate = true;}
         DayBinary = DayBinary >> 1;
@@ -59,7 +65,7 @@ namespace ical {
     }
 
     // function to parse byday to iCal format **need more work.
-    std::string checkbyday(std::string s) {
+    str checkbyday(str s) {
         for (auto & c : s) c = (char) toupper(c);
         if (s == "MTH") return "MO,TH";
         if (s == "TUF") return "FR,TU";
@@ -70,26 +76,20 @@ namespace ical {
         return "";       
     }
 
-    // function that check the inputs and return Date/Time in iCal format.
-    std::string checkDT(std::string s, int pos) {
-        std::vector<std::string> arr = split(s, '-');
-        return getTstamp() + arr[pos] + "00";
-    }
-
 
     event::event() {
         weekstop = "SU";
         freq = "WEEKLY";
     }
     // constructor 
-    event::event(std::string WT, std::string f) {
+    event::event(str WT, str f) {
         weekstop = WT;
         freq = f;
     }
 
     // parser for with-ocr branch **need more work (make it better or cleaner).
-    void event::ocr_parser(std::string text) {
-        std::string nums, addr, Ename, time, byday;
+    void event::ocr_parser(str text) {
+        str nums, addr, Ename, time, byday;
         std::istringstream iss(text);
         bool flag = 0;
 
@@ -112,8 +112,8 @@ namespace ical {
             }
         }
 
-        time = std::string(time.rbegin(), time.rend());
-        day = std::string(day.rbegin(), day.rend());
+        time = str(time.rbegin(), time.rend());
+        day = str(day.rbegin(), day.rend());
         
         name = Ename + addr;
         day = checkbyday(byday);
@@ -122,7 +122,7 @@ namespace ical {
     }
 
     // function to create iCal Header.
-    void calHeader(std::ofstream& file, std::string timezone = "") {
+    void calHeader(std::ofstream& file, str timezone = "") {
         file << "BEGIN:VCALENDAR" << '\n';
         file << "PRODID:-//Uics Project//Schedule//EN" << '\n';
         file << "VERSION:2.0" << '\n';
@@ -185,14 +185,14 @@ namespace ical {
     }
 
     // Function to convert char* to vector<string> by splitting char* on '\\n'
-    std::vector<std::string> tostrVector(char * in) {
-        std::vector<std::string> text;
+    strVector tostrVector(char * in) {
+        strVector text;
         size_t i = 0, j = 0;
 
         while (in[i] != '\0') {
             if (in[i] == '\n') {
                 size_t line_size = &in[i] - &in[j];
-                std::string t = "";
+                str t = "";
                 // this work but there are overflow in this j-1 when j = 0, maybe need a better way to write this.
                 for (size_t a = j; a < line_size + (j-1); a++) t.push_back(in[a]);
                 text.push_back(t);
@@ -205,10 +205,10 @@ namespace ical {
     }
 
     // Function to process img and return vector of string.
-    std::vector<std::string> process_Image(const char* imgPath, const char * datapath) {
+    strVector process_Image(const char* imgPath, const char * datapath) {
         char * outText;
         Pix *image  = pixRead(imgPath);
-        std::vector<std::string> out;
+        strVector out;
 
         tesseract::TessBaseAPI *api = new tesseract::TessBaseAPI();
         if (api->Init(datapath, "eng")) {
@@ -228,7 +228,7 @@ namespace ical {
         return out;
    }
 
-   void ocr_to_event(std::vector<std::string> in, std::vector<event> out) {
+   void ocr_to_event(strVector in, std::vector<event> out) {
         event EVENT;
         for (size_t i = 0; i < in.size(); i++) {
             EVENT.ocr_parser(in[i]);

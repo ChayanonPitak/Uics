@@ -10,42 +10,47 @@
 #include <tesseract/baseapi.h>
 #include <allheaders.h>
 
+//:'<,'>s/<search_string>/<replace_string>/g -> change foo to bar in all lines.
+
+typedef std::string str;
+typedef std::vector<std::string> strVector;
+
 namespace ical {
 
     // function to get Timestamp (when the function was called) in iCal format.
-    std::string getTstamp(); 
+    str getTstamp(); 
 
-    std::string intTostrD2(int val);
+    str intTostrD2(int val);
     // function that check the inputs and return Date/Time in iCal format.
-    std::string checkDT(unsigned short hr, unsigned short min, unsigned short sec);
-    std::string checkDT(std::string s, int pos);
+    str checkDT(unsigned short hr, unsigned short min, unsigned short sec);
+    str checkDT(str s, int pos);
 
     
     // function to parse byday to iCal format
-    std::string checkbyday(unsigned int DayBinary);
-    std::string checkbyday(std::string s);
+    str checkbyday(unsigned int DayBinary);
+    str checkbyday(str s);
 
 
     class event {
 
         public:
-            std::string freq;
-            std::string weekstop;
-            std::string name;
-            std::string location;
-            std::string day;
-            std::string DTstart;
-            std::string DTend;
-            std::string untillD;
-            std::string startD = getTstamp() + "000000";
+            str freq;
+            str weekstop;
+            str name;
+            str location;
+            str day;
+            str DTstart;
+            str DTend;
+            str untillD;
+            str startD = getTstamp() + "000000";
             
             // default constructor
             event();
             // constructor 
-            event(std::string WT, std::string f);
+            event(str WT, str f);
             
             // parser for with-ocr branch **need more work (make it better or cleaner).
-            void ocr_parser(std::string text);
+            void ocr_parser(str text);
 
         private:
             friend class boost::serialization::access;
@@ -64,10 +69,10 @@ namespace ical {
     }; //end calendar class
 
     // function to split string.
-    std::vector<std::string> split(std::string s, char delimeter);
+    strVector split(str s, char delimeter);
 
     // function to create iCal Header.
-    void calHeader(std::ofstream& file, std::string timezone);
+    void calHeader(std::ofstream& file, str timezone);
 
     // function to create iCal Footer.
     void calFooter(std::ofstream& file);
@@ -86,12 +91,12 @@ namespace ical {
 
 
     // Function to convert char* to vector<string> by splitting char* on '\\n'
-    std::vector<std::string> tostrVector(char * in); 
+    strVector tostrVector(char * in); 
 
     // Function to process img and return vector of string.
-    std::vector<std::string> process_Image(const char* imgPath, const char * datapath);
+    strVector process_Image(const char* imgPath, const char * datapath);
 
     //
-    void ocr_to_event(std::vector<std::string> in, std::vector<event> out);
+    void ocr_to_event(strVector in, std::vector<event> out);
 
 } // end namespace ical 

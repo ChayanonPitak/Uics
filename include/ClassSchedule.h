@@ -1,7 +1,6 @@
 #pragma once
-#include <wxcmake.h>
 #include <wx/wxprec.h>
-#include <wx/timectrl.h>
+#include "wxcmake.h"
 #include "cal.h"
 
 class ClassSchedule : public wxPanel
