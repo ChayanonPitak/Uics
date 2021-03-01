@@ -1,18 +1,20 @@
 #pragma once
-#include <cal.h>
+#include <wxcmake.h>
 #include <wx/wxprec.h>
 #include <wx/timectrl.h>
+#include "cal.h"
 
 class ClassSchedule : public wxPanel
 {
 public :
 	ClassSchedule(wxWindow* parent);
-	std::vector<ical::event> listSchedule;
 
-	ical::event EVENT;
 	void updateEvent(ical::event event);
 
 public :
+	std::vector<ical::event> listSchedule;
+	ical::event EVENT;
+
 	//Style
 	wxFont Header1, Header2, TextCtrl1, TextCtrl2;
 

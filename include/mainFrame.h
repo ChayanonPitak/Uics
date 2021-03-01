@@ -4,6 +4,7 @@
 #include "ExamSchedule.h"
 #include "FileManagement.h"
 
+#include <wxcmake.h>
 #include <wx/wxprec.h>
 #include <wx/listbook.h>
 

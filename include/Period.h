@@ -1,4 +1,5 @@
 #pragma once
+#include <wxcmake.h>
 #include <wx/wxprec.h>
 #include <wx/datectrl.h>
 

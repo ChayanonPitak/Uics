@@ -1,5 +1,4 @@
 #include "Period.h"
-#include "cal.h"
 
 #include <wx/wxprec.h>
 #include <wx/datectrl.h>

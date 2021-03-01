@@ -1,10 +1,11 @@
 #pragma once
+#include <wxcmake.h>
 #include <wx/wxprec.h>
 
-class FileManagement : public wxPanel
+class ExamSchedule : public wxPanel
 {
 public:
-	FileManagement(wxWindow* parent);
+	ExamSchedule(wxWindow* parent);
 
 public:
 	//Style

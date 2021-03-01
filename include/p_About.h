@@ -1,4 +1,5 @@
 #pragma once
+#include <wxcmake.h>
 #include <wx/wxprec.h>
 
 class p_About : public wxFrame

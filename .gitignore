@@ -387,8 +387,9 @@ MigrationBackup/
 # ignore build folder
 /build
 /test/build
+/test/saveload_test/build
 /.vscode
-/test/test
+
 
 # Images
 *.png
