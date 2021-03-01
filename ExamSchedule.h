@@ -2,6 +2,7 @@
 #include <wx/wxprec.h>
 #include "cal.h"
 #include <wx/timectrl.h>
+#include <wx/datectrl.h>
 
 class ExamSchedule : public wxPanel
 {
@@ -26,8 +27,8 @@ public:
 	wxTextCtrl* SubjectNameTextCtrl = NULL;
 	wxStaticText* LocationLabel = NULL;
 	wxTextCtrl* LocationtextCtrl = NULL;
-	wxStaticText* Comment = NULL;
-	wxTextCtrl *CommentNameTextCtrl = NULL;
+	wxStaticText* Note = NULL;
+	wxTextCtrl *NoteNameTextCtrl = NULL;
 	wxStaticText* StartTimeLabel = NULL;
 	wxTimePickerCtrl* StartTimePicker = NULL;
 	wxStaticText* EndTimeLabel = NULL;
@@ -35,6 +36,9 @@ public:
 	wxStaticText* DayLabel = NULL;
 	wxCheckBox* SunCheckmark = NULL, * MonCheckmark = NULL, * TueCheckmark = NULL, * WedCheckmark = NULL, * ThuCheckmark = NULL, * FriCheckmark = NULL, * SatCheckmark = NULL;
 	wxButton* AddButton = NULL;
+
+	wxStaticText* SelectionLable = NULL;
+	wxDatePickerCtrl* SelectDate = NULL;
 
 	//wxDECLARE_EVENT_TABLE();
 	void SetTextStyle();

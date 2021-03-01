@@ -47,15 +47,15 @@ ExamSchedule::ExamSchedule(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoint
 		"",
 		wxPoint(300, 25), wxSize(150, 25));
 	LocationtextCtrl->SetFont(TextCtrl2);
-	//Comment
-	Comment = new wxStaticText(this, wxID_ANY,
-		"Comment",
+	//Note
+	Note = new wxStaticText(this, wxID_ANY,
+		"Note",
 		wxPoint(460, 10));
-	Comment->SetFont(Header2);
-	CommentNameTextCtrl = new wxTextCtrl(this, wxID_ANY,
+	Note->SetFont(Header2);
+	NoteNameTextCtrl = new wxTextCtrl(this, wxID_ANY,
 		"",
 		wxPoint(460, 25), wxSize(250, 25));
-	CommentNameTextCtrl->SetFont(TextCtrl2);
+	NoteNameTextCtrl->SetFont(TextCtrl2);
 
 
 	//StartTime
@@ -76,39 +76,18 @@ ExamSchedule::ExamSchedule(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoint
 		wxDateTime(0, 0, 0, 0),
 		wxPoint(110, 65), wxSize(85, 25));
 	EndTimePicker->SetFont(TextCtrl2);
-	//Day
-	DayLabel = new wxStaticText(this, wxID_ANY,
-		"Day",
-		wxPoint(200, 50));
-	DayLabel->SetFont(Header2);
-	MonCheckmark = new wxCheckBox(this, wxID_ANY,
-		"Monday",
-		wxPoint(200, 65));
-	MonCheckmark->SetFont(TextCtrl2);
-	TueCheckmark = new wxCheckBox(this, wxID_ANY,
-		"Tuesday",
-		wxPoint(200, 80));
-	TueCheckmark->SetFont(TextCtrl2);
-	WedCheckmark = new wxCheckBox(this, wxID_ANY,
-		"Wednesday",
-		wxPoint(270, 65));
-	WedCheckmark->SetFont(TextCtrl2);
-	ThuCheckmark = new wxCheckBox(this, wxID_ANY,
-		"Thursday",
-		wxPoint(270, 80));
-	ThuCheckmark->SetFont(TextCtrl2);
-	FriCheckmark = new wxCheckBox(this, wxID_ANY,
-		"Friday",
-		wxPoint(360, 72));
-	FriCheckmark->SetFont(TextCtrl2);
-	SatCheckmark = new wxCheckBox(this, wxID_ANY,
-		"Saturday",
-		wxPoint(420, 65));
-	SatCheckmark->SetFont(TextCtrl2);
-	SunCheckmark = new wxCheckBox(this, wxID_ANY,
-		"Sunday",
-		wxPoint(420, 80));
-	SunCheckmark->SetFont(TextCtrl2);
+	//SelectionDate
+	SelectionLable = new wxStaticText(this, wxID_ANY,
+		"Select M/D/Y",
+		wxPoint(300, 50));
+	SelectionLable->SetFont(Header2);
+	SelectDate = new wxDatePickerCtrl(this, wxID_ANY,
+		wxDefaultDateTime,
+		wxPoint(300, 65),
+		wxSize (85, 25),
+		wxDP_DROPDOWN);
+
+
 
 }
 
