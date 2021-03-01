@@ -6,7 +6,7 @@ Build and [setup the environment variable](https://wiki.wxwidgets.org/Adding_an_
 
 # Requirements
 - CMake version > 3.19 (https://cmake.org/install/)
-- sw (software network) version > 1.0.0 (https://software-network.org/)
+- sw (software network) version > 1.0.0 (https://software-network.org/) and don't forget to run ```sw setup```
 
 # How to
 1. cmake -Bbuild
@@ -33,6 +33,7 @@ Build and [setup the environment variable](https://wiki.wxwidgets.org/Adding_an_
 - [ ] Export to .ics
 - [ ] Save to custom file.
 - [ ] Load from custom file.
+
 
 # License
 
