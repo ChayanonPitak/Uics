@@ -386,3 +386,11 @@ MigrationBackup/
 
 # ignore build folder
 /build
+
+# Images
+*.png
+*.jpg
+
+# Folder
+/.vscode
+/test/ocr_test/build

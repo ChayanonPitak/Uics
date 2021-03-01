@@ -9,6 +9,59 @@
 #pragma once
 
 namespace ical {
+  
+    class event {
+
+        public:
+            std::string freq;
+            std::string weekstop;
+            std::string name;
+            std::string location;
+            std::string day;
+            std::string DTstart;
+            std::string DTend;
+            std::string untillD;
+            std::string startD = getTstamp() + "000000";
+            
+            // default constructor
+            event() {
+                weekstop = "SU";
+                freq = "WEEKLY";
+            }
+            // constructor 
+            event(std::string WT, std::string f) {
+                weekstop = WT;
+                freq = f;
+            }
+
+        private:
+            friend class boost::serialization::access;
+            template<class Archive>
+            void serialize(Archive & ar, const unsigned int version) {
+                ar & freq;
+                ar & weekstop;
+                ar & name;
+                ar & location;
+                ar & day;
+                ar & DTstart;
+                ar & DTend;
+                ar & untillD;
+                ar & startD;
+            }
+
+            // function to split string.
+            std::vector<std::string> split(std::string s, char delimeter) {
+                std::vector<std::string> sArr;
+                std::string token;
+                std::istringstream tokenStream(s);
+                while (std::getline(tokenStream, token, delimeter)) {
+                    sArr.push_back(token);
+                }
+                return sArr;
+            }
+
+    }; //end calendar class
+
     // function to create iCal Header.
     void calHeader(std::ofstream& file, std::string timezone = "") {
         file << "BEGIN:VCALENDAR" << '\n';
@@ -77,58 +130,6 @@ namespace ical {
         return Day;
     }
 
-class event {
-
-    public:
-        std::string freq;
-        std::string weekstop;
-        std::string name;
-        std::string location;
-        std::string day;
-        std::string DTstart;
-        std::string DTend;
-        std::string untillD;
-        std::string startD = getTstamp() + "000000";
-        
-        // default constructor
-        event() {
-            weekstop = "SU";
-            freq = "WEEKLY";
-        }
-        // constructor 
-        event(std::string WT, std::string f) {
-            weekstop = WT;
-            freq = f;
-        }
-
-    private:
-        friend class boost::serialization::access;
-        template<class Archive>
-        void serialize(Archive & ar, const unsigned int version) {
-            ar & freq;
-            ar & weekstop;
-            ar & name;
-            ar & location;
-            ar & day;
-            ar & DTstart;
-            ar & DTend;
-            ar & untillD;
-            ar & startD;
-        }
-
-        // function to split string.
-        std::vector<std::string> split(std::string s, char delimeter) {
-            std::vector<std::string> sArr;
-            std::string token;
-            std::istringstream tokenStream(s);
-            while (std::getline(tokenStream, token, delimeter)) {
-                sArr.push_back(token);
-            }
-            return sArr;
-        }
-
-}; //end calendar class
-
     // function to creat iCal event.
     void createEvent(event event, std::ofstream &file) {
         file << "BEGIN:VEVENT" << '\n';
@@ -165,8 +166,8 @@ class event {
         for (size_t i = 0; i < list.size(); i++) {
             createEvent(list[i], file);
         }
+
         calFooter(file);
     }
 
 } // end namespace ical 
-
