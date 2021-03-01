@@ -2,6 +2,8 @@
 #include <cal.h>
 
 int main() {
+
+    std::cout << "HEKKI WORLD";
     
     // this is just a testing code
     std::ofstream file("../calender.ics", std::ios::app);
@@ -11,7 +13,7 @@ int main() {
     ical::image_process proc;
     Event.calHeader(file);
     Event.untillD = "20210228T000000Z";
-    proc.img_events(file, "/Projects/cpp/CPEPROJECT/Uics/images/a.tif", Event);   
+    proc.img_events(file, "/Projects/cpp/CPEPROJECT/Uics/test/ocr_test/images/a.tif", Event);   
     Event.calFooter(file);
     
     return 0;

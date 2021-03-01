@@ -12,8 +12,10 @@ find_package(SW REQUIRED)
 sw_add_package(${DEPENDENCIES})
 sw_execute()
 
-include_directories(../)
+include_directories(include/)
 
 # if building GUI add WIN32 after main
 add_executable(main with_ocr.cpp)
 target_link_libraries(main ${DEPENDENCIES})
+
+install(TARGETS main DESTINATION bin)

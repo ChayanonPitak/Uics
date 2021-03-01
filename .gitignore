@@ -37,4 +37,4 @@
 
 # Folder
 /.vscode
-/build
+/test/ocr_test/build

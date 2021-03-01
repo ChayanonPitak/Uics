@@ -176,7 +176,7 @@ class image_process {
             std::vector<std::string> out;
 
             tesseract::TessBaseAPI *api = new tesseract::TessBaseAPI();
-            if (api->Init("/Projects/cpp/CPEPROJECT/Uics/tessdata", "eng")) {
+            if (api->Init("/Projects/cpp/CPEPROJECT/Uics/test/ocr_test/tessdata", "eng")) {
                 std::cout << "Could not initialize tesseract.\n";
                 exit(1);
             }
