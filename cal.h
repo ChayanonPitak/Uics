@@ -9,7 +9,7 @@
 #pragma once
 
 namespace ical {
-
+  
     class event {
 
         public:
@@ -166,9 +166,8 @@ namespace ical {
         for (size_t i = 0; i < list.size(); i++) {
             createEvent(list[i], file);
         }
+
         calFooter(file);
     }
 
 } // end namespace ical 
-
-
