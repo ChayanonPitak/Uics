@@ -7,13 +7,13 @@ class ClassSchedule : public wxPanel
 {
 public :
 	ClassSchedule(wxWindow* parent);
-
-	void updateEvent(ical::event event);
-
-public :
+	
 	std::vector<ical::event> listSchedule;
 	ical::event EVENT;
 
+	void updateEvent(ical::event &event);
+
+public :
 	//Style
 	wxFont Header1, Header2, TextCtrl1, TextCtrl2;
 
@@ -36,5 +36,8 @@ public :
 	void SetTextStyle();
 	void AddSchedule(wxCommandEvent& event);
 
+	// debug code
 	wxDECLARE_EVENT_TABLE();
+	wxTextCtrl* debug = NULL;
+	wxButton* dbutton = NULL;
 };

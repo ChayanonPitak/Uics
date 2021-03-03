@@ -7,6 +7,9 @@ class Period : public wxPanel
 {
 public:
 	Period(wxWindow* parent);
+
+	void getExam_range();
+
 public:
 	//Style
 	wxFont Header1, Header2, TextCtrl1, TextCtrl2;
@@ -29,4 +32,12 @@ public:
 	void SetStyle();
 
 	//wxDECLARE_EVENT_TABLE();
+
+	// debug code
+	wxDECLARE_EVENT_TABLE();
+	void onbutton(wxCommandEvent& event) {
+		getExam_range();
+	};
+	wxTextCtrl* debug = NULL;
+	wxButton* dbutton = NULL;
 };

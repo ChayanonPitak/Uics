@@ -12,7 +12,7 @@ enum
 };
 
 wxBEGIN_EVENT_TABLE(ClassSchedule, wxPanel)
-	EVT_BUTTON(ID_AddEvent, ClassSchedule::AddSchedule)
+	EVT_BUTTON(1, ClassSchedule::AddSchedule)
 wxEND_EVENT_TABLE()
 
 
@@ -99,6 +99,12 @@ ClassSchedule::ClassSchedule(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoi
 		"Sunday",
 		wxPoint(420, 80));
 	SunCheckmark->SetFont(TextCtrl2);
+
+
+	// debug code
+	debug = new wxTextCtrl(this, wxID_ANY, "", wxPoint(20, 180), wxSize(500, 80), wxTE_MULTILINE);
+	dbutton = new wxButton(this, 1, "CLICK", wxPoint(20, 260));
+
 }
 
 void ClassSchedule::SetTextStyle()
@@ -109,7 +115,7 @@ void ClassSchedule::SetTextStyle()
 	TextCtrl2 = wxFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 }
 
-void ClassSchedule::updateEvent(ical::event event) {
+void ClassSchedule::updateEvent(ical::event &event) {
 	int StartHr, StartMin, StartSec;
 	int EndHr, EndMin, EndSec;
 	unsigned int dayBinary =
@@ -127,8 +133,7 @@ void ClassSchedule::updateEvent(ical::event event) {
 	 
 	event.untillD = "20210228T000000Z";
 
-	event.name = std::string((SubjectIDTextCtrl->GetLineText(0).mb_str())) 
-					 + " " + std::string((SubjectNameTextCtrl->GetLineText(0)).mb_str());
+	event.name = std::string((SubjectIDTextCtrl->GetLineText(0).mb_str())) + " " + std::string((SubjectNameTextCtrl->GetLineText(0)).mb_str());
 	event.location = std::string((LocationtextCtrl->GetLineText(0)).mb_str()); 
 
 	event.day = ical::checkbyday(dayBinary);
@@ -140,9 +145,11 @@ void ClassSchedule::updateEvent(ical::event event) {
 void ClassSchedule::AddSchedule(wxCommandEvent& event)
 {
 	// update event obj
-	ClassSchedule::updateEvent(this->EVENT);
+	updateEvent(EVENT);
 	// append copy of event obj to list
-	this->listSchedule.push_back(this->EVENT);
+	listSchedule.push_back(EVENT);
 
-	event.Skip();
+	// debug code
+	wxStreamToTextRedirector redirect(debug);
+	std::cout << listSchedule.size();
 }
