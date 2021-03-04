@@ -122,8 +122,87 @@ namespace ical {
     }
 
     void event::set_exdate(str start, str end) {
-
+        exdate = ical::exdate(start, end);
     }
+
+    // helper function 
+    bool Is_inarr(str in, strVector arr) {
+        for (str i : arr) {
+            if (in == i) return true;
+        }
+        return false;
+    }
+    // function to set exam period for event obj
+    str exdate(str start, str end) {
+        start.erase(remove(start.begin(), start.end(), '-'), start.end());
+        end.erase(remove(end.begin(), end.end(), '-'), end.end());
+
+        //01234567 ABCD
+        str s_pre = start.substr(0, 6);
+
+        str s_month = start.substr(4, 2);
+        str e_month = end.substr(4, 2);
+        str startday = start.substr(6, 2);
+        str endday = end.substr(6, 2);
+
+
+        int s = stoi(startday);
+        int e = stoi(endday);
+        if (s_month == e_month) {
+            str temp = "";
+            for (int i = s; i <= e; i++) {
+                if (i < 10) temp += s_pre + "0" + std::to_string(i) + "T000000" + ", ";
+                else temp += s_pre + std::to_string(i) + "T000000" + ", ";
+            }
+            return temp.erase(temp.size() - 2, 2);
+        }
+        else { 
+            str s_year = start.substr(0, 4);
+            strVector thirtyone = {"01", "03", "05", "06", "07", "08", "10", "12"};
+            strVector thirty = {"04", "09", "11"};
+
+            if (s_month == "02") {
+                str temp = "";
+                for (int i = s; i <= 28; i++) {
+                    if (i < 10) temp += s_year + s_month + "0" + std::to_string(i) + "T000000" + ", ";
+                    else temp += s_year + s_month + std::to_string(i) + "T000000" + ", ";   
+                }
+                for (int i = 1; i <= e; i++) {
+                    if (i < 10) temp += s_year + e_month + "0" + std::to_string(i) + "T000000" + ", ";
+                    else temp += s_year + e_month + std::to_string(i) + "T000000" + ", ";   
+                }
+                return temp.erase(temp.size() - 2, 2);
+            }
+
+            if (Is_inarr(s_month, thirtyone)) {
+                str temp = "";
+                for (int i = s; i <= 31; i++) {
+                    if (i < 10) temp += s_year + s_month + "0" + std::to_string(i) + "T000000" + ", ";
+                    else temp += s_year + s_month + std::to_string(i) + "T000000" + ", ";   
+                }
+                for (int i = 1; i <= e; i++) {
+                    if (i < 10) temp += s_year + e_month + "0" + std::to_string(i) + "T000000" + ", ";
+                    else temp += s_year + e_month + std::to_string(i) + "T000000" + ", ";   
+                }
+                return temp.erase(temp.size() - 2, 2);
+            }
+
+            if (Is_inarr(s_month, thirty)) {
+                str temp = "";
+                for (int i = s; i <= 30; i++) {
+                    if (i < 10) temp += s_year + s_month + "0" + std::to_string(i) + "T000000" + ", ";
+                    else temp += s_year + s_month + std::to_string(i) + "T000000" + ", ";   
+                }
+                for (int i = 1; i <= e; i++) {
+                    if (i < 10) temp += s_year + e_month + "0" + std::to_string(i) + "T000000" + ", ";
+                    else temp += s_year + e_month + std::to_string(i) + "T000000" + ", ";   
+                }
+                return temp.erase(temp.size() - 2, 2);
+            }
+        }
+        return "";
+    }
+
 
     // function to create iCal Header.
     void calHeader(std::ofstream& file, str timezone = "") {
@@ -162,7 +241,7 @@ namespace ical {
         file << "END:VEVENT" << '\n';
     }
 
-    //
+    // need to rewrite all this
     void saveEvent(std::vector<event> list, std::ofstream &file) {
         file << list.size() << '\n';
         boost::archive::text_oarchive archive(file);
@@ -171,7 +250,7 @@ namespace ical {
         }
     }
 
-    //
+    // need to rewrite all this
     void loadEvent(std::vector<event> &list, std::ifstream &file) {      
         size_t listSize = 0;
         file >> listSize;

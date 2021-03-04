@@ -27,6 +27,8 @@ namespace ical {
     str checkbyday(unsigned int DayBinary);
     str checkbyday(str s);
 
+    // ultilty fucntion
+
 
     class event {
 
@@ -70,6 +72,10 @@ namespace ical {
                 ar & startD;
             }
     }; //end event class
+
+    // function to set exam period for event obj
+    bool Is_inarr(str in, strVector arr);
+    str exdate(str start, str end);
 
     // function to split string.
     strVector split(str s, char delimeter);
