@@ -8,11 +8,16 @@
 
 enum
 {
-	ID_AddEvent = 11
+	ID_AddEvent = 101,
+	ID_ClassScheduleListBox = 111,
+	ID_EditEvent = 112
 };
 
 wxBEGIN_EVENT_TABLE(ClassSchedule, wxPanel)
 	EVT_BUTTON(ID_AddEvent, ClassSchedule::AddSchedule)
+	EVT_BUTTON(ID_EditEvent, ClassSchedule::EditSchedule)
+	EVT_LISTBOX(ID_ClassScheduleListBox, ClassSchedule::UpdateListSelection)
+	EVT_LISTBOX_DCLICK(ID_ClassScheduleListBox, ClassSchedule::SetItemOnSelect)
 wxEND_EVENT_TABLE()
 
 
@@ -99,6 +104,17 @@ ClassSchedule::ClassSchedule(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoi
 		"Sunday",
 		wxPoint(420, 80));
 	SunCheckmark->SetFont(TextCtrl2);
+	//Buttons
+	AddButton = new wxButton(this, ID_AddEvent,
+		"Add",
+		wxPoint(20, 110), wxSize(85, 25));
+	EditButton = new wxButton(this, ID_EditEvent,
+		"Edit Selected",
+		wxPoint(120, 110), wxSize(85, 25));
+	EditButton->Enable(false);
+	//Lists
+	ClassScheduleLists = new wxListBox(this, ID_ClassScheduleListBox,
+		wxPoint(20, 140), wxSize(450, 200), 0, NULL, wxLB_SINGLE | wxLB_HSCROLL);
 }
 
 void ClassSchedule::SetTextStyle()
@@ -143,6 +159,46 @@ void ClassSchedule::AddSchedule(wxCommandEvent& event)
 	ClassSchedule::updateEvent(this->EVENT);
 	// append copy of event obj to list
 	this->listSchedule.push_back(this->EVENT);
-
+	int StartHr, StartMin, StartSec;
+	int EndHr, EndMin, EndSec;
+	StartTimePicker->GetTime(&StartHr, &StartMin, &StartSec);
+	EndTimePicker->GetTime(&EndHr, &EndMin, &EndSec);
+	ClassScheduleLists->Append("[" + std::string((SubjectIDTextCtrl->GetLineText(0).mb_str()))
+		+ " " + std::string((SubjectNameTextCtrl->GetLineText(0)).mb_str()) + "] - " +
+		std::string((LocationtextCtrl->GetLineText(0)).mb_str()) +
+		this->EVENT.day +
+		" [" + intTostrD2(StartHr) + ":" + intTostrD2(StartMin) + ":" + intTostrD2(StartSec) + " - " + intTostrD2(EndHr) + ":" + intTostrD2(EndMin) + ":" + intTostrD2(EndSec) + "]");
 	event.Skip();
+}
+void ClassSchedule::EditSchedule(wxCommandEvent& event)
+{
+	// update event obj
+	ClassSchedule::updateEvent(this->EVENT);
+	// modified event of list at selected index to event obj.
+	int StartHr, StartMin, StartSec;
+	int EndHr, EndMin, EndSec;
+	StartTimePicker->GetTime(&StartHr, &StartMin, &StartSec);
+	EndTimePicker->GetTime(&EndHr, &EndMin, &EndSec);
+	ClassScheduleLists->SetString(ClassScheduleLists->GetSelection(), "[" + std::string((SubjectIDTextCtrl->GetLineText(0).mb_str()))
+		+ " " + std::string((SubjectNameTextCtrl->GetLineText(0)).mb_str()) + "] - " +
+		std::string((LocationtextCtrl->GetLineText(0)).mb_str()) +
+		this->EVENT.day +
+		" [" + intTostrD2(StartHr) + ":" + intTostrD2(StartMin) + ":" + intTostrD2(StartSec) + " - " + intTostrD2(EndHr) + ":" + intTostrD2(EndMin) + ":" + intTostrD2(EndSec) + "]");
+	event.Skip();
+}
+//Enable edit button after select an item on the list.
+void ClassSchedule::UpdateListSelection(wxCommandEvent& event)
+{
+	EditButton->Enable(true);
+	event.Skip();
+}
+void ClassSchedule::SetItemOnSelect(wxCommandEvent& event)
+{
+	event.Skip();
+}
+
+std::string ClassSchedule::intTostrD2(int val)
+{
+	if (val < 10) return "0" + std::to_string(val);
+	else return std::to_string(val);
 }

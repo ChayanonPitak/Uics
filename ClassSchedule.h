@@ -30,10 +30,16 @@ public :
 	wxStaticText* DayLabel = NULL;
 	wxCheckBox* SunCheckmark = NULL, * MonCheckmark = NULL, * TueCheckmark = NULL, * WedCheckmark = NULL, * ThuCheckmark = NULL, * FriCheckmark = NULL, * SatCheckmark = NULL;
 	wxButton* AddButton = NULL;
+	wxButton* EditButton = NULL;
+	wxListBox* ClassScheduleLists = NULL;
 
 	//Functions
 	void SetTextStyle();
 	void AddSchedule(wxCommandEvent& event);
+	void EditSchedule(wxCommandEvent& event);
+	void UpdateListSelection(wxCommandEvent& event);
+	void SetItemOnSelect(wxCommandEvent& event);
+	std::string intTostrD2(int val);
 
 	wxDECLARE_EVENT_TABLE();
 };
