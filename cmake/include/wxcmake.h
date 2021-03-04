@@ -16,5 +16,6 @@
 #include <wx/filectrl.h>
 #include <wx/popupwin.h>
 #include <wx/filedlg.h> 
+#include <wx/menuitem.h>
 
 

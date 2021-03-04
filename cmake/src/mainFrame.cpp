@@ -14,6 +14,9 @@
 wxBEGIN_EVENT_TABLE(mainFrame, wxFrame)
 	EVT_MENU(wxID_ABOUT, mainFrame::OnAbout)
 	EVT_MENU(wxID_EXIT, mainFrame::OnExit)
+	EVT_MENU(wxID_OPEN, mainFrame::OnOpen)
+	EVT_MENU(wxID_SAVE, mainFrame::OnSave)
+	EVT_MENU(wxID_SAVEAS, mainFrame::OnSaveas)
 wxEND_EVENT_TABLE()
 
 mainFrame::mainFrame() : wxFrame(NULL, wxID_ANY, "Uics", wxPoint(100, 100), wxSize(750, 500))
@@ -24,6 +27,10 @@ mainFrame::mainFrame() : wxFrame(NULL, wxID_ANY, "Uics", wxPoint(100, 100), wxSi
 	FileMenu->Append(wxID_EXIT,		//Exit
 		"Exit",
 		"Get out of here.");
+
+	FileMenu->Append(wxID_OPEN);
+	FileMenu->Append(wxID_SAVE);
+	FileMenu->Append(wxID_SAVEAS);
 
 	HelpMenu = new wxMenu;		//Menu - Help
 	HelpMenu->Append(wxID_ABOUT,
@@ -69,4 +76,22 @@ void mainFrame::OnExit(wxCommandEvent& event)
 		"Exit",
 		wxYES_NO | wxNO_DEFAULT);
 	if (confirmation == wxYES) Close(true);
+}
+
+void mainFrame::OnOpen(wxCommandEvent& event) {
+	wxFileDialog
+		openFileDialog(this);
+
+	if (openFileDialog.ShowModal() == wxID_CANCEL) return;
+}
+
+void mainFrame::OnSave(wxCommandEvent& event) {
+
+}
+
+void mainFrame::OnSaveas(wxCommandEvent& event) {
+	wxFileDialog
+		saveFileDialog(this);
+
+	if (saveFileDialog.ShowModal() == wxID_CANCEL) return;
 }

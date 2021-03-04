@@ -37,5 +37,8 @@ public:
 	void SetStyle();
 	void OnAbout(wxCommandEvent& event);
 	void OnExit(wxCommandEvent& event);
+	void OnOpen(wxCommandEvent& event);
+	void OnSave(wxCommandEvent& event);
+	void OnSaveas(wxCommandEvent& event);
 	wxDECLARE_EVENT_TABLE();
 };
