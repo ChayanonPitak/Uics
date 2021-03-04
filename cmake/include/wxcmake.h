@@ -13,5 +13,8 @@
 #include <wx/menu.h>
 #include <wx/sizer.h>
 #include <wx/timectrl.h>
+#include <wx/filectrl.h>
+#include <wx/popupwin.h>
+#include <wx/filedlg.h> 
 
 

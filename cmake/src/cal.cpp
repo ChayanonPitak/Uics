@@ -121,6 +121,10 @@ namespace ical {
         DTend = checkDT(time, 1);
     }
 
+    void event::set_exdate(str start, str end) {
+
+    }
+
     // function to create iCal Header.
     void calHeader(std::ofstream& file, str timezone = "") {
         file << "BEGIN:VCALENDAR" << '\n';
@@ -150,6 +154,7 @@ namespace ical {
         file << "BEGIN:VEVENT" << '\n';
         file << "DTSTART:" << event.DTstart << '\n';
         file << "DTEND:" << event.DTend << '\n';
+        file << "EXDATE:" << event.exdate << '\n';
         file << "RRULE:FREQ=" << event.freq << ";WKST=" << event.weekstop << ";UNTIL=" << event.untillD << ";BYDAY=" << event.day << '\n';
         file << "DTSTAMP:" << event.startD << '\n';
         file << "LOCATION:" << event.location << '\n';
@@ -157,6 +162,7 @@ namespace ical {
         file << "END:VEVENT" << '\n';
     }
 
+    //
     void saveEvent(std::vector<event> list, std::ofstream &file) {
         file << list.size() << '\n';
         boost::archive::text_oarchive archive(file);
@@ -165,6 +171,7 @@ namespace ical {
         }
     }
 
+    //
     void loadEvent(std::vector<event> &list, std::ifstream &file) {      
         size_t listSize = 0;
         file >> listSize;
@@ -176,6 +183,7 @@ namespace ical {
         }
     }
 
+    //
     void exportEvent(std::vector<event> list, std::ofstream &file) {
         calHeader(file);
         for (size_t i = 0; i < list.size(); i++) {
@@ -226,15 +234,16 @@ namespace ical {
         pixDestroy(&image);
 
         return out;
-   }
+    }
 
-   void ocr_to_event(strVector in, std::vector<event> out) {
+    //
+    void ocr_to_event(strVector in, std::vector<event> &out) {
         event EVENT;
         for (size_t i = 0; i < in.size(); i++) {
             EVENT.ocr_parser(in[i]);
             out.push_back(EVENT);
         }
-   }
+    }
 
 
 } // end namespace ical 

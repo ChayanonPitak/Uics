@@ -10,8 +10,6 @@
 #include <tesseract/baseapi.h>
 #include <allheaders.h>
 
-//:'<,'>s/<search_string>/<replace_string>/g -> change foo to bar in all lines.
-
 typedef std::string str;
 typedef std::vector<std::string> strVector;
 
@@ -24,8 +22,7 @@ namespace ical {
     // function that check the inputs and return Date/Time in iCal format.
     str checkDT(unsigned short hr, unsigned short min, unsigned short sec);
     str checkDT(str s, int pos);
-
-    
+   
     // function to parse byday to iCal format
     str checkbyday(unsigned int DayBinary);
     str checkbyday(str s);
@@ -42,15 +39,20 @@ namespace ical {
             str DTstart;
             str DTend;
             str untillD;
+            str exdate;
             str startD = getTstamp() + "000000";
             
             // default constructor
             event();
+
             // constructor 
             event(str WT, str f);
             
             // parser for with-ocr branch **need more work (make it better or cleaner).
             void ocr_parser(str text);
+
+            //
+            void set_exdate(str start, str end);
 
         private:
             friend class boost::serialization::access;
@@ -64,9 +66,10 @@ namespace ical {
                 ar & DTstart;
                 ar & DTend;
                 ar & untillD;
+                ar & exdate;
                 ar & startD;
             }
-    }; //end calendar class
+    }; //end event class
 
     // function to split string.
     strVector split(str s, char delimeter);
@@ -89,14 +92,13 @@ namespace ical {
     //
     void exportEvent(std::vector<event> list, std::ofstream &file);
 
-
     // Function to convert char* to vector<string> by splitting char* on '\\n'
-    strVector tostrVector(char * in); 
+    strVector tostrVector(char *in); 
 
     // Function to process img and return vector of string.
-    strVector process_Image(const char* imgPath, const char * datapath);
+    strVector process_Image(const char *imgPath, const char *datapath);
 
     //
-    void ocr_to_event(strVector in, std::vector<event> out);
+    void ocr_to_event(strVector in, std::vector<event> &out);
 
 } // end namespace ical 

@@ -385,6 +385,7 @@ MigrationBackup/
 *.vcxproj.user
 
 # ignore build folder
+/cmake/build
 /build
 /test/build
 /test/saveload_test/build
