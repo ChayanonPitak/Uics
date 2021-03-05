@@ -1,5 +1,5 @@
 #pragma once
-#include <wxcmake.h>
+#include "wxcmake.h"
 #include <wx/wxprec.h>
 #include <wx/datectrl.h>
 
@@ -8,7 +8,7 @@ class Period : public wxPanel
 public:
 	Period(wxWindow* parent);
 
-	void getExam_range();
+	void updateTime_range();
 
 public:
 	//Style

@@ -5,6 +5,7 @@
 #include <fstream>
 #include <string>
 
+#include "mainFrame.h"
 #include "ClassSchedule.h"
 
 // debug code
@@ -78,20 +79,28 @@ void Period::SetStyle()
 	TextCtrl2 = wxFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 }
 
-void Period::getExam_range() {
-	wxDateTime wxMid_f = MidtermExaminationStartDatePickerCtrl->GetValue();
-	wxDateTime wxMid_l = MidtermExaminationEndDatePickerCtrl->GetValue();
-	wxDateTime wxFinal_f = FinalExaminationStartDatePickerCtrl->GetValue();
-	wxDateTime wxFinal_l = FinalExaminationEndDatePickerCtrl->GetValue();
+void Period::updateTime_range() {
+	wxDateTime wxMid_s = MidtermExaminationStartDatePickerCtrl->GetValue();
+	wxDateTime wxMid_e = MidtermExaminationEndDatePickerCtrl->GetValue();
+	wxDateTime wxFinal_s = FinalExaminationStartDatePickerCtrl->GetValue();
+	wxDateTime wxFinal_e = FinalExaminationEndDatePickerCtrl->GetValue();
 
-	std::string	Mid_f = wxMid_f.FormatISODate().ToStdString();
-	std::string	Mid_l = wxMid_l.FormatISODate().ToStdString();
-	std::string	Final_f = wxFinal_f.FormatISODate().ToStdString();
-	std::string	Final_l = wxFinal_l.FormatISODate().ToStdString();
+	std::string	Mid_s = wxMid_s.FormatISODate().ToStdString();
+	std::string	Mid_e = wxMid_e.FormatISODate().ToStdString();
+	std::string	Final_s = wxFinal_s.FormatISODate().ToStdString();
+	std::string	Final_e = wxFinal_e.FormatISODate().ToStdString();
 
-	// 2020-02-03, 2020-02-07 >> 20200203T000000, 20200204T000000, ~~
+	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
+
+	// change all exdate for exam period.
+	for (size_t i = 0; i < m_parent->listSchedule.size(); i++) {
+		m_parent->listSchedule[i].reset_exdate();
+		m_parent->listSchedule[i].set_exdate(Mid_s, Mid_e);
+		m_parent->listSchedule[i].set_exdate(Final_s, Final_e);
+	}
+	
 
 	// debug code
 	wxStreamToTextRedirector redirect(debug);
-	std::cout << Mid_f << " " << Mid_l << " " << Final_f << " " << Final_l;
+	std::cout << m_parent->listSchedule[0].get_exdate();
 }

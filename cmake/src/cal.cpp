@@ -121,9 +121,18 @@ namespace ical {
         DTend = checkDT(time, 1);
     }
 
-    void event::set_exdate(str start, str end) {
-        exdate = ical::exdate(start, end);
+    void event::reset_exdate() {
+        exdate = "";
     }
+
+    void event::set_exdate(str start, str end) {
+        exdate += ical::exdate(start, end);
+    }
+
+    str event::get_exdate() {
+        return exdate.erase(exdate.size()-2, 2);
+    }
+
 
     // helper function 
     bool Is_inarr(str in, strVector arr) {
@@ -154,7 +163,7 @@ namespace ical {
                 if (i < 10) temp += s_pre + "0" + std::to_string(i) + "T000000" + ", ";
                 else temp += s_pre + std::to_string(i) + "T000000" + ", ";
             }
-            return temp.erase(temp.size() - 2, 2);
+            return temp;
         }
         else { 
             str s_year = start.substr(0, 4);
@@ -171,7 +180,7 @@ namespace ical {
                     if (i < 10) temp += s_year + e_month + "0" + std::to_string(i) + "T000000" + ", ";
                     else temp += s_year + e_month + std::to_string(i) + "T000000" + ", ";   
                 }
-                return temp.erase(temp.size() - 2, 2);
+                return temp;
             }
 
             if (Is_inarr(s_month, thirtyone)) {
@@ -184,7 +193,7 @@ namespace ical {
                     if (i < 10) temp += s_year + e_month + "0" + std::to_string(i) + "T000000" + ", ";
                     else temp += s_year + e_month + std::to_string(i) + "T000000" + ", ";   
                 }
-                return temp.erase(temp.size() - 2, 2);
+                return temp;
             }
 
             if (Is_inarr(s_month, thirty)) {
@@ -197,7 +206,7 @@ namespace ical {
                     if (i < 10) temp += s_year + e_month + "0" + std::to_string(i) + "T000000" + ", ";
                     else temp += s_year + e_month + std::to_string(i) + "T000000" + ", ";   
                 }
-                return temp.erase(temp.size() - 2, 2);
+                return temp;
             }
         }
         return "";

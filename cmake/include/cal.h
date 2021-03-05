@@ -54,7 +54,12 @@ namespace ical {
             void ocr_parser(str text);
 
             //
+            void reset_exdate();
+
+            //
             void set_exdate(str start, str end);
+
+            str get_exdate();
 
         private:
             friend class boost::serialization::access;
