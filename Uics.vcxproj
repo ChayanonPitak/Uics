@@ -122,6 +122,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cal.cpp" />
     <ClCompile Include="ClassSchedule.cpp" />
     <ClCompile Include="ExamSchedule.cpp" />
     <ClCompile Include="mainApp.cpp" />
