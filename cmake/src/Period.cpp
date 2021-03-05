@@ -101,5 +101,4 @@ void Period::updateTime_range() {
 	
 	// debug code
 	wxStreamToTextRedirector redirect(debug);
-	std::cout << m_parent->listSchedule[0].get_exdate();
 }

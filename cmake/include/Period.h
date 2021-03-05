@@ -36,7 +36,7 @@ public:
 	// debug code
 	wxDECLARE_EVENT_TABLE();
 	void onbutton(wxCommandEvent& event) {
-		getExam_range();
+		updateTime_range();
 	};
 	wxTextCtrl* debug = NULL;
 	wxButton* dbutton = NULL;

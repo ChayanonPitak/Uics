@@ -164,18 +164,17 @@ void ClassSchedule::AddSchedule(wxCommandEvent& event)
 {
 	// this is some advance shit that deal with polymorphism , and get data from derived class from base class ( GetParent() )
 	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
-	
 	// update event obj
 	updateEvent(m_parent->EVENT);
 	// append copy of event obj to list
-	/*
 	m_parent->listSchedule.push_back(m_parent->EVENT);
 
 	// debug code
+	/*
 	wxStreamToTextRedirector redirect(debug);
 	std::cout << m_parent->listSchedule.size();
 	*/
-	this->listSchedule.push_back(this->EVENT);
+	m_parent->listSchedule.push_back(m_parent->EVENT);
 	int StartHr, StartMin, StartSec;
 	int EndHr, EndMin, EndSec;
 	StartTimePicker->GetTime(&StartHr, &StartMin, &StartSec);
@@ -197,8 +196,12 @@ void ClassSchedule::AddSchedule(wxCommandEvent& event)
 }
 void ClassSchedule::EditSchedule(wxCommandEvent& event)
 {
+
+	// this is some advance shit that deal with polymorphism , and get data from derived class from base class ( GetParent() )
+	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
+	
 	// update event obj
-	ClassSchedule::updateEvent(this->EVENT);
+	updateEvent(m_parent->EVENT);
 	// modified event of list at selected index to event obj.
 	int StartHr, StartMin, StartSec;
 	int EndHr, EndMin, EndSec;

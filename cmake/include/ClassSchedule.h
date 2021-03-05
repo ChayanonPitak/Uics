@@ -9,7 +9,7 @@ public :
 	ClassSchedule(wxWindow* parent);
 	
 	void updateEvent(ical::event &event);
-
+	
 public :
 	//Style
 	wxFont Header1, Header2, TextCtrl1, TextCtrl2;
