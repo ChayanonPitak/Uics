@@ -127,7 +127,6 @@
     <ClCompile Include="ExamSchedule.cpp" />
     <ClCompile Include="mainApp.cpp" />
     <ClCompile Include="mainFrame.cpp" />
-    <ClCompile Include="FileManagement.cpp" />
     <ClCompile Include="Period.cpp" />
     <ClCompile Include="p_About.cpp" />
   </ItemGroup>
@@ -137,7 +136,6 @@
     <ClInclude Include="ExamSchedule.h" />
     <ClInclude Include="mainApp.h" />
     <ClInclude Include="mainFrame.h" />
-    <ClInclude Include="FileManagement.h" />
     <ClInclude Include="Period.h" />
     <ClInclude Include="p_About.h" />
   </ItemGroup>

@@ -29,7 +29,6 @@ public:
 	Period* PeriodPanel = NULL;
 	ClassSchedule* ClassSchedulePanel = NULL;
 	ExamSchedule* ExamSchedulePanel = NULL;
-	FileManagement* FileManagementPanel = NULL;
 
 	//MenuBar
 	wxMenuBar* menuBar = NULL;

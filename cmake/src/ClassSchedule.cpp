@@ -9,15 +9,21 @@
 
 enum
 {
-	ID_AddEvent = 11
+	ID_AddEvent = 101,
+	ID_ClassScheduleListBox = 111,
+	ID_EditEvent = 112
 };
 
 wxBEGIN_EVENT_TABLE(ClassSchedule, wxPanel)
-	EVT_BUTTON(1, ClassSchedule::AddSchedule)
+	//EVT_BUTTON(1, ClassSchedule::AddSchedule)
+	EVT_BUTTON(ID_AddEvent, ClassSchedule::AddSchedule)
+	EVT_BUTTON(ID_EditEvent, ClassSchedule::EditSchedule)
+	EVT_LISTBOX(ID_ClassScheduleListBox, ClassSchedule::UpdateListSelection)
+	EVT_LISTBOX_DCLICK(ID_ClassScheduleListBox, ClassSchedule::SetItemOnSelect)
 wxEND_EVENT_TABLE()
 
 
-ClassSchedule::ClassSchedule(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoint(0,0), wxSize(750,500))
+ClassSchedule::ClassSchedule(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoint(0,0), wxSize(500,600))
 {
 	SetTextStyle();
 	wxIntegerValidator<int> DigitValidator;
@@ -103,9 +109,20 @@ ClassSchedule::ClassSchedule(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoi
 
 
 	// debug code
-	debug = new wxTextCtrl(this, wxID_ANY, "", wxPoint(20, 180), wxSize(500, 80), wxTE_MULTILINE);
-	dbutton = new wxButton(this, 1, "CLICK", wxPoint(20, 260));
+	//debug = new wxTextCtrl(this, wxID_ANY, "", wxPoint(20, 180), wxSize(500, 80), wxTE_MULTILINE);
+	//dbutton = new wxButton(this, 1, "CLICK", wxPoint(20, 260));
 
+	//Buttons
+	AddButton = new wxButton(this, ID_AddEvent,
+		"Add",
+		wxPoint(20, 110), wxSize(85, 25));
+	EditButton = new wxButton(this, ID_EditEvent,
+		"Edit Selected",
+		wxPoint(120, 110), wxSize(85, 25));
+	EditButton->Enable(false);
+	//Lists
+	ClassScheduleLists = new wxListBox(this, ID_ClassScheduleListBox,
+		wxPoint(20, 140), wxSize(450, 200), 0, NULL, wxLB_SINGLE | wxLB_HSCROLL);
 }
 
 void ClassSchedule::SetTextStyle()
@@ -151,9 +168,64 @@ void ClassSchedule::AddSchedule(wxCommandEvent& event)
 	// update event obj
 	updateEvent(m_parent->EVENT);
 	// append copy of event obj to list
+	/*
 	m_parent->listSchedule.push_back(m_parent->EVENT);
 
 	// debug code
 	wxStreamToTextRedirector redirect(debug);
 	std::cout << m_parent->listSchedule.size();
+	*/
+	this->listSchedule.push_back(this->EVENT);
+	int StartHr, StartMin, StartSec;
+	int EndHr, EndMin, EndSec;
+	StartTimePicker->GetTime(&StartHr, &StartMin, &StartSec);
+	EndTimePicker->GetTime(&EndHr, &EndMin, &EndSec);
+	unsigned int dayBinary =
+		MonCheckmark->GetValue() +
+		TueCheckmark->GetValue() * 2 +
+		WedCheckmark->GetValue() * 4 +
+		ThuCheckmark->GetValue() * 8 +
+		FriCheckmark->GetValue() * 16 +
+		SatCheckmark->GetValue() * 32 +
+		SunCheckmark->GetValue() * 64;
+	ClassScheduleLists->Append("[" + std::string((SubjectIDTextCtrl->GetLineText(0).mb_str()))
+		+ " " + std::string((SubjectNameTextCtrl->GetLineText(0)).mb_str()) + "] - " +
+		std::string((LocationtextCtrl->GetLineText(0)).mb_str()) + " " +
+		ical::checkbyday(dayBinary) +
+		" [" + ical::intTostrD2(StartHr) + ":" + ical::intTostrD2(StartMin) + ":" + ical::intTostrD2(StartSec) + " - " + ical::intTostrD2(EndHr) + ":" + ical::intTostrD2(EndMin) + ":" + ical::intTostrD2(EndSec) + "]");
+	event.Skip();
+}
+void ClassSchedule::EditSchedule(wxCommandEvent& event)
+{
+	// update event obj
+	ClassSchedule::updateEvent(this->EVENT);
+	// modified event of list at selected index to event obj.
+	int StartHr, StartMin, StartSec;
+	int EndHr, EndMin, EndSec;
+	StartTimePicker->GetTime(&StartHr, &StartMin, &StartSec);
+	EndTimePicker->GetTime(&EndHr, &EndMin, &EndSec);
+	unsigned int dayBinary =
+		MonCheckmark->GetValue() +
+		TueCheckmark->GetValue() * 2 +
+		WedCheckmark->GetValue() * 4 +
+		ThuCheckmark->GetValue() * 8 +
+		FriCheckmark->GetValue() * 16 +
+		SatCheckmark->GetValue() * 32 +
+		SunCheckmark->GetValue() * 64;
+	ClassScheduleLists->SetString(ClassScheduleLists->GetSelection(), "[" + std::string((SubjectIDTextCtrl->GetLineText(0).mb_str()))
+		+ " " + std::string((SubjectNameTextCtrl->GetLineText(0)).mb_str()) + "] - " +
+		std::string((LocationtextCtrl->GetLineText(0)).mb_str()) + " " +
+		ical::checkbyday(dayBinary) +
+		" [" + ical::intTostrD2(StartHr) + ":" + ical::intTostrD2(StartMin) + ":" + ical::intTostrD2(StartSec) + " - " + ical::intTostrD2(EndHr) + ":" + ical::intTostrD2(EndMin) + ":" + ical::intTostrD2(EndSec) + "]");
+	event.Skip();
+}
+//Enable edit button after select an item on the list.
+void ClassSchedule::UpdateListSelection(wxCommandEvent& event)
+{
+	EditButton->Enable(true);
+	event.Skip();
+}
+void ClassSchedule::SetItemOnSelect(wxCommandEvent& event)
+{
+	event.Skip();
 }
