@@ -3,8 +3,9 @@
 #include "ClassSchedule.h"
 #include "ExamSchedule.h"
 #include "FileManagement.h"
+#include "cal.h"
+#include "wxcmake.h"
 
-#include <wxcmake.h>
 #include <wx/wxprec.h>
 #include <wx/listbook.h>
 
@@ -12,6 +13,10 @@ class mainFrame : public wxFrame
 {
 public:
 	mainFrame();
+	
+	// data of all event.
+	std::vector<ical::event> listSchedule;
+	ical::event EVENT;
 
 public:
 	//Style

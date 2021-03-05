@@ -1,4 +1,5 @@
 #include "ClassSchedule.h"
+#include "mainFrame.h"
 
 #include <wx/wxprec.h>
 #include <wx/valnum.h>
@@ -144,12 +145,15 @@ void ClassSchedule::updateEvent(ical::event &event) {
 
 void ClassSchedule::AddSchedule(wxCommandEvent& event)
 {
+	// this is some advance shit that deal with polymorphism , and get data from derived class from base class ( GetParent() )
+	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
+	
 	// update event obj
-	updateEvent(EVENT);
+	updateEvent(m_parent->EVENT);
 	// append copy of event obj to list
-	listSchedule.push_back(EVENT);
+	m_parent->listSchedule.push_back(m_parent->EVENT);
 
 	// debug code
 	wxStreamToTextRedirector redirect(debug);
-	std::cout << listSchedule.size();
+	std::cout << m_parent->listSchedule.size();
 }

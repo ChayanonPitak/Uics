@@ -8,9 +8,6 @@ class ClassSchedule : public wxPanel
 public :
 	ClassSchedule(wxWindow* parent);
 	
-	std::vector<ical::event> listSchedule;
-	ical::event EVENT;
-
 	void updateEvent(ical::event &event);
 
 public :
