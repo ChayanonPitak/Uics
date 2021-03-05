@@ -383,3 +383,19 @@ MigrationBackup/
 *.ics
 *.vcxproj.filters
 *.vcxproj.user
+
+# ignore build folder
+/cmake/build
+/build
+/test/build
+/test/saveload_test/build
+/.vscode
+
+
+# Images
+*.png
+*.jpg
+
+# Folder
+/.vscode
+/test/ocr_test/build

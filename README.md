@@ -4,6 +4,16 @@ This application use wxWidgets 3.1.4 for GUI library.
 Please install the library [here](https://www.wxwidgets.org/downloads/)  
 Build and [setup the environment variable](https://wiki.wxwidgets.org/Adding_an_Environment_Variable_under_Windows) to make the program compile  correctly.
 
+# Requirements
+- CMake version > 3.19 (https://cmake.org/install/)
+- sw (software network) version > 1.0.0 (https://software-network.org/) and don't forget to run ```sw setup```
+
+# How to
+1. cmake -Bbuild
+2. cd build
+3. cmake --build .
+4. exe file shoud be in ./build/Debug
+
 # Milestone
 
 ### Schedule input
@@ -23,6 +33,7 @@ Build and [setup the environment variable](https://wiki.wxwidgets.org/Adding_an_
 - [ ] Export to .ics
 - [ ] Save to custom file.
 - [ ] Load from custom file.
+
 
 # License
 
