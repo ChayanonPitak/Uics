@@ -21,7 +21,7 @@ wxBEGIN_EVENT_TABLE(ClassSchedule, wxPanel)
 wxEND_EVENT_TABLE()
 
 
-ClassSchedule::ClassSchedule(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoint(0,0), wxSize(750,500))
+ClassSchedule::ClassSchedule(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoint(0,0), wxSize(500,600))
 {
 	SetTextStyle();
 	wxIntegerValidator<int> DigitValidator;
@@ -163,11 +163,19 @@ void ClassSchedule::AddSchedule(wxCommandEvent& event)
 	int EndHr, EndMin, EndSec;
 	StartTimePicker->GetTime(&StartHr, &StartMin, &StartSec);
 	EndTimePicker->GetTime(&EndHr, &EndMin, &EndSec);
+	unsigned int dayBinary =
+		MonCheckmark->GetValue() +
+		TueCheckmark->GetValue() * 2 +
+		WedCheckmark->GetValue() * 4 +
+		ThuCheckmark->GetValue() * 8 +
+		FriCheckmark->GetValue() * 16 +
+		SatCheckmark->GetValue() * 32 +
+		SunCheckmark->GetValue() * 64;
 	ClassScheduleLists->Append("[" + std::string((SubjectIDTextCtrl->GetLineText(0).mb_str()))
 		+ " " + std::string((SubjectNameTextCtrl->GetLineText(0)).mb_str()) + "] - " +
-		std::string((LocationtextCtrl->GetLineText(0)).mb_str()) +
-		this->EVENT.day +
-		" [" + intTostrD2(StartHr) + ":" + intTostrD2(StartMin) + ":" + intTostrD2(StartSec) + " - " + intTostrD2(EndHr) + ":" + intTostrD2(EndMin) + ":" + intTostrD2(EndSec) + "]");
+		std::string((LocationtextCtrl->GetLineText(0)).mb_str()) + " " +
+		ical::checkbyday(dayBinary) +
+		" [" + ical::intTostrD2(StartHr) + ":" + ical::intTostrD2(StartMin) + ":" + ical::intTostrD2(StartSec) + " - " + ical::intTostrD2(EndHr) + ":" + ical::intTostrD2(EndMin) + ":" + ical::intTostrD2(EndSec) + "]");
 	event.Skip();
 }
 void ClassSchedule::EditSchedule(wxCommandEvent& event)
@@ -179,11 +187,19 @@ void ClassSchedule::EditSchedule(wxCommandEvent& event)
 	int EndHr, EndMin, EndSec;
 	StartTimePicker->GetTime(&StartHr, &StartMin, &StartSec);
 	EndTimePicker->GetTime(&EndHr, &EndMin, &EndSec);
+	unsigned int dayBinary =
+		MonCheckmark->GetValue() +
+		TueCheckmark->GetValue() * 2 +
+		WedCheckmark->GetValue() * 4 +
+		ThuCheckmark->GetValue() * 8 +
+		FriCheckmark->GetValue() * 16 +
+		SatCheckmark->GetValue() * 32 +
+		SunCheckmark->GetValue() * 64;
 	ClassScheduleLists->SetString(ClassScheduleLists->GetSelection(), "[" + std::string((SubjectIDTextCtrl->GetLineText(0).mb_str()))
 		+ " " + std::string((SubjectNameTextCtrl->GetLineText(0)).mb_str()) + "] - " +
-		std::string((LocationtextCtrl->GetLineText(0)).mb_str()) +
-		this->EVENT.day +
-		" [" + intTostrD2(StartHr) + ":" + intTostrD2(StartMin) + ":" + intTostrD2(StartSec) + " - " + intTostrD2(EndHr) + ":" + intTostrD2(EndMin) + ":" + intTostrD2(EndSec) + "]");
+		std::string((LocationtextCtrl->GetLineText(0)).mb_str()) + " " +
+		ical::checkbyday(dayBinary) +
+		" [" + ical::intTostrD2(StartHr) + ":" + ical::intTostrD2(StartMin) + ":" + ical::intTostrD2(StartSec) + " - " + ical::intTostrD2(EndHr) + ":" + ical::intTostrD2(EndMin) + ":" + ical::intTostrD2(EndSec) + "]");
 	event.Skip();
 }
 //Enable edit button after select an item on the list.
@@ -195,10 +211,4 @@ void ClassSchedule::UpdateListSelection(wxCommandEvent& event)
 void ClassSchedule::SetItemOnSelect(wxCommandEvent& event)
 {
 	event.Skip();
-}
-
-std::string ClassSchedule::intTostrD2(int val)
-{
-	if (val < 10) return "0" + std::to_string(val);
-	else return std::to_string(val);
 }

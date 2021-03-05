@@ -6,7 +6,7 @@
 #include <fstream>
 #include <string>
 
-Period::Period(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoint(0, 0), wxSize(750, 50))
+Period::Period(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoint(0, 0), wxSize(500, 600))
 {
 	SetStyle();
 	//Semester Period Start

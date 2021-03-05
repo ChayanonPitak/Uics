@@ -15,7 +15,7 @@ wxBEGIN_EVENT_TABLE(mainFrame, wxFrame)
 	EVT_MENU(wxID_EXIT, mainFrame::OnExit)
 wxEND_EVENT_TABLE()
 
-mainFrame::mainFrame() : wxFrame(NULL, wxID_ANY, "Uics", wxPoint(100, 100), wxSize(750, 500))
+mainFrame::mainFrame() : wxFrame(NULL, wxID_ANY, "Uics", wxPoint(50, 50), wxSize(800, 600), wxDEFAULT_FRAME_STYLE & ~wxRESIZE_BORDER)
 {
 	SetStyle();
 	//Menu
@@ -38,15 +38,13 @@ mainFrame::mainFrame() : wxFrame(NULL, wxID_ANY, "Uics", wxPoint(100, 100), wxSi
 	PeriodPanel = new Period(this);						//SemesterPeriod
 	ClassSchedulePanel = new ClassSchedule(this);		//ClassSchedule
 	ExamSchedulePanel = new ExamSchedule(this);			//ExamSchedule
-	FileManagementPanel = new FileManagement(this);	//FileManagement
 	
 
 	//Listbook
-	listBook = new wxListbook(this, wxID_ANY, wxPoint(0, 0), wxSize(750, 500), wxLB_TOP);
+	listBook = new wxListbook(this, wxID_ANY, wxPoint(0, 0), wxSize(800, 600), wxLB_LEFT);
 	listBook->AddPage(PeriodPanel, "Semester Period");				//SemesterPeriod
 	listBook->AddPage(ClassSchedulePanel, "Class Schedule");		//ClassSchedule
 	listBook->AddPage(ExamSchedulePanel, "Examination Schedule");	//ExamSchedule
-	listBook->AddPage(FileManagementPanel, "File Management");		//ExamSchedule
 
 	CreateStatusBar();
 	SetStatusText("");

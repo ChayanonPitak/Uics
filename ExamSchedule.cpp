@@ -15,7 +15,7 @@ EVT_BUTTON(ID_AddEvent, ExamSchedule::AddSchedule)
 wxEND_EVENT_TABLE()
 
 
-ExamSchedule::ExamSchedule(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoint(0, 0), wxSize(750, 50))
+ExamSchedule::ExamSchedule(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoint(0, 0), wxSize(500, 600))
 {
 	SetStyle();
 	wxIntegerValidator<int>digitvalidator;

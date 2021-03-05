@@ -2,7 +2,6 @@
 #include "Period.h"
 #include "ClassSchedule.h"
 #include "ExamSchedule.h"
-#include "FileManagement.h"
 
 #include <wx/wxprec.h>
 #include <wx/listbook.h>
@@ -23,7 +22,6 @@ public:
 	Period* PeriodPanel = NULL;
 	ClassSchedule* ClassSchedulePanel = NULL;
 	ExamSchedule* ExamSchedulePanel = NULL;
-	FileManagement* FileManagementPanel = NULL;
 
 	//MenuBar
 	wxMenuBar* menuBar = NULL;

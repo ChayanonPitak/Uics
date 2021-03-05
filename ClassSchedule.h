@@ -39,7 +39,6 @@ public :
 	void EditSchedule(wxCommandEvent& event);
 	void UpdateListSelection(wxCommandEvent& event);
 	void SetItemOnSelect(wxCommandEvent& event);
-	std::string intTostrD2(int val);
 
 	wxDECLARE_EVENT_TABLE();
 };
