@@ -80,18 +80,39 @@ void mainFrame::OnExit(wxCommandEvent& event)
 
 void mainFrame::OnOpen(wxCommandEvent& event) {
 	wxFileDialog
-		openFileDialog(this);
+		openFileDialog(this, "Open file", "", "", "", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
 
 	if (openFileDialog.ShowModal() == wxID_CANCEL) return;
+
+	wxString path = openFileDialog.GetPath();
+	wxFileInputStream input_stream(path);
+
+	//wxLogMessage("%s", openFileDialog.GetPath());
+	if (!input_stream.IsOk()) {
+		wxLogError("Can not open file '%s'", openFileDialog.GetPath());
+		return;
+	}
+
+	//ical::loadEvent(ClassSchedulePanel->listSchedule, input_stream);
 }
 
 void mainFrame::OnSave(wxCommandEvent& event) {
-
+	
 }
 
 void mainFrame::OnSaveas(wxCommandEvent& event) {
 	wxFileDialog
-		saveFileDialog(this);
+		saveFileDialog(this, "Save file", "", "", "", wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
 
 	if (saveFileDialog.ShowModal() == wxID_CANCEL) return;
+
+	wxString path = openFileDialog.GetPath();
+	wxFileOutputStream output_stream(saveFileDialog.GetPath());
+
+	if (!output_stream.IsOk()) {
+		wxLogError("Can not save current file.");
+		return;
+	}
+
+	//ical::saveEvent(ClassSchedulePanel->listSchedule, output_stream);
 }

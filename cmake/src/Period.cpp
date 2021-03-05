@@ -99,7 +99,6 @@ void Period::updateTime_range() {
 		m_parent->listSchedule[i].set_exdate(Final_s, Final_e);
 	}
 	
-
 	// debug code
 	wxStreamToTextRedirector redirect(debug);
 	std::cout << m_parent->listSchedule[0].get_exdate();

@@ -17,5 +17,7 @@
 #include <wx/popupwin.h>
 #include <wx/filedlg.h> 
 #include <wx/menuitem.h>
+#include <wx/wfstream.h>
+#include <wx/log.h> 
 
 
