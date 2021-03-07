@@ -17,6 +17,7 @@ wxBEGIN_EVENT_TABLE(mainFrame, wxFrame)
 	EVT_MENU(wxID_OPEN, mainFrame::OnOpen)
 	EVT_MENU(wxID_SAVE, mainFrame::OnSave)
 	EVT_MENU(wxID_SAVEAS, mainFrame::OnSaveas)
+	EVT_MENU(0, mainFrame::OnScan)
 wxEND_EVENT_TABLE()
 
 mainFrame::mainFrame() : wxFrame(NULL, wxID_ANY, "Uics", wxPoint(50, 50), wxSize(800, 600), wxDEFAULT_FRAME_STYLE & ~wxRESIZE_BORDER)
@@ -27,10 +28,12 @@ mainFrame::mainFrame() : wxFrame(NULL, wxID_ANY, "Uics", wxPoint(50, 50), wxSize
 	FileMenu->Append(wxID_EXIT,		//Exit
 		"Exit",
 		"Get out of here.");
-
 	FileMenu->Append(wxID_OPEN);
 	FileMenu->Append(wxID_SAVE);
 	FileMenu->Append(wxID_SAVEAS);
+
+	ToolMenu = new wxMenu;
+	ToolMenu->Append(0, "Scan image", "Scan your schedule.");
 
 	HelpMenu = new wxMenu;		//Menu - Help
 	HelpMenu->Append(wxID_ABOUT,
@@ -39,6 +42,7 @@ mainFrame::mainFrame() : wxFrame(NULL, wxID_ANY, "Uics", wxPoint(50, 50), wxSize
 
 	menuBar = new wxMenuBar;	//MenuBar
 	menuBar->Append(FileMenu, "File");
+	menuBar->Append(ToolMenu, "Tools");
 	menuBar->Append(HelpMenu, "Help");
 	SetMenuBar(menuBar);
 
@@ -63,11 +67,13 @@ void mainFrame::SetStyle()
 {
 
 }
+
 void mainFrame::OnAbout(wxCommandEvent& event)
 {
 	p_About* aboutFrame = new p_About(this); 
 	aboutFrame->Show(true);
 }
+
 void mainFrame::OnExit(wxCommandEvent& event)
 {
 	int confirmation = wxMessageBox("Are you sure you want to exit?",
@@ -80,16 +86,7 @@ void mainFrame::OnOpen(wxCommandEvent& event) {
 	wxFileDialog
 		openFileDialog(this, "Open file", "", "", "", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
 
-	if (openFileDialog.ShowModal() == wxID_CANCEL) return;
-
-	wxString path = openFileDialog.GetPath();
-	wxFileInputStream input_stream(path);
-
-	//wxLogMessage("%s", openFileDialog.GetPath());
-	if (!input_stream.IsOk()) {
-		wxLogError("Can not open file '%s'", openFileDialog.GetPath());
-		return;
-	}
+	if (openFileDialog.ShowModal() == wxID_CANCEL) return;	
 
 	//ical::loadEvent(ClassSchedulePanel->listSchedule, input_stream);
 }
@@ -99,18 +96,33 @@ void mainFrame::OnSave(wxCommandEvent& event) {
 }
 
 void mainFrame::OnSaveas(wxCommandEvent& event) {
+	// I don't know why wxFD_SAVE make an assertion when trying to call this func.
 	wxFileDialog
-		saveFileDialog(this, "Save file", "", "", "", wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
+		saveFileDialog(this, _("Save XYZ file"), "", "icalSave", "");
 
 	if (saveFileDialog.ShowModal() == wxID_CANCEL) return;
 
-	wxString path = openFileDialog.GetPath();
-	wxFileOutputStream output_stream(saveFileDialog.GetPath());
 
-	if (!output_stream.IsOk()) {
-		wxLogError("Can not save current file.");
-		return;
-	}
 
 	//ical::saveEvent(ClassSchedulePanel->listSchedule, output_stream);
+}
+
+void mainFrame::OnScan(wxCommandEvent& event) {
+	wxFileDialog
+		openFileDialog(this, _("Open Image file"), "", "", "Image (*.tif,*.png)|*.tif;*.png", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
+
+	if (openFileDialog.ShowModal() == wxID_CANCEL) return;
+
+	wxString path = openFileDialog.GetPath();
+
+	const char* p = path.c_str();
+
+	/* 
+	this make "Can't verify memory struct - all bets are off" error 
+	I don't know what it is but I thnink it's something about wxWidget memory tracking.
+	*/
+	std::vector<std::string> data = ical::process_Image(p);
+
+	ical::ocr_to_event(data, listSchedule);
+
 }

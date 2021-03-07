@@ -36,6 +36,7 @@ public:
 	//Menu
 	wxMenu* FileMenu = NULL;		//File
 	wxMenu* HelpMenu = NULL;		//Help
+	wxMenu* ToolMenu = NULL;
 
 	//Functions
 	void SetStyle();
@@ -44,5 +45,6 @@ public:
 	void OnOpen(wxCommandEvent& event);
 	void OnSave(wxCommandEvent& event);
 	void OnSaveas(wxCommandEvent& event);
+	void OnScan(wxCommandEvent& event);
 	wxDECLARE_EVENT_TABLE();
 };
