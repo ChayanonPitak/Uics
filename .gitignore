@@ -401,3 +401,4 @@ MigrationBackup/
 /test/ocr_test/build
 
 CMakeSettings.json
+/out
