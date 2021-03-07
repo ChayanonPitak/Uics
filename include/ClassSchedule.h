@@ -1,17 +1,16 @@
 #pragma once
-#include "cal.h"
 #include <wx/wxprec.h>
-#include <wx/timectrl.h>
+#include <wx/listbox.h>
+#include "wxcmake.h"
+#include "cal.h"
 
 class ClassSchedule : public wxPanel
 {
 public :
 	ClassSchedule(wxWindow* parent);
-	std::vector<ical::event> listSchedule;
-
-	ical::event EVENT;
-	void updateEvent(ical::event event);
-
+	
+	void updateEvent(ical::event &event);
+	
 public :
 	//Style
 	wxFont Header1, Header2, TextCtrl1, TextCtrl2;
@@ -40,5 +39,8 @@ public :
 	void UpdateListSelection(wxCommandEvent& event);
 	void SetItemOnSelect(wxCommandEvent& event);
 
+	// debug code
 	wxDECLARE_EVENT_TABLE();
+	wxTextCtrl* debug = NULL;
+	wxButton* dbutton = NULL;
 };

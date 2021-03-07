@@ -3,7 +3,6 @@
 #include "Period.h"
 #include "ClassSchedule.h"
 #include "ExamSchedule.h"
-#include <FileManagement.h>
 
 #include <wx/wxprec.h>
 #include <wx/listbook.h>
@@ -121,8 +120,8 @@ void mainFrame::OnScan(wxCommandEvent& event) {
 	this make "Can't verify memory struct - all bets are off" error 
 	I don't know what it is but I thnink it's something about wxWidget memory tracking.
 	*/
-	std::vector<std::string> data = ical::process_Image(p);
+	//std::vector<std::string> data = ical::process_Image(p);
 
-	ical::ocr_to_event(data, listSchedule);
+	//ical::ocr_to_event(data, listSchedule);
 
 }

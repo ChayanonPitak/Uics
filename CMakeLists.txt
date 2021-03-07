@@ -1,5 +1,3 @@
-cmake_minimum_required(VERSION 3.19)
-
 project(main CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(SW_BUILD_SHARED_LIBS 1)
