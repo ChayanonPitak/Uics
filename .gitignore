@@ -399,3 +399,5 @@ MigrationBackup/
 # Folder
 /.vscode
 /test/ocr_test/build
+
+CMakeSettings.json
