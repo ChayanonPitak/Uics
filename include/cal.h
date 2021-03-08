@@ -68,6 +68,10 @@ namespace ical {
 
             str get_endTime();
 
+            std::vector<int> get_startT();
+
+            std::vector<int> get_endT();
+
         private:
             friend class boost::serialization::access;
             template<class Archive>

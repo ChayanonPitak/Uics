@@ -202,13 +202,18 @@ void ClassSchedule::SetItemOnSelect(wxCommandEvent& event) {
 	// update info on all textctrl
 	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
 	int i = ClassScheduleLists->GetSelection();
-	/*
-	SubjectIDTextCtrl->ChangeValue();
-	SubjectNameTextCtrl->ChangeValue();
-	LocationtextCtrl->ChangeValie();
-	StartTimePicker->SetTime();
-	EndTimePicker->SetTime();
+	
+	SubjectIDTextCtrl->ChangeValue(m_parent->listSchedule[i].subjectID);
+	SubjectNameTextCtrl->ChangeValue(m_parent->listSchedule[i].name);
+	LocationtextCtrl->ChangeValue(m_parent->listSchedule[i].location);
 
+	std::vector<int> st = m_parent->listSchedule[i].get_startT();
+	std::vector<int> et = m_parent->listSchedule[i].get_endT();
+	
+	StartTimePicker->SetTime(st[0], st[1], st[2]);
+	EndTimePicker->SetTime(et[0], et[1], et[2]);
+	
+	/*
 	MonCheckmark->SetValue();
 	TueCheckmark->SetValue();
 	WedCheckmark->SetValue(); 

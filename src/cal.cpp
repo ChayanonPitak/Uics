@@ -140,16 +140,33 @@ namespace ical {
         return exdate.erase(exdate.size()-2, 2);
     }
 
+    /* 
+        mode 0 for hr:mn format
+        mode 1 for hr,mn,sc vector 
+    */
     str event::get_startTime() {
         str time = DTstart.substr(8, 4);
         time.insert(2, ":");
-        return time;   
+        return time;
     }
-
+    std::vector<int> event::get_startT() {
+        str time = DTstart.substr(8);
+        int hr = stoi(time.substr(0,2)); 
+        int mn = stoi(time.substr(2,2));
+        int sc = stoi(time.substr(4,2));
+        return {hr, mn, sc};
+    }
     str event::get_endTime() {
         str time = DTend.substr(8, 4);
         time.insert(2, ":");
-        return time;   
+        return time;
+    }
+    std::vector<int> event::get_endT() {
+        str time = DTend.substr(8);
+        int hr = stoi(time.substr(0,2)); 
+        int mn = stoi(time.substr(2,2));
+        int sc = stoi(time.substr(4,2));
+        return {hr, mn, sc};
     }
 
 
