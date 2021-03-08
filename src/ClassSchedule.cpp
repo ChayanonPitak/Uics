@@ -10,6 +10,7 @@
 enum
 {
 	ID_AddEvent = 101,
+	ID_ResetEvent = 102,
 	ID_ClassScheduleListBox = 111,
 	ID_EditEvent = 112
 };
@@ -17,6 +18,7 @@ enum
 wxBEGIN_EVENT_TABLE(ClassSchedule, wxPanel)
 	EVT_BUTTON(ID_AddEvent, ClassSchedule::AddSchedule)
 	EVT_BUTTON(ID_EditEvent, ClassSchedule::EditSchedule)
+	EVT_BUTTON(ID_ResetEvent, ClassSchedule::ResetField)
 	EVT_LISTBOX(ID_ClassScheduleListBox, ClassSchedule::UpdateListSelection)
 	EVT_LISTBOX_DCLICK(ID_ClassScheduleListBox, ClassSchedule::SetItemOnSelect)
 wxEND_EVENT_TABLE()
@@ -62,6 +64,7 @@ ClassSchedule::ClassSchedule(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoi
 	StartTimePicker = new wxTimePickerCtrl(this, wxID_ANY,
 		wxDateTime(0, 0, 0, 0),
 		wxPoint(20, 65), wxSize(85, 25));
+	StartTimePicker->SetTime(0, 0, 0);
 	StartTimePicker->SetFont(TextCtrl2);
 	//EndTime
 	EndTimeLabel = new wxStaticText(this, wxID_ANY,
@@ -71,6 +74,7 @@ ClassSchedule::ClassSchedule(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoi
 	EndTimePicker = new wxTimePickerCtrl(this, wxID_ANY,
 		wxDateTime(0, 0, 0, 0),
 		wxPoint(110, 65), wxSize(85, 25));
+	EndTimePicker->SetTime(0, 0, 0);
 	EndTimePicker->SetFont(TextCtrl2);
 	//Day
 	DayLabel = new wxStaticText(this, wxID_ANY,
@@ -119,6 +123,9 @@ ClassSchedule::ClassSchedule(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoi
 		"Edit Selected",
 		wxPoint(120, 110), wxSize(85, 25));
 	EditButton->Enable(false);
+	EditButton = new wxButton(this, ID_ResetEvent,
+		"Reset all field",
+		wxPoint(230, 110), wxSize(100, 25));
 	//Lists
 	ClassScheduleLists = new wxListBox(this, ID_ClassScheduleListBox,
 		wxPoint(20, 140), wxSize(450, 200), 0, NULL, wxLB_SINGLE | wxLB_HSCROLL);
@@ -130,6 +137,26 @@ void ClassSchedule::SetTextStyle()
 	Header2 = wxFont(7, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
 	TextCtrl1 = wxFont(10, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 	TextCtrl2 = wxFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+}
+
+void ClassSchedule::ResetField(wxCommandEvent& event)
+{
+	//Information
+	SubjectIDTextCtrl->SetValue("");
+	SubjectNameTextCtrl->SetValue("");
+	LocationtextCtrl->SetValue("");
+	//Time
+	StartTimePicker->SetTime(0,0,0);
+	EndTimePicker->SetTime(0,0,0);
+	//Day
+	MonCheckmark->SetValue(false);
+	TueCheckmark->SetValue(false);
+	WedCheckmark->SetValue(false);
+	ThuCheckmark->SetValue(false);
+	FriCheckmark->SetValue(false);
+	SatCheckmark->SetValue(false);
+	SunCheckmark->SetValue(false);
+	event.Skip();
 }
 
 void ClassSchedule::updateEvent(ical::event &EVENT) {
@@ -151,9 +178,10 @@ void ClassSchedule::updateEvent(ical::event &EVENT) {
 	EVENT.untillD = "20210228T000000Z";
 
 	EVENT.subjectID = std::string((SubjectIDTextCtrl->GetLineText(0).mb_str()));
-	EVENT.name = std::string((SubjectNameTextCtrl->GetLineText(0)).mb_str());
+	EVENT.subjectName = std::string((SubjectNameTextCtrl->GetLineText(0)).mb_str());
 	EVENT.location = std::string((LocationtextCtrl->GetLineText(0)).mb_str()); 
 
+	EVENT.dayBinary = dayBinary;
 	EVENT.day = ical::checkbyday(dayBinary);
 
 	EVENT.DTstart = ical::checkDT(StartHr, StartMin, StartSec);
@@ -202,26 +230,22 @@ void ClassSchedule::SetItemOnSelect(wxCommandEvent& event) {
 	// update info on all textctrl
 	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
 	int i = ClassScheduleLists->GetSelection();
-	
-	SubjectIDTextCtrl->ChangeValue(m_parent->listSchedule[i].subjectID);
-	SubjectNameTextCtrl->ChangeValue(m_parent->listSchedule[i].name);
-	LocationtextCtrl->ChangeValue(m_parent->listSchedule[i].location);
-
-	std::vector<int> st = m_parent->listSchedule[i].get_startT();
-	std::vector<int> et = m_parent->listSchedule[i].get_endT();
-	
-	StartTimePicker->SetTime(st[0], st[1], st[2]);
-	EndTimePicker->SetTime(et[0], et[1], et[2]);
-	
-	/*
-	MonCheckmark->SetValue();
-	TueCheckmark->SetValue();
-	WedCheckmark->SetValue(); 
-	ThuCheckmark->SetValue();  
-	FriCheckmark->SetValue(); 
-	SatCheckmark->SetValue();
-	SunCheckmark->SetValue();
-	*/
+	ical::event ev = m_parent->listSchedule[i];
+	//Information
+	SubjectIDTextCtrl->SetValue(ev.subjectID);
+	SubjectNameTextCtrl->SetValue(ev.subjectName);
+	LocationtextCtrl->SetValue(ev.location);
+	//Time
+	StartTimePicker->SetTime(std::stoi(ev.DTstart.substr(8, 2)), std::stoi(ev.DTstart.substr(10, 2)), std::stoi(ev.DTstart.substr(12, 2)));
+	EndTimePicker->SetTime(std::stoi(ev.DTend.substr(8, 2)), std::stoi(ev.DTend.substr(10, 2)), std::stoi(ev.DTend.substr(12, 2)));
+	//Day
+	MonCheckmark->SetValue(ical::checkbyday(ev.dayBinary, 0));
+	TueCheckmark->SetValue(ical::checkbyday(ev.dayBinary, 1));
+	WedCheckmark->SetValue(ical::checkbyday(ev.dayBinary, 2));
+	ThuCheckmark->SetValue(ical::checkbyday(ev.dayBinary, 3));
+	FriCheckmark->SetValue(ical::checkbyday(ev.dayBinary, 4));
+	SatCheckmark->SetValue(ical::checkbyday(ev.dayBinary, 5));
+	SunCheckmark->SetValue(ical::checkbyday(ev.dayBinary, 6));
 	event.Skip();
 }
 
@@ -230,9 +254,9 @@ wxString ClassSchedule::renderSchedule(ical::event EVENT) {
 
 	// can make this more beautiful
 	if (EVENT.day != "") {
-		temp = "[" + EVENT.subjectID + " " + EVENT.name + "] - " + EVENT.location + " " + EVENT.day + " [" + EVENT.get_startTime() + " - " + EVENT.get_endTime() + "]";
+		temp = "[" + EVENT.subjectID + " " + EVENT.subjectName + "] - " + EVENT.location + " " + EVENT.day + " [" + EVENT.get_startTime() + " - " + EVENT.get_endTime() + "]";
 	}
-	else temp = "[" + EVENT.subjectID + " " + EVENT.name + "] - " + EVENT.location + "" + EVENT.day + "[" + EVENT.get_startTime() + " - " + EVENT.get_endTime() + "]";
+	else temp = "[" + EVENT.subjectID + " " + EVENT.subjectName + "] - " + EVENT.location + "" + EVENT.day + "[" + EVENT.get_startTime() + " - " + EVENT.get_endTime() + "]";
 
 	return temp;
 }

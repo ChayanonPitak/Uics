@@ -31,6 +31,7 @@ public :
 	wxCheckBox* SunCheckmark = NULL, * MonCheckmark = NULL, * TueCheckmark = NULL, * WedCheckmark = NULL, * ThuCheckmark = NULL, * FriCheckmark = NULL, * SatCheckmark = NULL;
 	wxButton* AddButton = NULL;
 	wxButton* EditButton = NULL;
+	wxButton* ResetButton = NULL;
 	wxListBox* ClassScheduleLists = NULL;
 
 	//Functions
@@ -38,6 +39,7 @@ public :
 	wxString renderSchedule(ical::event EVENT);
 	void AddSchedule(wxCommandEvent& event);
 	void EditSchedule(wxCommandEvent& event);
+	void ResetField(wxCommandEvent& event);
 	void UpdateListSelection(wxCommandEvent& event);
 	void SetItemOnSelect(wxCommandEvent& event);
 

@@ -11,7 +11,7 @@ int main() {
 
     /*
     for (size_t i = 0; i < 5; i++) {
-        EVENT.name = to_string(i);
+        EVENT.subjectName = to_string(i);
         lists.push_back(EVENT);
     }
     ofstream ofs("../test");
