@@ -112,7 +112,7 @@ void mainFrame::OnSave(wxCommandEvent& event) {
 void mainFrame::OnSaveas(wxCommandEvent& event) {
 	// I don't know why wxFD_SAVE make an assertion when trying to call this func.
 	wxFileDialog
-		saveFileDialog(this, _("Save XYZ file"), "", "ical_save", "", wxFD_SAVE);
+		saveFileDialog(this, _("Save XYZ file"), "", "ical_save", "");
 
 	if (saveFileDialog.ShowModal() == wxID_CANCEL) return;
 
@@ -155,7 +155,8 @@ void mainFrame::OnExport(wxCommandEvent& event) {
 
 	wxString path = saveFileDialog.GetPath();
 	std::ofstream ofs(path.mb_str());
-	
+
+	PeriodPanel->updateTime_range();
 	ical::exportEvent(listSchedule, ofs);
 	
 }

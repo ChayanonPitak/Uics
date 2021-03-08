@@ -100,6 +100,7 @@ void Period::updateTime_range() {
 		m_parent->listSchedule[i].reset_exdate();
 		m_parent->listSchedule[i].set_exdate(Mid_s, Mid_e);
 		m_parent->listSchedule[i].set_exdate(Final_s, Final_e);
+		m_parent->listSchedule[i].set_range(r_start, r_end);
 	}
 	
 	// debug code
