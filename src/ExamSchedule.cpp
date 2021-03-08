@@ -107,10 +107,11 @@ void ExamSchedule::updateEvent(ical::event event) {
 
 	event.untillD = "20210228T000000Z";
 
-	event.name = std::string((SubjectIDTextCtrl->GetLineText(0).mb_str()))
-		+ " " + std::string((SubjectNameTextCtrl->GetLineText(0)).mb_str());
+	event.subjectName = std::string((SubjectNameTextCtrl->GetLineText(0)).mb_str());
+	event.subjectID = std::string((SubjectIDTextCtrl->GetLineText(0).mb_str()));
 	event.location = std::string((LocationtextCtrl->GetLineText(0)).mb_str());
 
+	event.dayBinary = dayBinary;
 	event.day = ical::checkbyday(dayBinary);
 
 	event.DTstart = ical::checkDT(StartHr, StartMin, StartSec);
