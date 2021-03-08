@@ -1,5 +1,6 @@
 #pragma once
 #include <wx/wxprec.h>
+#include <wx/listbox.h>
 #include "wxcmake.h"
 #include "cal.h"
 

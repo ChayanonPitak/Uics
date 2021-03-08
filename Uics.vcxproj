@@ -122,22 +122,30 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="cal.cpp" />
-    <ClCompile Include="ClassSchedule.cpp" />
-    <ClCompile Include="ExamSchedule.cpp" />
-    <ClCompile Include="mainApp.cpp" />
-    <ClCompile Include="mainFrame.cpp" />
-    <ClCompile Include="Period.cpp" />
-    <ClCompile Include="p_About.cpp" />
+    <ClCompile Include="src\cal.cpp" />
+    <ClCompile Include="src\ClassSchedule.cpp" />
+    <ClCompile Include="src\ExamSchedule.cpp" />
+    <ClCompile Include="src\mainApp.cpp" />
+    <ClCompile Include="src\mainFrame.cpp" />
+    <ClCompile Include="src\Period.cpp" />
+    <ClCompile Include="src\p_About.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ClassSchedule.h" />
-    <ClInclude Include="cal.h" />
-    <ClInclude Include="ExamSchedule.h" />
-    <ClInclude Include="mainApp.h" />
-    <ClInclude Include="mainFrame.h" />
-    <ClInclude Include="Period.h" />
-    <ClInclude Include="p_About.h" />
+    <ClInclude Include="include\cal.h" />
+    <ClInclude Include="include\ClassSchedule.h" />
+    <ClInclude Include="include\ExamSchedule.h" />
+    <ClInclude Include="include\FileManagement.h" />
+    <ClInclude Include="include\mainApp.h" />
+    <ClInclude Include="include\mainFrame.h" />
+    <ClInclude Include="include\Period.h" />
+    <ClInclude Include="include\p_About.h" />
+    <ClInclude Include="include\wxcmake.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CMakeSettings.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,12 +1,11 @@
-#include "Period.h"
+#include "Period.h".
+#include "mainFrame.h"
+#include "ClassSchedule.h"
 
 #include <wx/wxprec.h>
 #include <wx/datectrl.h>
 #include <fstream>
 #include <string>
-
-#include "mainFrame.h"
-#include "ClassSchedule.h"
 
 // debug code
 wxBEGIN_EVENT_TABLE(Period, wxPanel)
