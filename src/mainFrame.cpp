@@ -12,7 +12,8 @@
 
 enum
 {
-	ID_GetScan = 10
+	ID_GetScan = 10,
+	ID_Export = 11
 };
 
 wxBEGIN_EVENT_TABLE(mainFrame, wxFrame)
@@ -22,6 +23,7 @@ wxBEGIN_EVENT_TABLE(mainFrame, wxFrame)
 	EVT_MENU(wxID_SAVE, mainFrame::OnSave)
 	EVT_MENU(wxID_SAVEAS, mainFrame::OnSaveas)
 	EVT_MENU(ID_GetScan, mainFrame::OnScan)
+	EVT_MENU(ID_Export, mainFrame::OnExport)
 wxEND_EVENT_TABLE()
 
 mainFrame::mainFrame() : wxFrame(NULL, wxID_ANY, "Uics", wxPoint(50, 50), wxSize(800, 600), wxDEFAULT_FRAME_STYLE & ~wxRESIZE_BORDER)
@@ -35,6 +37,7 @@ mainFrame::mainFrame() : wxFrame(NULL, wxID_ANY, "Uics", wxPoint(50, 50), wxSize
 	FileMenu->Append(wxID_OPEN);
 	FileMenu->Append(wxID_SAVE);
 	FileMenu->Append(wxID_SAVEAS);
+	FileMenu->Append(ID_Export, "Export .ics");
 
 	ToolMenu = new wxMenu;
 	ToolMenu->Append(ID_GetScan, "Scan image", "Scan your schedule.");
@@ -92,20 +95,31 @@ void mainFrame::OnOpen(wxCommandEvent& event) {
 
 	if (openFileDialog.ShowModal() == wxID_CANCEL) return;	
 
-	//ical::loadEvent(ClassSchedulePanel->listSchedule, input_stream);
+	wxString path = openFileDialog.GetPath();
+	std::ifstream ifs(path.mb_str());
+
+	ical::loadEvent(listSchedule, ifs);
+
+	ClassSchedulePanel->renderData();
 }
 
 void mainFrame::OnSave(wxCommandEvent& event) {
+
+
+
 }
 
 void mainFrame::OnSaveas(wxCommandEvent& event) {
 	// I don't know why wxFD_SAVE make an assertion when trying to call this func.
 	wxFileDialog
-		saveFileDialog(this, _("Save XYZ file"), "", "icalSave", "");
+		saveFileDialog(this, _("Save XYZ file"), "", "ical_save", "", wxFD_SAVE);
 
 	if (saveFileDialog.ShowModal() == wxID_CANCEL) return;
 
-	//ical::saveEvent(ClassSchedulePanel->listSchedule, output_stream);
+	wxString path = saveFileDialog.GetPath();
+	std::ofstream ofs(path.mb_str());
+
+	ical::saveEvent(listSchedule, ofs);
 }
 
 void mainFrame::OnScan(wxCommandEvent& event) {
@@ -130,4 +144,18 @@ void mainFrame::OnScan(wxCommandEvent& event) {
 	ClassSchedulePanel->renderData();
 
 	event.Skip();
+}
+
+void mainFrame::OnExport(wxCommandEvent& event) {
+	// I don't know why wxFD_SAVE make an assertion when trying to call this func.
+	wxFileDialog
+		saveFileDialog(this, "Export .ics file", "", "uics", "Ical Format (*.ics)|*.ics");
+
+	if (saveFileDialog.ShowModal() == wxID_CANCEL) return;
+
+	wxString path = saveFileDialog.GetPath();
+	std::ofstream ofs(path.mb_str());
+	
+	ical::exportEvent(listSchedule, ofs);
+	
 }

@@ -44,6 +44,7 @@ public:
 	void OnOpen(wxCommandEvent& event);
 	void OnSave(wxCommandEvent& event);
 	void OnSaveas(wxCommandEvent& event);
+	void OnExport(wxCommandEvent& event);
 	void OnScan(wxCommandEvent& event);
 	wxDECLARE_EVENT_TABLE();
 };

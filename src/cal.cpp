@@ -137,7 +137,6 @@ namespace ical {
         
     } 
 
-
     void event::set_exdate(str start, str end) {
         exdate += ical::exdate(start, end);
     }
@@ -146,10 +145,6 @@ namespace ical {
         return exdate.erase(exdate.size()-2, 2);
     }
 
-    /* 
-        mode 0 for hr:mn format
-        mode 1 for hr,mn,sc vector 
-    */
     str event::get_startTime() {
         str time = DTstart.substr(8, 4);
         time.insert(2, ":");
@@ -274,7 +269,7 @@ namespace ical {
         file << "RRULE:FREQ=" << event.freq << ";WKST=" << event.weekstop << ";UNTIL=" << event.untillD << ";BYDAY=" << event.day << '\n';
         file << "DTSTAMP:" << event.startD << '\n';
         file << "LOCATION:" << event.location << '\n';
-        file << "SUMMARY:" << event.subjectName << '\n';
+        file << "SUMMARY:" << event.subjectName + " " + event.subjectID << '\n';
         file << "END:VEVENT" << '\n';
     }
 
