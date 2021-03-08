@@ -12,13 +12,17 @@ enum
 	ID_AddEvent = 101,
 	ID_ResetEvent = 102,
 	ID_ClassScheduleListBox = 111,
-	ID_EditEvent = 112
+	ID_EditEvent = 112,
+	ID_DeleteEvent = 113,
+	ID_DeleteAllEvent = 114
 };
 
 wxBEGIN_EVENT_TABLE(ClassSchedule, wxPanel)
 	EVT_BUTTON(ID_AddEvent, ClassSchedule::AddSchedule)
 	EVT_BUTTON(ID_EditEvent, ClassSchedule::EditSchedule)
 	EVT_BUTTON(ID_ResetEvent, ClassSchedule::ResetField)
+	EVT_BUTTON(ID_DeleteEvent, ClassSchedule::DeleteSchedule)
+	EVT_BUTTON(ID_DeleteAllEvent, ClassSchedule::DeleteAllSchedule)
 	EVT_LISTBOX(ID_ClassScheduleListBox, ClassSchedule::UpdateListSelection)
 	EVT_LISTBOX_DCLICK(ID_ClassScheduleListBox, ClassSchedule::SetItemOnSelect)
 wxEND_EVENT_TABLE()
@@ -123,9 +127,16 @@ ClassSchedule::ClassSchedule(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoi
 		"Edit Selected",
 		wxPoint(120, 110), wxSize(85, 25));
 	EditButton->Enable(false);
-	EditButton = new wxButton(this, ID_ResetEvent,
+	ResetButton = new wxButton(this, ID_ResetEvent,
 		"Reset all field",
 		wxPoint(230, 110), wxSize(100, 25));
+	DeleteButton = new wxButton(this, ID_DeleteEvent,
+		"Delete Selected",
+		wxPoint(20, 355), wxSize(85, 25));
+	DeleteButton->Enable(false);
+	DeleteAllButton = new wxButton(this, ID_DeleteAllEvent,
+		"Delete All",
+		wxPoint(120, 355), wxSize(85, 25));
 	//Lists
 	ClassScheduleLists = new wxListBox(this, ID_ClassScheduleListBox,
 		wxPoint(20, 140), wxSize(450, 200), 0, NULL, wxLB_SINGLE | wxLB_HSCROLL);
@@ -204,6 +215,9 @@ void ClassSchedule::AddSchedule(wxCommandEvent& event) {
 
 	// render 
 	ClassScheduleLists->Append(renderSchedule(m_parent->EVENT));
+	ClassScheduleLists->SetSelection(ClassScheduleLists->GetCount() - 1);
+	EditButton->Enable(true);
+	DeleteButton->Enable(true);
 	event.Skip();
 }
 
@@ -220,10 +234,31 @@ void ClassSchedule::EditSchedule(wxCommandEvent& event) {
 
 	event.Skip();
 }
+void ClassSchedule::DeleteSchedule(wxCommandEvent& event) {
+	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
+	int i = ClassScheduleLists->GetSelection();
+	m_parent->listSchedule.erase(m_parent->listSchedule.begin() + i);
+	ClassScheduleLists->Delete(i);
+	event.Skip();
+}
+void ClassSchedule::DeleteAllSchedule(wxCommandEvent& event) {
+	DeleteAllConfirmDialog = new wxMessageDialog(this,
+		"Are you sure you want to delete all schedule?\nThis will delete all schedule.",
+		"Confirm",
+		wxYES_NO | wxNO_DEFAULT | wxCENTRE | wxICON_QUESTION);
+	if (DeleteAllConfirmDialog->ShowModal() == wxID_NO) {event.Skip(); return;}
+	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
+	m_parent->listSchedule.clear();
+	ClassScheduleLists->Clear();
+	EditButton->Enable(false);
+	DeleteButton->Enable(false);
+	event.Skip();
+}
 
 // Enable edit button after select an item on the list.
 void ClassSchedule::UpdateListSelection(wxCommandEvent& event) {
 	EditButton->Enable(true);
+	DeleteButton->Enable(true);
 	event.Skip();
 }
 void ClassSchedule::SetItemOnSelect(wxCommandEvent& event) {

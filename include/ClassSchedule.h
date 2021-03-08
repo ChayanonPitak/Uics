@@ -32,6 +32,9 @@ public :
 	wxButton* AddButton = NULL;
 	wxButton* EditButton = NULL;
 	wxButton* ResetButton = NULL;
+	wxButton* DeleteButton = NULL;
+	wxButton* DeleteAllButton = NULL;
+	wxMessageDialog* DeleteAllConfirmDialog = NULL;
 	wxListBox* ClassScheduleLists = NULL;
 
 	//Functions
@@ -39,6 +42,8 @@ public :
 	wxString renderSchedule(ical::event EVENT);
 	void AddSchedule(wxCommandEvent& event);
 	void EditSchedule(wxCommandEvent& event);
+	void DeleteSchedule(wxCommandEvent& event);
+	void DeleteAllSchedule(wxCommandEvent& event);
 	void ResetField(wxCommandEvent& event);
 	void UpdateListSelection(wxCommandEvent& event);
 	void SetItemOnSelect(wxCommandEvent& event);
