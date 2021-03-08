@@ -33,6 +33,7 @@ public :
 
 	//Functions
 	void SetTextStyle();
+	wxString renderSchedule(ical::event EVENT);
 	void AddSchedule(wxCommandEvent& event);
 	void EditSchedule(wxCommandEvent& event);
 	void UpdateListSelection(wxCommandEvent& event);
