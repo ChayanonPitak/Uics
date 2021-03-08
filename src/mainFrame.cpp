@@ -10,6 +10,10 @@
 #include <fstream>
 #include <string>
 
+enum
+{
+	ID_GetScan = 10
+};
 
 wxBEGIN_EVENT_TABLE(mainFrame, wxFrame)
 	EVT_MENU(wxID_ABOUT, mainFrame::OnAbout)
@@ -17,7 +21,7 @@ wxBEGIN_EVENT_TABLE(mainFrame, wxFrame)
 	EVT_MENU(wxID_OPEN, mainFrame::OnOpen)
 	EVT_MENU(wxID_SAVE, mainFrame::OnSave)
 	EVT_MENU(wxID_SAVEAS, mainFrame::OnSaveas)
-	EVT_MENU(0, mainFrame::OnScan)
+	EVT_MENU(ID_GetScan, mainFrame::OnScan)
 wxEND_EVENT_TABLE()
 
 mainFrame::mainFrame() : wxFrame(NULL, wxID_ANY, "Uics", wxPoint(50, 50), wxSize(800, 600), wxDEFAULT_FRAME_STYLE & ~wxRESIZE_BORDER)
@@ -33,7 +37,7 @@ mainFrame::mainFrame() : wxFrame(NULL, wxID_ANY, "Uics", wxPoint(50, 50), wxSize
 	FileMenu->Append(wxID_SAVEAS);
 
 	ToolMenu = new wxMenu;
-	ToolMenu->Append(0, "Scan image", "Scan your schedule.");
+	ToolMenu->Append(ID_GetScan, "Scan image", "Scan your schedule.");
 
 	HelpMenu = new wxMenu;		//Menu - Help
 	HelpMenu->Append(wxID_ABOUT,
