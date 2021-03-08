@@ -143,9 +143,7 @@ namespace ical {
         day_end = end.substr(8,2);
 
         startD = year_start+m_start+day_start+"T000000";
-        untilD = year_end+m_end+day_end+"T000000";
-        std::cout << startD <<std::endl; 
-        std::cout << untilD;
+        untillD = year_end+m_end+day_end+"T000000";
     } 
 
 
