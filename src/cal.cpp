@@ -1,5 +1,7 @@
 #include "cal.h"
 
+#include <cmath>
+
 namespace ical {
 
     // function to get Timestamp (when the function was called) in iCal format.
@@ -63,17 +65,21 @@ namespace ical {
         DayBinary = DayBinary >> 1;
         return Day;
     }
-
+    bool checkbyday(unsigned int DayBinary, unsigned short Day)
+    {
+        //Day start from 0 as Monday to 6 as Sunday.
+        return DayBinary & (int)pow(2, Day);
+    }
     // function to parse byday to iCal format **need more work.
     str checkbyday(str s) {
-        for (auto & c : s) c = (char) toupper(c);
+        for (auto& c : s) c = (char)toupper(c);
         if (s == "MTH") return "MO,TH";
         if (s == "TUF") return "FR,TU";
         if (s == "WE") return "WE";
         if (s == "SA") return "SA";
         if (s == "SU") return "SU";
         if (s == "TU") return "TU";
-        return "";       
+        return "";
     }
 
 
@@ -94,7 +100,7 @@ namespace ical {
         bool flag = 0;
 
         iss >> nums >> sID;
-        // 000 000 after name is section
+        // 000 000 after subjectName is section
         for (size_t i = 9; i < (text.size() - 2); i++) {
             Ename += text[i];
             if (text[i+2] == '.') break;     
@@ -116,7 +122,7 @@ namespace ical {
         time = str(time.rbegin(), time.rend());
         byday = str(byday.rbegin(), byday.rend());
         
-        name = Ename;
+        subjectName = Ename;
         subjectID = sID; 
         day = checkbyday(byday);
         DTstart = checkDT(time, 0);
@@ -265,7 +271,7 @@ namespace ical {
         file << "RRULE:FREQ=" << event.freq << ";WKST=" << event.weekstop << ";UNTIL=" << event.untillD << ";BYDAY=" << event.day << '\n';
         file << "DTSTAMP:" << event.startD << '\n';
         file << "LOCATION:" << event.location << '\n';
-        file << "SUMMARY:" << event.name << '\n';
+        file << "SUMMARY:" << event.subjectName << '\n';
         file << "END:VEVENT" << '\n';
     }
 

@@ -25,6 +25,7 @@ namespace ical {
    
     // function to parse byday to iCal format
     str checkbyday(unsigned int DayBinary);
+    bool checkbyday(unsigned int DayBinary, unsigned short Day);
     str checkbyday(str s);
 
     // ultilty fucntion
@@ -35,10 +36,11 @@ namespace ical {
         public:
             str freq;
             str weekstop;
-            str name;
+            str subjectName;
             str subjectID;
             str location;
             str day;
+            unsigned int dayBinary;
             str DTstart;
             str DTend;
             str untillD;
@@ -74,7 +76,7 @@ namespace ical {
             void serialize(Archive & ar, const unsigned int version) {
                 ar & freq;
                 ar & weekstop;
-                ar & name;
+                ar & subjectName;
                 ar & location;
                 ar & day;
                 ar & DTstart;
