@@ -1,33 +1,31 @@
 # **Uics** (University schedule .ics creator.)
 
-This application use wxWidgets 3.1.4 for GUI library.  
-Please install the library [here](https://www.wxwidgets.org/downloads/)  
-Build and [setup the environment variable](https://wiki.wxwidgets.org/Adding_an_Environment_Variable_under_Windows) to make the program compile  correctly.
+## Requirements
+- **CMake** version 3.18 (VS built in) or more (https://cmake.org/install/)
+- **sw (software network)** version 1.0.0 or more (https://software-network.org/) 
+- - Don't forget to run ```sw setup```
+- **eng.traineddata** (https://github.com/tesseract-ocr/tessdata_best) P
+- - Put it in ```/build/tessdata```
 
-# Requirements
-- CMake version > 3.19 (https://cmake.org/install/)
-- sw (software network) version > 1.0.0 (https://software-network.org/) and don't forget to run ```sw setup```
-- eng.traineddata (https://github.com/tesseract-ocr/tessdata_best) and put it in ```/build/tessdata```
-
-# How to
+### How to build on cmake.
 1. cmake -Bbuild
 2. cd build
 3. cmake --build .
-4. exe file shoud be in ./build/Debug
+4. .exe file shoud be in ./build/Debug
 
-# Milestone
+## Milestone
 
 ### Schedule input
 
 - [ ] **Course schedule input.**
-- [x] Class schedule.
+- [ ] Class schedule.
 - [ ] Examination schedule.
 - [ ] **Semester period & holiday input.**
-- [ ] Semester period.
-- [ ] Examination period.
-- [ ] **Hoiday**
+- [x] Semester period.
+- [x] Examination period.
+- [ ] **Holiday**
 - [ ] *Bonus : Get holiday data from API.*
-- [ ] **Schedule list.**
+- [x] **Schedule list.**
 
 ### Save & Exporting.
 
@@ -36,7 +34,7 @@ Build and [setup the environment variable](https://wiki.wxwidgets.org/Adding_an_
 - [ ] Load from custom file.
 
 
-# License
+## License
 
 This program and source code is licened under [MIT License](https://opensource.org/licenses/MIT).  
 For more information please see [the license file](LICENSE).
