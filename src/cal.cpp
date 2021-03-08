@@ -142,10 +142,10 @@ namespace ical {
         m_end = end.substr(5,2);
         day_end = end.substr(8,2);
 
-        std::string startD = year_start+m_start+day_start+"T000000";
-        std::string untilD = year_end+m_end+day_end+"T000000";
-        std::cout << "start: " << startD <<std::endl; 
-        std::cout << "end: " << untilD;
+        startD = year_start+m_start+day_start+"T000000";
+        untilD = year_end+m_end+day_end+"T000000";
+        std::cout << startD <<std::endl; 
+        std::cout << untilD;
     } 
 
 
