@@ -7,6 +7,7 @@ Build and [setup the environment variable](https://wiki.wxwidgets.org/Adding_an_
 # Requirements
 - CMake version > 3.19 (https://cmake.org/install/)
 - sw (software network) version > 1.0.0 (https://software-network.org/) and don't forget to run ```sw setup```
+- eng.traineddata (https://github.com/tesseract-ocr/tessdata_best) and put it in ```/build/tessdata```
 
 # How to
 1. cmake -Bbuild

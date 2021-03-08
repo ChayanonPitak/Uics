@@ -111,6 +111,6 @@ namespace ical {
     strVector process_Image(const char *imgPath, const char *datapath = "./tessdata");
 
     //
-    void ocr_to_event(strVector in, std::vector<event> &out);
+    bool ocr_to_event(strVector in, std::vector<event> &out);
 
 } // end namespace ical 

@@ -118,11 +118,12 @@ void mainFrame::OnScan(wxCommandEvent& event) {
 
 	/* 
 	this make "Can't verify memory struct - all bets are off" error 
-	I don't know what it is but I thnink it's something about wxWidget memory tracking.
+	I don't know what it is but I think it's something about wxWidget memory tracking.
 	*/
-	//std::vector<std::string> data = ical::process_Image(p);
+	std::vector<std::string> data = ical::process_Image(p);
 
-	//ical::ocr_to_event(data, listSchedule);
+	if (ical::ocr_to_event(data, listSchedule)) wxLogMessage("Succesful scan data");
+	else wxLogMessage("Failed to scan data");
 
-	event.skip();
+	event.Skip();
 }

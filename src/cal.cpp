@@ -326,12 +326,15 @@ namespace ical {
     }
 
     //
-    void ocr_to_event(strVector in, std::vector<event> &out) {
+    bool ocr_to_event(strVector in, std::vector<event> &out) {
         event EVENT;
         for (size_t i = 0; i < in.size(); i++) {
             EVENT.ocr_parser(in[i]);
             out.push_back(EVENT);
         }
+
+        if (out.size() > 0) return true;
+        else return false;
     }
 
 
