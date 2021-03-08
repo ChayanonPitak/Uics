@@ -1,4 +1,4 @@
-#include "Period.h".
+#include "Period.h"
 #include "mainFrame.h"
 #include "ClassSchedule.h"
 
@@ -79,6 +79,8 @@ void Period::SetStyle()
 }
 
 void Period::updateTime_range() {
+	wxDateTime wx_Sd = PeriodStartDatePickerLabel->GetValue();
+ 	wxDateTime wx_Ed = PeriodEndDatePickerLabel->GetValue();
 	wxDateTime wxMid_s = MidtermExaminationStartDatePickerCtrl->GetValue();
 	wxDateTime wxMid_e = MidtermExaminationEndDatePickerCtrl->GetValue();
 	wxDateTime wxFinal_s = FinalExaminationStartDatePickerCtrl->GetValue();
@@ -88,6 +90,8 @@ void Period::updateTime_range() {
 	std::string	Mid_e = wxMid_e.FormatISODate().ToStdString();
 	std::string	Final_s = wxFinal_s.FormatISODate().ToStdString();
 	std::string	Final_e = wxFinal_e.FormatISODate().ToStdString();
+	std::string r_start = wx_Sd.FormatISODate().ToStdString();
+	std::string r_end = wx_Ed.FormatISODate().ToStdString();
 
 	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
 

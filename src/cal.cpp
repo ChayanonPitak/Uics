@@ -94,6 +94,7 @@ namespace ical {
         bool flag = 0;
 
         iss >> nums >> sID;
+        // 000 000 after name is section
         for (size_t i = 9; i < (text.size() - 2); i++) {
             Ename += text[i];
             if (text[i+2] == '.') break;     
@@ -108,12 +109,12 @@ namespace ical {
                 if (text[i] != ' ') time += text[i];
             }
             if (flag == 1) {
-                if (text[i] != ' ') day += text[i];
+                if (text[i] != ' ') byday += text[i];
             }
         }
 
         time = str(time.rbegin(), time.rend());
-        day = str(day.rbegin(), day.rend());
+        byday = str(byday.rbegin(), byday.rend());
         
         name = Ename;
         subjectID = sID; 
@@ -125,6 +126,11 @@ namespace ical {
     void event::reset_exdate() {
         exdate = "";
     }
+
+    void set_range(str start, str end) {
+        
+    } 
+
 
     void event::set_exdate(str start, str end) {
         exdate += ical::exdate(start, end);

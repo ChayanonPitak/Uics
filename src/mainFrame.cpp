@@ -10,6 +10,7 @@
 #include <fstream>
 #include <string>
 
+
 wxBEGIN_EVENT_TABLE(mainFrame, wxFrame)
 	EVT_MENU(wxID_ABOUT, mainFrame::OnAbout)
 	EVT_MENU(wxID_EXIT, mainFrame::OnExit)
@@ -91,7 +92,6 @@ void mainFrame::OnOpen(wxCommandEvent& event) {
 }
 
 void mainFrame::OnSave(wxCommandEvent& event) {
-	
 }
 
 void mainFrame::OnSaveas(wxCommandEvent& event) {
@@ -100,8 +100,6 @@ void mainFrame::OnSaveas(wxCommandEvent& event) {
 		saveFileDialog(this, _("Save XYZ file"), "", "icalSave", "");
 
 	if (saveFileDialog.ShowModal() == wxID_CANCEL) return;
-
-
 
 	//ical::saveEvent(ClassSchedulePanel->listSchedule, output_stream);
 }
@@ -124,6 +122,8 @@ void mainFrame::OnScan(wxCommandEvent& event) {
 
 	if (ical::ocr_to_event(data, listSchedule)) wxLogMessage("Succesful scan data");
 	else wxLogMessage("Failed to scan data");
+
+	ClassSchedulePanel->renderData();
 
 	event.Skip();
 }

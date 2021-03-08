@@ -60,6 +60,8 @@ namespace ical {
             //
             void set_exdate(str start, str end);
 
+            void set_range(str start, str end);
+
             str get_exdate();
 
             str get_startTime();

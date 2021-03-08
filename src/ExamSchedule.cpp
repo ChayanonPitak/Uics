@@ -87,8 +87,6 @@ ExamSchedule::ExamSchedule(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoint
 		wxSize (85, 25),
 		wxDP_DROPDOWN);
 
-
-
 }
 
 void ExamSchedule::updateEvent(ical::event event) {

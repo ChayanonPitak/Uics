@@ -150,7 +150,8 @@ void ClassSchedule::updateEvent(ical::event &EVENT) {
 	 
 	EVENT.untillD = "20210228T000000Z";
 
-	EVENT.name = std::string((SubjectIDTextCtrl->GetLineText(0).mb_str())) + " " + std::string((SubjectNameTextCtrl->GetLineText(0)).mb_str());
+	EVENT.subjectID = std::string((SubjectIDTextCtrl->GetLineText(0).mb_str()));
+	EVENT.name = std::string((SubjectNameTextCtrl->GetLineText(0)).mb_str());
 	EVENT.location = std::string((LocationtextCtrl->GetLineText(0)).mb_str()); 
 
 	EVENT.day = ical::checkbyday(dayBinary);
@@ -198,6 +199,24 @@ void ClassSchedule::UpdateListSelection(wxCommandEvent& event) {
 	event.Skip();
 }
 void ClassSchedule::SetItemOnSelect(wxCommandEvent& event) {
+	// update info on all textctrl
+	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
+	int i = ClassScheduleLists->GetSelection();
+	/*
+	SubjectIDTextCtrl->ChangeValue();
+	SubjectNameTextCtrl->ChangeValue();
+	LocationtextCtrl->ChangeValie();
+	StartTimePicker->SetTime();
+	EndTimePicker->SetTime();
+
+	MonCheckmark->SetValue();
+	TueCheckmark->SetValue();
+	WedCheckmark->SetValue(); 
+	ThuCheckmark->SetValue();  
+	FriCheckmark->SetValue(); 
+	SatCheckmark->SetValue();
+	SunCheckmark->SetValue();
+	*/
 	event.Skip();
 }
 
@@ -211,4 +230,12 @@ wxString ClassSchedule::renderSchedule(ical::event EVENT) {
 	else temp = "[" + EVENT.subjectID + " " + EVENT.name + "] - " + EVENT.location + "" + EVENT.day + "[" + EVENT.get_startTime() + " - " + EVENT.get_endTime() + "]";
 
 	return temp;
+}
+
+void ClassSchedule::renderData() {
+	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
+
+	for (size_t i = 0; i < m_parent->listSchedule.size(); i++) {
+		ClassScheduleLists->Append(renderSchedule(m_parent->listSchedule[i]));
+	}
 }

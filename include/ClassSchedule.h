@@ -10,6 +10,7 @@ public :
 	ClassSchedule(wxWindow* parent);
 	
 	void updateEvent(ical::event &event);
+	void renderData();
 	
 public :
 	//Style
