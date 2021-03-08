@@ -402,3 +402,6 @@ MigrationBackup/
 
 CMakeSettings.json
 /out
+
+main.sln
+main.vcxproj
