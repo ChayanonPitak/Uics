@@ -134,7 +134,16 @@ namespace ical {
     }
 
     void set_range(str start, str end) {
-        
+        std::string  year_start,year_end,m_start,m_end,day_start,day_end;
+        year_start = start.substr(0,4);
+        m_start = start.substr(5,2);
+        day_start = start.substr(8,2);
+        year_end = end.substr(0,4);
+        m_end = end.substr(5,2);
+        day_end = end.substr(8,2);
+
+        startD = year_start+m_start+day_start+"T000000";
+        untillD = year_end+m_end+day_end+"T000000";
     } 
 
     void event::set_exdate(str start, str end) {
