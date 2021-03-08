@@ -15,7 +15,6 @@ enum
 };
 
 wxBEGIN_EVENT_TABLE(ClassSchedule, wxPanel)
-	//EVT_BUTTON(1, ClassSchedule::AddSchedule)
 	EVT_BUTTON(ID_AddEvent, ClassSchedule::AddSchedule)
 	EVT_BUTTON(ID_EditEvent, ClassSchedule::EditSchedule)
 	EVT_LISTBOX(ID_ClassScheduleListBox, ClassSchedule::UpdateListSelection)
@@ -133,7 +132,7 @@ void ClassSchedule::SetTextStyle()
 	TextCtrl2 = wxFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 }
 
-void ClassSchedule::updateEvent(ical::event &event) {
+void ClassSchedule::updateEvent(ical::event &EVENT) {
 	int StartHr, StartMin, StartSec;
 	int EndHr, EndMin, EndSec;
 	unsigned int dayBinary =
@@ -149,19 +148,18 @@ void ClassSchedule::updateEvent(ical::event &event) {
 	StartTimePicker->GetTime(&StartHr, &StartMin, &StartSec);
 	EndTimePicker->GetTime(&EndHr, &EndMin, &EndSec);
 	 
-	event.untillD = "20210228T000000Z";
+	EVENT.untillD = "20210228T000000Z";
 
-	event.name = std::string((SubjectIDTextCtrl->GetLineText(0).mb_str())) + " " + std::string((SubjectNameTextCtrl->GetLineText(0)).mb_str());
-	event.location = std::string((LocationtextCtrl->GetLineText(0)).mb_str()); 
+	EVENT.name = std::string((SubjectIDTextCtrl->GetLineText(0).mb_str())) + " " + std::string((SubjectNameTextCtrl->GetLineText(0)).mb_str());
+	EVENT.location = std::string((LocationtextCtrl->GetLineText(0)).mb_str()); 
 
-	event.day = ical::checkbyday(dayBinary);
+	EVENT.day = ical::checkbyday(dayBinary);
 
-	event.DTstart = ical::checkDT(StartHr, StartMin, StartSec);
-	event.DTend = ical::checkDT(EndHr, EndMin, EndSec);
+	EVENT.DTstart = ical::checkDT(StartHr, StartMin, StartSec);
+	EVENT.DTend = ical::checkDT(EndHr, EndMin, EndSec);
 }
 
-void ClassSchedule::AddSchedule(wxCommandEvent& event)
-{
+void ClassSchedule::AddSchedule(wxCommandEvent& event) {
 	// this is some advance shit that deal with polymorphism , and get data from derived class from base class ( GetParent() )
 	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
 	// update event obj
@@ -175,76 +173,42 @@ void ClassSchedule::AddSchedule(wxCommandEvent& event)
 	std::cout << m_parent->listSchedule.size();
 	*/
 
-	int StartHr, StartMin, StartSec;
-	int EndHr, EndMin, EndSec;
-	StartTimePicker->GetTime(&StartHr, &StartMin, &StartSec);
-	EndTimePicker->GetTime(&EndHr, &EndMin, &EndSec);
-	unsigned int dayBinary =
-		MonCheckmark->GetValue() +
-		TueCheckmark->GetValue() * 2 +
-		WedCheckmark->GetValue() * 4 +
-		ThuCheckmark->GetValue() * 8 +
-		FriCheckmark->GetValue() * 16 +
-		SatCheckmark->GetValue() * 32 +
-		SunCheckmark->GetValue() * 64;
-
 	// render 
-	ClassScheduleLists->Append("[" + std::string((SubjectIDTextCtrl->GetLineText(0).mb_str()))
-		+ " " + std::string((SubjectNameTextCtrl->GetLineText(0)).mb_str()) + "] - " +
-		std::string((LocationtextCtrl->GetLineText(0)).mb_str()) + " " +
-		ical::checkbyday(dayBinary) +
-		" [" + ical::intTostrD2(StartHr) + ":" + ical::intTostrD2(StartMin) + ":" + ical::intTostrD2(StartSec) + " - " + ical::intTostrD2(EndHr) + ":" + ical::intTostrD2(EndMin) + ":" + ical::intTostrD2(EndSec) + "]");
-
+	ClassScheduleLists->Append(renderSchedule(m_parent->EVENT));
 	event.Skip();
 }
-void ClassSchedule::EditSchedule(wxCommandEvent& event)
-{
 
+void ClassSchedule::EditSchedule(wxCommandEvent& event) {
 	// this is some advance shit that deal with polymorphism , and get data from derived class from base class ( GetParent() )
 	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
 	
-	// update event obj
-	updateEvent(m_parent->EVENT);
-
 	// modified event of list at selected index to event obj.
-	int StartHr, StartMin, StartSec;
-	int EndHr, EndMin, EndSec;
-	StartTimePicker->GetTime(&StartHr, &StartMin, &StartSec);
-	EndTimePicker->GetTime(&EndHr, &EndMin, &EndSec);
-	unsigned int dayBinary =
-		MonCheckmark->GetValue() +
-		TueCheckmark->GetValue() * 2 +
-		WedCheckmark->GetValue() * 4 +
-		ThuCheckmark->GetValue() * 8 +
-		FriCheckmark->GetValue() * 16 +
-		SatCheckmark->GetValue() * 32 +
-		SunCheckmark->GetValue() * 64;
-	
+	int i = ClassScheduleLists->GetSelection();
+	updateEvent(m_parent->listSchedule[i]);
+
 	// render 
-	ClassScheduleLists->SetString(ClassScheduleLists->GetSelection(), "[" + std::string((SubjectIDTextCtrl->GetLineText(0).mb_str()))
-		+ " " + std::string((SubjectNameTextCtrl->GetLineText(0)).mb_str()) + "] - " +
-		std::string((LocationtextCtrl->GetLineText(0)).mb_str()) + " " +
-		ical::checkbyday(dayBinary) +
-		" [" + ical::intTostrD2(StartHr) + ":" + ical::intTostrD2(StartMin) + ":" + ical::intTostrD2(StartSec) + " - " + ical::intTostrD2(EndHr) + ":" + ical::intTostrD2(EndMin) + ":" + ical::intTostrD2(EndSec) + "]");
+	ClassScheduleLists->SetString(i, renderSchedule(m_parent->listSchedule[i]));
 
 	event.Skip();
 }
-//Enable edit button after select an item on the list.
-void ClassSchedule::UpdateListSelection(wxCommandEvent& event)
-{
+
+// Enable edit button after select an item on the list.
+void ClassSchedule::UpdateListSelection(wxCommandEvent& event) {
 	EditButton->Enable(true);
 	event.Skip();
 }
-void ClassSchedule::SetItemOnSelect(wxCommandEvent& event)
-{
+void ClassSchedule::SetItemOnSelect(wxCommandEvent& event) {
 	event.Skip();
 }
 
 wxString ClassSchedule::renderSchedule(ical::event EVENT) {
 	wxString temp;
 
+	// can make this more beautiful
+	if (EVENT.day != "") {
+		temp = "[" + EVENT.subjectID + " " + EVENT.name + "] - " + EVENT.location + " " + EVENT.day + " [" + EVENT.get_startTime() + " - " + EVENT.get_endTime() + "]";
+	}
+	else temp = "[" + EVENT.subjectID + " " + EVENT.name + "] - " + EVENT.location + "" + EVENT.day + "[" + EVENT.get_startTime() + " - " + EVENT.get_endTime() + "]";
 
-
-
-
+	return temp;
 }

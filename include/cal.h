@@ -62,6 +62,10 @@ namespace ical {
 
             str get_exdate();
 
+            str get_startTime();
+
+            str get_endTime();
+
         private:
             friend class boost::serialization::access;
             template<class Archive>

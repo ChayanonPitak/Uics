@@ -134,6 +134,18 @@ namespace ical {
         return exdate.erase(exdate.size()-2, 2);
     }
 
+    str event::get_startTime() {
+        str time = DTstart.substr(8, 4);
+        time.insert(2, ":");
+        return time;   
+    }
+
+    str event::get_endTime() {
+        str time = DTend.substr(8, 4);
+        time.insert(2, ":");
+        return time;   
+    }
+
 
     // helper function 
     bool Is_inarr(str in, strVector arr) {
