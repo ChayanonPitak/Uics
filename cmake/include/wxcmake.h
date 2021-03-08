@@ -18,6 +18,8 @@
 #include <wx/filedlg.h> 
 #include <wx/menuitem.h>
 #include <wx/wfstream.h>
-#include <wx/log.h> 
+#include <wx/log.h>
+#include <wx/listbox.h> 
+#include <wx/msgdlg.h>
 
 

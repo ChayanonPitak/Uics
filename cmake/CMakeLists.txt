@@ -6,6 +6,12 @@ set(SW_BUILD_SHARED_LIBS 1)
 set(DEPENDENCIES
     org.sw.demo.boost.serialization-1.75.0
     org.sw.demo.boost.core-1.75.0
+    org.sw.demo.boost.thread-1.75.0
+    org.sw.demo.boost.math-1.75.0
+    org.sw.demo.boost.random-1.75.0
+    org.sw.demo.boost.exception-1.75.0
+    org.sw.demo.boost.regex-1.75.0
+    org.sw.demo.boost.container-1.75.0
     org.sw.demo.wxwidgets.core-3.1.4
     org.sw.demo.wxwidgets.base-3.1.4
     org.sw.demo.google.tesseract.libtesseract-master

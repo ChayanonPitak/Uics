@@ -89,11 +89,11 @@ namespace ical {
 
     // parser for with-ocr branch **need more work (make it better or cleaner).
     void event::ocr_parser(str text) {
-        str nums, addr, Ename, time, byday;
+        str nums, sID, Ename, time, byday;
         std::istringstream iss(text);
         bool flag = 0;
 
-        iss >> nums >> addr;
+        iss >> nums >> sID;
         for (size_t i = 9; i < (text.size() - 2); i++) {
             Ename += text[i];
             if (text[i+2] == '.') break;     
@@ -115,7 +115,8 @@ namespace ical {
         time = str(time.rbegin(), time.rend());
         day = str(day.rbegin(), day.rend());
         
-        name = Ename + addr;
+        name = Ename;
+        subjectID = sID; 
         day = checkbyday(byday);
         DTstart = checkDT(time, 0);
         DTend = checkDT(time, 1);

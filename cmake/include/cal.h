@@ -36,6 +36,7 @@ namespace ical {
             str freq;
             str weekstop;
             str name;
+            str subjectID;
             str location;
             str day;
             str DTstart;
@@ -107,7 +108,7 @@ namespace ical {
     strVector tostrVector(char *in); 
 
     // Function to process img and return vector of string.
-    strVector process_Image(const char *imgPath, const char *datapath);
+    strVector process_Image(const char *imgPath, const char *datapath = "./tessdata");
 
     //
     void ocr_to_event(strVector in, std::vector<event> &out);

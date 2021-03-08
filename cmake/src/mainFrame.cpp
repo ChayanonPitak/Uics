@@ -125,4 +125,5 @@ void mainFrame::OnScan(wxCommandEvent& event) {
 
 	ical::ocr_to_event(data, listSchedule);
 
+	event.skip();
 }
