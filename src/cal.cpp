@@ -292,7 +292,8 @@ namespace ical {
     }
 
     // need to rewrite all this
-    void loadEvent(std::vector<event> &list, std::ifstream &file) {      
+    void loadEvent(std::vector<event> &list, std::ifstream &file) {
+        list.clear();
         size_t listSize = 0;
         file >> listSize;
         boost::archive::text_iarchive archive(file);

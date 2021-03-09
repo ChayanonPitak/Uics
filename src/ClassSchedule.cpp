@@ -299,6 +299,7 @@ wxString ClassSchedule::renderSchedule(ical::event EVENT) {
 void ClassSchedule::renderData() {
 	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
 
+	ClassScheduleLists->Clear();
 	for (size_t i = 0; i < m_parent->listSchedule.size(); i++) {
 		ClassScheduleLists->Append(renderSchedule(m_parent->listSchedule[i]));
 	}

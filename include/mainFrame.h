@@ -17,6 +17,11 @@ public:
 	std::vector<ical::event> listSchedule;
 	ical::event EVENT;
 
+	// recent save/load path
+	std::string recent_path;
+	bool is_loaded = false;
+	bool is_saved = false;
+
 public:
 	//Style
 	wxFont ListbookHeader;

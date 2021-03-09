@@ -91,40 +91,63 @@ void mainFrame::OnExit(wxCommandEvent& event)
 
 void mainFrame::OnOpen(wxCommandEvent& event) {
 	wxFileDialog
-		openFileDialog(this, "Open file", "", "", "", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
+		openFileDialog(this, "Open file", "", "", "Save file (*.txt)|*.txt", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
 
 	if (openFileDialog.ShowModal() == wxID_CANCEL) return;	
 
 	wxString path = openFileDialog.GetPath();
-	std::ifstream ifs(path.mb_str());
+	recent_path = path.mb_str();
+	std::ifstream ifs(recent_path);
 
 	ical::loadEvent(listSchedule, ifs);
 
+	is_loaded = true;
 	ClassSchedulePanel->renderData();
 }
 
 void mainFrame::OnSave(wxCommandEvent& event) {
 
+	if (is_loaded == true || is_saved == true) {
+		std::ofstream ofs(recent_path);
+		ical::saveEvent(listSchedule, ofs);
+	}
+	else {
+		wxFileDialog
+			saveFileDialog(this, "Save ical file", "", "ical_save", "Save File (*.txt)|*.txt", wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
 
+		if (saveFileDialog.ShowModal() == wxID_CANCEL) return;
+
+		wxString path = saveFileDialog.GetPath();
+		recent_path = path.mb_str();
+		std::ofstream ofs(recent_path);
+
+		ical::saveEvent(listSchedule, ofs);
+
+		is_saved = true;
+	}
 
 }
 
 void mainFrame::OnSaveas(wxCommandEvent& event) {
 	// I don't know why wxFD_SAVE make an assertion when trying to call this func.
+	// need to always have wild card param to fix assertion
 	wxFileDialog
-		saveFileDialog(this, _("Save XYZ file"), "", "ical_save", "");
+		saveFileDialog(this, "Save ical file", "", "ical_save", "Save File (*.txt)|*.txt", wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
 
 	if (saveFileDialog.ShowModal() == wxID_CANCEL) return;
 
 	wxString path = saveFileDialog.GetPath();
-	std::ofstream ofs(path.mb_str());
+	recent_path = path.mb_str();
+	std::ofstream ofs(recent_path);
 
 	ical::saveEvent(listSchedule, ofs);
+
+	is_saved = true;
 }
 
 void mainFrame::OnScan(wxCommandEvent& event) {
 	wxFileDialog
-		openFileDialog(this, _("Open Image file"), "", "", "Image (*.tif,*.png)|*.tif;*.png", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
+		openFileDialog(this, "Open Image file", "", "", "Image (*.tif,*.png)|*.tif;*.png", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
 
 	if (openFileDialog.ShowModal() == wxID_CANCEL) return;
 
@@ -149,7 +172,7 @@ void mainFrame::OnScan(wxCommandEvent& event) {
 void mainFrame::OnExport(wxCommandEvent& event) {
 	// I don't know why wxFD_SAVE make an assertion when trying to call this func.
 	wxFileDialog
-		saveFileDialog(this, "Export .ics file", "", "uics", "Ical Format (*.ics)|*.ics");
+		saveFileDialog(this, "Export .ics file", "", "uics", "Ical Format (*.ics)|*.ics", wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
 
 	if (saveFileDialog.ShowModal() == wxID_CANCEL) return;
 
