@@ -3,7 +3,7 @@
 ## Requirements
 - **CMake** version 3.18 (VS built in) or more (https://cmake.org/install/)
 - **sw (software network)** version 1.0.0 or more (https://software-network.org/) 
-- - Don't forget to run ```sw setup```
+- - Don't forget to add this to path and run ```sw setup```
 - **eng.traineddata** (https://github.com/tesseract-ocr/tessdata_best) P
 - - Put it in ```/build/tessdata```
 
