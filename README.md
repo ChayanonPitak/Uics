@@ -29,9 +29,9 @@
 
 ### Save & Exporting.
 
-- [ ] Export to .ics
-- [ ] Save to custom file.
-- [ ] Load from custom file.
+- [x] Export to .ics
+- [x] Save to custom file.
+- [x] Load from custom file.
 
 
 ## License
