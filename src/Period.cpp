@@ -29,10 +29,10 @@ Period::Period(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoint(0, 0), wxSi
 	//Semester Period End.
 	PeriodEndLabel = new wxStaticText(this, wxID_ANY,
 		"Semester End Date",
-		wxPoint(130, 10));
+		wxPoint(160, 10));
 	PeriodEndLabel->SetFont(Header2);
 	PeriodEndDatePickerLabel = new wxDatePickerCtrl(this, wxID_ANY, wxDefaultDateTime,
-		wxPoint(130, 25), wxSize(85, 25), wxDP_DROPDOWN);
+		wxPoint(160, 25), wxSize(85, 25), wxDP_DROPDOWN);
 	PeriodEndDatePickerLabel->SetFont(TextCtrl2);
 	//Midterm Exam Period Start.
 	MidtermExaminationStartLabel = new wxStaticText(this, wxID_ANY,

@@ -84,6 +84,14 @@ void mainFrame::OnAbout(wxCommandEvent& event)
 
 void mainFrame::OnExit(wxCommandEvent& event)
 {
+	if (is_saved != true && (listSchedule.size() != 0)) {
+		wxMessageDialog Confirm(this,
+			"You will lose all schedule. Continue?",
+			"Confirm",
+			wxYES_NO | wxNO_DEFAULT | wxCENTRE | wxICON_QUESTION);
+		if (Confirm.ShowModal() == wxID_NO) {event.Skip(); return;}
+	}
+
 	int confirmation = wxMessageBox("Are you sure you want to exit?",
 		"Exit",
 		wxYES_NO | wxNO_DEFAULT);
@@ -91,6 +99,15 @@ void mainFrame::OnExit(wxCommandEvent& event)
 }
 
 void mainFrame::OnOpen(wxCommandEvent& event) {
+
+	if (is_loaded == true || is_scanned == true) {
+		wxMessageDialog Confirm(this,
+			"This will reset all schedule. Continue?",
+			"Confirm",
+			wxYES_NO | wxNO_DEFAULT | wxCENTRE | wxICON_QUESTION);
+		if (Confirm.ShowModal() == wxID_NO) {event.Skip(); return;}
+	}
+
 	wxFileDialog
 		openFileDialog(this, "Open file", "", "", "Save file (*.txt)|*.txt", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
 
@@ -147,6 +164,15 @@ void mainFrame::OnSaveas(wxCommandEvent& event) {
 }
 
 void mainFrame::OnScan(wxCommandEvent& event) {
+
+	if (is_scanned == true) {
+		wxMessageDialog Confirm(this,
+			"This will reset all schedule. Continue?",
+			"Confirm",
+			wxYES_NO | wxNO_DEFAULT | wxCENTRE | wxICON_QUESTION);
+		if (Confirm.ShowModal() == wxID_NO) {event.Skip(); return;}
+	}
+
 	wxFileDialog
 		openFileDialog(this, "Open Image file", "", "", "Image (*.tif,*.png)|*.tif;*.png", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
 
@@ -163,16 +189,17 @@ void mainFrame::OnScan(wxCommandEvent& event) {
 	std::vector<std::string> data = ical::process_Image(p);
 
 	if (ical::ocr_to_event(data, listSchedule)) {
-		wxMessageDialog success(this, wxString("Succesful scan data"));
+		wxMessageDialog success(this, wxString("Successful scan data"));
 		if(success.ShowModal() == wxID_CANCEL) return;
 	}
 	else  {
-		wxMessageDialog fail(this, wxString("Succesful scan data"));
+		wxMessageDialog fail(this, wxString("Failed to scan data"));
 		if(fail.ShowModal() == wxID_CANCEL) return;
 	}
 
+	is_scanned = true;
 	ClassSchedulePanel->renderData();
-
+	
 	event.Skip();
 }
 

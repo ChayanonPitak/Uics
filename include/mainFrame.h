@@ -21,6 +21,7 @@ public:
 	std::string recent_path;
 	bool is_loaded = false;
 	bool is_saved = false;
+	bool is_scanned = false;
 
 public:
 	//Style
