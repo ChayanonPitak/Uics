@@ -60,10 +60,11 @@ mainFrame::mainFrame() : wxFrame(NULL, wxID_ANY, "Uics", wxPoint(50, 50), wxSize
 	
 
 	//Listbook
-	listBook = new wxListbook(this, wxID_ANY, wxPoint(0, 0), wxSize(800, 600), wxLB_LEFT);
-	listBook->AddPage(PeriodPanel, "Semester Period");				//SemesterPeriod
+	listBook = new wxListbook(this, wxID_ANY, wxPoint(0, 0), wxSize(1200, 600), wxLB_LEFT);
+	listBook->GetListView()->SetColumnWidth(0, 130);
 	listBook->AddPage(ClassSchedulePanel, "Class Schedule");		//ClassSchedule
 	listBook->AddPage(ExamSchedulePanel, "Examination Schedule");	//ExamSchedule
+	listBook->AddPage(PeriodPanel, "Semester Period");				//SemesterPeriod
 
 	CreateStatusBar();
 	SetStatusText("");
@@ -161,8 +162,14 @@ void mainFrame::OnScan(wxCommandEvent& event) {
 	*/
 	std::vector<std::string> data = ical::process_Image(p);
 
-	if (ical::ocr_to_event(data, listSchedule)) wxLogMessage("Succesful scan data");
-	else wxLogMessage("Failed to scan data");
+	if (ical::ocr_to_event(data, listSchedule)) {
+		wxMessageDialog success(this, wxString("Succesful scan data"));
+		if(success.ShowModal() == wxID_CANCEL) return;
+	}
+	else  {
+		wxMessageDialog fail(this, wxString("Succesful scan data"));
+		if(fail.ShowModal() == wxID_CANCEL) return;
+	}
 
 	ClassSchedulePanel->renderData();
 

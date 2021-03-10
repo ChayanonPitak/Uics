@@ -274,7 +274,6 @@ void ClassSchedule::SetItemOnSelect(wxCommandEvent& event) {
 	StartTimePicker->SetTime(std::stoi(ev.DTstart.substr(9, 2)), std::stoi(ev.DTstart.substr(11, 2)), std::stoi(ev.DTstart.substr(13, 2)));
 	EndTimePicker->SetTime(std::stoi(ev.DTend.substr(9, 2)), std::stoi(ev.DTend.substr(11, 2)), std::stoi(ev.DTend.substr(13, 2)));
 	//Day
-	
 	MonCheckmark->SetValue(ical::checkbyday(ev.dayBinary, 0));
 	TueCheckmark->SetValue(ical::checkbyday(ev.dayBinary, 1));
 	WedCheckmark->SetValue(ical::checkbyday(ev.dayBinary, 2));

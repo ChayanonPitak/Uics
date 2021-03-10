@@ -46,7 +46,7 @@ namespace ical {
     // function to parse byday to iCal format
     str checkbyday(unsigned int DayBinary) {
         //Binary represend each day.
-        //First digit (2^0) represent Monday and increasing to Sunday.
+        //First digit (2^0) represent Monday and increasing to Sunday. 
         str Day = "";
         bool isSeperate = false;
         if (DayBinary & 1) { Day += "MO"; isSeperate = true;}
@@ -75,11 +75,7 @@ namespace ical {
         for (auto& c : s) c = (char)toupper(c);
         if (s == "MTH") return "MO,TH";
         if (s == "TUF") return "FR,TU";
-        if (s == "WE") return "WE";
-        if (s == "SA") return "SA";
-        if (s == "SU") return "SU";
-        if (s == "TU") return "TU";
-        return "";
+        return s;
     }
 
 
