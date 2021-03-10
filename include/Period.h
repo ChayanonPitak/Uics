@@ -34,10 +34,13 @@ public:
 	//wxDECLARE_EVENT_TABLE();
 
 	// debug code
+	/*
 	wxDECLARE_EVENT_TABLE();
 	void onbutton(wxCommandEvent& event) {
 		updateTime_range();
 	};
+
 	wxTextCtrl* debug = NULL;
 	wxButton* dbutton = NULL;
+	*/
 };

@@ -97,7 +97,6 @@ namespace ical {
     void event::ocr_parser(str text) {
         str nums, sID, Ename, time, byday;
         std::istringstream iss(text);
-        bool flag = 0;
 
         iss >> nums >> sID;
         // 000 000 after subjectName is section
@@ -106,6 +105,7 @@ namespace ical {
             if (text[i+2] == '.') break;     
         }
 
+        bool flag = 0;
         for (size_t i = (text.size()-1); i > 0; i--) {
             if (text[i] == ' ') {
                 if (flag == 1) break;
@@ -155,12 +155,12 @@ namespace ical {
     }
 
     str event::get_startTime() {
-        str time = DTstart.substr(8, 4);
+        str time = DTstart.substr(9, 4);
         time.insert(2, ":");
         return time;
     }
     str event::get_endTime() {
-        str time = DTend.substr(8, 4);
+        str time = DTend.substr(9, 4);
         time.insert(2, ":");
         return time;
     }

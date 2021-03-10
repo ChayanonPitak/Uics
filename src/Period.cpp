@@ -8,9 +8,11 @@
 #include <string>
 
 // debug code
+/*
 wxBEGIN_EVENT_TABLE(Period, wxPanel)
 	EVT_BUTTON(1, Period::onbutton)
 wxEND_EVENT_TABLE()
+*/
 // end debug code
 
 Period::Period(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoint(0, 0), wxSize(750, 50))
@@ -66,8 +68,10 @@ Period::Period(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoint(0, 0), wxSi
 	FinalExaminationEndDatePickerCtrl->SetFont(TextCtrl2);
 
 	// debug code
+	/*
 	debug = new wxTextCtrl(this, wxID_ANY, "", wxPoint(20, 180), wxSize(500, 80), wxTE_MULTILINE);
 	dbutton = new wxButton(this, 1, "CLICK", wxPoint(20, 260));
+	*/
 }
 
 void Period::SetStyle()
@@ -103,6 +107,4 @@ void Period::updateTime_range() {
 		m_parent->listSchedule[i].set_range(r_start, r_end);
 	}
 	
-	// debug code
-	wxStreamToTextRedirector redirect(debug);
 }

@@ -271,9 +271,10 @@ void ClassSchedule::SetItemOnSelect(wxCommandEvent& event) {
 	SubjectNameTextCtrl->SetValue(ev.subjectName);
 	LocationtextCtrl->SetValue(ev.location);
 	//Time
-	StartTimePicker->SetTime(std::stoi(ev.DTstart.substr(8, 2)), std::stoi(ev.DTstart.substr(10, 2)), std::stoi(ev.DTstart.substr(12, 2)));
-	EndTimePicker->SetTime(std::stoi(ev.DTend.substr(8, 2)), std::stoi(ev.DTend.substr(10, 2)), std::stoi(ev.DTend.substr(12, 2)));
+	StartTimePicker->SetTime(std::stoi(ev.DTstart.substr(9, 2)), std::stoi(ev.DTstart.substr(11, 2)), std::stoi(ev.DTstart.substr(13, 2)));
+	EndTimePicker->SetTime(std::stoi(ev.DTend.substr(9, 2)), std::stoi(ev.DTend.substr(11, 2)), std::stoi(ev.DTend.substr(13, 2)));
 	//Day
+	
 	MonCheckmark->SetValue(ical::checkbyday(ev.dayBinary, 0));
 	TueCheckmark->SetValue(ical::checkbyday(ev.dayBinary, 1));
 	WedCheckmark->SetValue(ical::checkbyday(ev.dayBinary, 2));
@@ -281,6 +282,7 @@ void ClassSchedule::SetItemOnSelect(wxCommandEvent& event) {
 	FriCheckmark->SetValue(ical::checkbyday(ev.dayBinary, 4));
 	SatCheckmark->SetValue(ical::checkbyday(ev.dayBinary, 5));
 	SunCheckmark->SetValue(ical::checkbyday(ev.dayBinary, 6));
+	
 	event.Skip();
 }
 
