@@ -1,4 +1,5 @@
 #pragma once
+#include <wx/defs.h>
 #include <wx/frame.h>
 #include <wx/stattext.h>
 #include <wx/textctrl.h>

@@ -186,8 +186,6 @@ void ClassSchedule::updateEvent(ical::event &EVENT) {
 	StartTimePicker->GetTime(&StartHr, &StartMin, &StartSec);
 	EndTimePicker->GetTime(&EndHr, &EndMin, &EndSec);
 	 
-	EVENT.untillD = "20210228T000000Z";
-
 	EVENT.subjectID = std::string((SubjectIDTextCtrl->GetLineText(0).mb_str()));
 	EVENT.subjectName = std::string((SubjectNameTextCtrl->GetLineText(0)).mb_str());
 	EVENT.location = std::string((LocationtextCtrl->GetLineText(0)).mb_str()); 

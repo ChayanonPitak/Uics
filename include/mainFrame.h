@@ -45,6 +45,7 @@ public:
 
 	//Functions
 	void SetStyle();
+	void OnClose(wxCloseEvent& event);
 	void OnAbout(wxCommandEvent& event);
 	void OnExit(wxCommandEvent& event);
 	void OnOpen(wxCommandEvent& event);

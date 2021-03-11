@@ -24,6 +24,7 @@ wxBEGIN_EVENT_TABLE(mainFrame, wxFrame)
 	EVT_MENU(wxID_SAVEAS, mainFrame::OnSaveas)
 	EVT_MENU(ID_GetScan, mainFrame::OnScan)
 	EVT_MENU(ID_Export, mainFrame::OnExport)
+	EVT_CLOSE(mainFrame::OnClose)
 wxEND_EVENT_TABLE()
 
 mainFrame::mainFrame() : wxFrame(NULL, wxID_ANY, "Uics", wxPoint(50, 50), wxSize(800, 600), wxDEFAULT_FRAME_STYLE & ~wxRESIZE_BORDER)
@@ -76,6 +77,18 @@ void mainFrame::SetStyle()
 
 }
 
+void mainFrame::OnClose(wxCloseEvent& event) {
+	bool file_notSaved = is_saved != true && (listSchedule.size() != 0);
+	if (event.CanVeto() && file_notSaved) {
+		if (wxMessageBox("You did not save the schedules. Continue?", "Confirm", wxICON_QUESTION|wxYES_NO) != wxYES) 
+			{
+				event.Veto();
+				return;
+			}
+	}
+	event.Skip();
+}
+
 void mainFrame::OnAbout(wxCommandEvent& event)
 {
 	p_About* aboutFrame = new p_About(this); 
@@ -85,11 +98,11 @@ void mainFrame::OnAbout(wxCommandEvent& event)
 void mainFrame::OnExit(wxCommandEvent& event)
 {
 	if (is_saved != true && (listSchedule.size() != 0)) {
-		wxMessageDialog Confirm(this,
-			"You will lose all schedule. Continue?",
-			"Confirm",
-			wxYES_NO | wxNO_DEFAULT | wxCENTRE | wxICON_QUESTION);
-		if (Confirm.ShowModal() == wxID_NO) {event.Skip(); return;}
+		if (wxMessageBox("You did not save the schedules. Continue?", "Confirm", wxICON_QUESTION|wxYES_NO) != wxYES)
+		{
+			event.Skip();
+			return;
+		}
 	}
 
 	int confirmation = wxMessageBox("Are you sure you want to exit?",
@@ -101,11 +114,11 @@ void mainFrame::OnExit(wxCommandEvent& event)
 void mainFrame::OnOpen(wxCommandEvent& event) {
 
 	if (is_loaded == true || is_scanned == true) {
-		wxMessageDialog Confirm(this,
-			"This will reset all schedule. Continue?",
-			"Confirm",
-			wxYES_NO | wxNO_DEFAULT | wxCENTRE | wxICON_QUESTION);
-		if (Confirm.ShowModal() == wxID_NO) {event.Skip(); return;}
+		if (wxMessageBox("This will reset all schedule. Continue?", "Confirm", wxICON_QUESTION|wxYES_NO) != wxYES)
+		{
+			event.Skip();
+			return;
+		}
 	}
 
 	wxFileDialog
@@ -121,6 +134,7 @@ void mainFrame::OnOpen(wxCommandEvent& event) {
 
 	is_loaded = true;
 	ClassSchedulePanel->renderData();
+	event.Skip();
 }
 
 void mainFrame::OnSave(wxCommandEvent& event) {
@@ -144,6 +158,7 @@ void mainFrame::OnSave(wxCommandEvent& event) {
 		is_saved = true;
 	}
 
+	event.Skip();
 }
 
 void mainFrame::OnSaveas(wxCommandEvent& event) {
@@ -161,16 +176,17 @@ void mainFrame::OnSaveas(wxCommandEvent& event) {
 	ical::saveEvent(listSchedule, ofs);
 
 	is_saved = true;
+	event.Skip();
 }
 
 void mainFrame::OnScan(wxCommandEvent& event) {
 
 	if (is_scanned == true) {
-		wxMessageDialog Confirm(this,
-			"This will reset all schedule. Continue?",
-			"Confirm",
-			wxYES_NO | wxNO_DEFAULT | wxCENTRE | wxICON_QUESTION);
-		if (Confirm.ShowModal() == wxID_NO) {event.Skip(); return;}
+		if (wxMessageBox("This will reset all schedule. Continue?", "Confirm", wxICON_QUESTION|wxYES_NO) != wxYES)
+		{
+			event.Skip();
+			return;
+		}
 	}
 
 	wxFileDialog
@@ -216,4 +232,5 @@ void mainFrame::OnExport(wxCommandEvent& event) {
 	PeriodPanel->updateTime_range();
 	ical::exportEvent(listSchedule, ofs);
 	
+	event.Skip();
 }
