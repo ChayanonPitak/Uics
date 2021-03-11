@@ -26,6 +26,9 @@ sw_execute()
 include_directories(include/)
 file(GLOB SOURCES "./src/*.cpp")
 
-add_executable(main WIN32 ${SOURCES})
-target_link_libraries(main ${DEPENDENCIES})
+# maybe there are better way to copy file dir to build dir but I don't know it
+file(COPY "./resources/" DESTINATION ${CMAKE_BINARY_DIR})
+
+add_executable(${PROJECT_NAME} WIN32 ${SOURCES})
+target_link_libraries(${PROJECT_NAME} ${DEPENDENCIES})
 
