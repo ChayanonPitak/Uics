@@ -27,7 +27,7 @@ include_directories(include/)
 file(GLOB SOURCES "./src/*.cpp")
 
 # maybe there are better way to copy file dir to build dir but I don't know it
-file(COPY "./resources/" DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY "./resources" DESTINATION ${CMAKE_BINARY_DIR})
 
 add_executable(${PROJECT_NAME} WIN32 ${SOURCES})
 target_link_libraries(${PROJECT_NAME} ${DEPENDENCIES})
