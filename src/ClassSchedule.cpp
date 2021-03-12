@@ -1,7 +1,6 @@
 #include "ClassSchedule.h"
 #include "mainFrame.h"
 
-#include <wx/wxprec.h>
 #include <wx/valnum.h>
 #include <wx/timectrl.h>
 #include <fstream>
@@ -201,9 +200,9 @@ void ClassSchedule::AddSchedule(wxCommandEvent& event) {
 	// this is some advance shit that deal with polymorphism , and get data from derived class from base class ( GetParent() )
 	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
 	// update event obj
-	updateEvent(m_parent->EVENT);
+	updateEvent(EVENT);
 	// append copy of event obj to list
-	m_parent->listSchedule.push_back(m_parent->EVENT);
+	m_parent->listSchedule.push_back(EVENT);
 
 	// debug code
 	/*
@@ -212,7 +211,7 @@ void ClassSchedule::AddSchedule(wxCommandEvent& event) {
 	*/
 
 	// render 
-	ClassScheduleLists->Append(renderSchedule(m_parent->EVENT));
+	ClassScheduleLists->Append(renderSchedule(EVENT));
 	ClassScheduleLists->SetSelection(ClassScheduleLists->GetCount() - 1);
 	EditButton->Enable(true);
 	DeleteButton->Enable(true);

@@ -242,7 +242,7 @@ namespace ical {
 
 
     // function to create iCal Header.
-    void calHeader(std::ofstream& file, str timezone = "") {
+    void calHeader(std::ofstream& file, str timezone) {
         file << "BEGIN:VCALENDAR" << '\n';
         file << "PRODID:-//Uics Project//Schedule//EN" << '\n';
         file << "VERSION:2.0" << '\n';
@@ -302,11 +302,9 @@ namespace ical {
 
     //
     void exportEvent(std::vector<event> list, std::ofstream &file) {
-        calHeader(file);
         for (size_t i = 0; i < list.size(); i++) {
             createEvent(list[i], file);
         }
-        calFooter(file);
     }
 
     // Function to convert char* to vector<string> by splitting char* on '\\n'

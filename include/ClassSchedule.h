@@ -9,6 +9,7 @@ class ClassSchedule : public wxPanel
 public :
 	ClassSchedule(wxWindow* parent);
 	
+	ical::event EVENT;
 	void updateEvent(ical::event &event);
 	void renderData();
 	

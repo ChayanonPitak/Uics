@@ -95,7 +95,7 @@ namespace ical {
     strVector split(str s, char delimeter);
 
     // function to create iCal Header.
-    void calHeader(std::ofstream& file, str timezone);
+    void calHeader(std::ofstream& file, str timezone = "");
 
     // function to create iCal Footer.
     void calFooter(std::ofstream& file);
