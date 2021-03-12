@@ -143,11 +143,12 @@ namespace ical {
     } 
 
     void event::set_exdate(str start, str end) {
-        exdate += ical::exdate(start, end);
+        if (exdate != "") exdate += ", " + ical::exdate(start, end);
+        else exdate += ical::exdate(start,end);
     }
 
-    str event::get_exdate() {
-        return exdate.erase(exdate.size()-2, 2);
+    void event::append_exdate(str date) {
+        exdate += ", " + date;
     }
 
     str event::get_startTime() {
@@ -171,10 +172,12 @@ namespace ical {
     }
     // function to set exam period for event obj
     str exdate(str start, str end) {
+        // change 1000-10-10 to 10001010
         start.erase(remove(start.begin(), start.end(), '-'), start.end());
         end.erase(remove(end.begin(), end.end(), '-'), end.end());
 
-        //01234567 ABCD
+        if (end == "") return start + "T000000";        
+
         str s_pre = start.substr(0, 6);
 
         str s_month = start.substr(4, 2);
@@ -191,7 +194,7 @@ namespace ical {
                 if (i < 10) temp += s_pre + "0" + std::to_string(i) + "T000000" + ", ";
                 else temp += s_pre + std::to_string(i) + "T000000" + ", ";
             }
-            return temp;
+            return temp.erase(temp.size()-2, 2);
         }
         else { 
             str s_year = start.substr(0, 4);
@@ -208,8 +211,7 @@ namespace ical {
                     if (i < 10) temp += s_year + e_month + "0" + std::to_string(i) + "T000000" + ", ";
                     else temp += s_year + e_month + std::to_string(i) + "T000000" + ", ";   
                 }
-                return temp;
-            }
+                return temp.erase(temp.size()-2, 2);            }
 
             if (Is_inarr(s_month, thirtyone)) {
                 str temp = "";
@@ -221,7 +223,7 @@ namespace ical {
                     if (i < 10) temp += s_year + e_month + "0" + std::to_string(i) + "T000000" + ", ";
                     else temp += s_year + e_month + std::to_string(i) + "T000000" + ", ";   
                 }
-                return temp;
+                return temp.erase(temp.size()-2, 2);  
             }
 
             if (Is_inarr(s_month, thirty)) {
@@ -234,7 +236,7 @@ namespace ical {
                     if (i < 10) temp += s_year + e_month + "0" + std::to_string(i) + "T000000" + ", ";
                     else temp += s_year + e_month + std::to_string(i) + "T000000" + ", ";   
                 }
-                return temp;
+                return temp.erase(temp.size()-2, 2);  
             }
         }
         return "";
@@ -278,7 +280,7 @@ namespace ical {
         file << "END:VEVENT" << '\n';
     }
 
-    // need to rewrite all this
+    // 
     void saveEvent(std::vector<event> list, std::ofstream &file) {
         file << list.size() << '\n';
         boost::archive::text_oarchive archive(file);
@@ -287,7 +289,7 @@ namespace ical {
         }
     }
 
-    // need to rewrite all this
+    //
     void loadEvent(std::vector<event> &list, std::ifstream &file) {
         list.clear();
         size_t listSize = 0;

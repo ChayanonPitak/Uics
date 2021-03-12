@@ -10,6 +10,7 @@ public:
 	Period(wxWindow* parent);
 
 	void updateTime_range();
+	void renderList();
 
 public:
 	//Style
@@ -52,6 +53,7 @@ public:
 	void CheckSingleDay(wxCommandEvent& event);
 	void ResetField(wxCommandEvent& event);
 	void SetPeriodRange(wxDateEvent& event);
+	void OnAdd(wxCommandEvent& event);
 
 	wxDECLARE_EVENT_TABLE();
 

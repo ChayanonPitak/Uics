@@ -17,6 +17,7 @@ public:
 	std::vector<ical::event> listSchedule;
 	std::vector<ical::event> midtermExam;
 	std::vector<ical::event> finalExam;
+	std::vector<ical::event> holidays;
 
 	// recent save/load path
 	std::string recent_path;

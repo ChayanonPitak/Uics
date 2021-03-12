@@ -133,9 +133,11 @@ void mainFrame::OnOpen(wxCommandEvent& event) {
 	ical::loadEvent(listSchedule, ifs);
 	ical::loadEvent(midtermExam, ifs);
 	ical::loadEvent(finalExam, ifs);
+	ical::loadEvent(holidays, ifs);
 
 	is_loaded = true;
 	ClassSchedulePanel->renderData();
+	PeriodPanel->renderList();
 	event.Skip();
 }
 
@@ -145,7 +147,8 @@ void mainFrame::OnSave(wxCommandEvent& event) {
 		std::ofstream ofs(recent_path);
 		ical::saveEvent(listSchedule, ofs);
 		ical::saveEvent(midtermExam, ofs);
-		ical::saveEvent(finalExam, ofs);
+		ical::saveEvent(finalExam, ofs);	
+		ical::saveEvent(holidays, ofs);
 	}
 	else {
 		wxFileDialog
@@ -160,6 +163,7 @@ void mainFrame::OnSave(wxCommandEvent& event) {
 		ical::saveEvent(listSchedule, ofs);
 		ical::saveEvent(midtermExam, ofs);
 		ical::saveEvent(finalExam, ofs);
+		ical::saveEvent(holidays, ofs);
 
 		is_saved = true;
 	}
@@ -182,6 +186,7 @@ void mainFrame::OnSaveas(wxCommandEvent& event) {
 	ical::saveEvent(listSchedule, ofs);
 	ical::saveEvent(midtermExam, ofs);
 	ical::saveEvent(finalExam, ofs);
+	ical::saveEvent(holidays, ofs);
 
 	is_saved = true;
 	event.Skip();

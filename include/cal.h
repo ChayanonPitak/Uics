@@ -56,15 +56,13 @@ namespace ical {
             // parser for with-ocr branch **need more work (make it better or cleaner).
             void ocr_parser(str text);
 
-            //
             void reset_exdate();
 
-            //
             void set_exdate(str start, str end);
 
-            void set_range(str start, str end);
+            void append_exdate(str date);
 
-            str get_exdate();
+            void set_range(str start, str end);
 
             str get_startTime();
 

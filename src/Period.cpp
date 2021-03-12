@@ -24,13 +24,11 @@ enum
 
 
 wxBEGIN_EVENT_TABLE(Period, wxPanel)
-	// debug code
-	// EVT_BUTTON(1, Period::onbutton)
-	// end debug code
 	EVT_DATE_CHANGED(ID_PeriodStartDatePick, Period::SetPeriodRange)
 	EVT_DATE_CHANGED(ID_PeriodEndDatePick, Period::SetPeriodRange)
 	EVT_CHECKBOX(ID_SingleDayCheckBox, Period::CheckSingleDay)
 	EVT_BUTTON(ID_ResetDay, Period::ResetField)
+	EVT_BUTTON(ID_AddDay, Period::OnAdd)
 wxEND_EVENT_TABLE()
 
 
@@ -192,7 +190,31 @@ void Period::SetPeriodRange(wxDateEvent& event)
 	event.Skip();
 }
 
-void Period::updateTime_range() {
+void Period::OnAdd(wxCommandEvent& event) 
+{
+	std::string holiday_s = HolidayStartDatePickerCtrl->GetValue().FormatISODate().ToStdString();
+	std::string holiday_e;
+
+	if (HolidayEndDatePickerCtrl->IsEnabled()) 
+		holiday_e = HolidayEndDatePickerCtrl->GetValue().FormatISODate().ToStdString();
+	else 
+		holiday_e = "";
+
+	std::string name = HolidayNameTextCtrl->GetLineText(0).mb_str();
+
+	ical::event h;
+	h.subjectName = name;
+	h.set_exdate(holiday_s, holiday_e);
+
+	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
+	m_parent->holidays.push_back(h);
+
+	std::string t = h.subjectName + " " + h.exdate;
+	HolidayLists->Append(t);
+}
+
+void Period::updateTime_range() 
+{
 	wxDateTime wx_Sd = PeriodStartDatePickerCtrl->GetValue();
  	wxDateTime wx_Ed = PeriodEndDatePickerCtrl->GetValue();
 	wxDateTime wxMid_s = MidtermExaminationStartDatePickerCtrl->GetValue();
@@ -212,9 +234,28 @@ void Period::updateTime_range() {
 	// change all exdate for exam period.
 	for (size_t i = 0; i < m_parent->listSchedule.size(); i++) {
 		m_parent->listSchedule[i].reset_exdate();
-		m_parent->listSchedule[i].set_exdate(Mid_s, Mid_e);
-		m_parent->listSchedule[i].set_exdate(Final_s, Final_e);
+		if (Mid_s == Final_s && Mid_e == Final_e) {
+			m_parent->listSchedule[i].set_exdate(Mid_s, Mid_e);
+		}
+		else {
+			m_parent->listSchedule[i].set_exdate(Mid_s, Mid_e);
+			m_parent->listSchedule[i].set_exdate(Final_s, Final_e);
+		}
+
+		for (size_t j = 0; j < m_parent->holidays.size(); i++) {
+			m_parent->listSchedule[i].append_exdate(m_parent->holidays[i].exdate);
+		}
+
 		m_parent->listSchedule[i].set_range(r_start, r_end);
 	}
-	
+}
+
+void Period::renderList() {
+	HolidayLists->Clear();
+
+	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
+	for (size_t i = 0; i < m_parent->holidays.size(); i++) {
+		std::string t = m_parent->holidays[i].subjectName + " " + m_parent->holidays[i].exdate;
+		HolidayLists->Append(t);
+	}
 }
