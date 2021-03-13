@@ -78,6 +78,10 @@ namespace ical {
         return s;
     }
 
+    int modifyBit(int n, int p, int b) {
+        
+    }
+
 
     event::event() {
         weekstop = "SU";
@@ -161,6 +165,19 @@ namespace ical {
         time.insert(2, ":");
         return time;
     }
+
+    // issue #14 
+
+    void event::set_dayBinary() {
+        str::string in = day;
+        // code
+
+
+
+        //dayBinary = output
+    }
+
+    //
 
 
     // helper function 
