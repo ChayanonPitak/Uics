@@ -79,7 +79,8 @@ namespace ical {
     }
 
     int modifyBit(int n, int p, int b) {
-        
+        int mask = 1 << p;
+        return ((n & ~mask) | (b << p));
     }
 
 
@@ -168,12 +169,26 @@ namespace ical {
 
     // issue #14 
 
-    void event::set_dayBinary() {
-        str::string in = day;
+    void event::set_dayBinary(std::string day) {
         // code
-
-
-
+        unsigned int MO = 0, TU = 0, WE = 0, TH = 0, FR = 0, SA = 0, SU = 0;
+        for (int i = 0; i < day.size(); i++){
+            if (day[i] == 'M') MO += modifyBit(0, 0, 1);
+            else if(day[i] == 'W') WE += modifyBit(0, 2, 1);
+            else if(day[i] == 'F') FR += modifyBit(0, 4, 1); 
+            else if(day[i] == 'T'){
+                if (day[i+1] == 'U') TU += modifyBit(0, 1, 1);
+                else TH += modifyBit(0, 3, 1);
+                 }
+            else{
+                if (day[i] == 'S'){
+                    if (day[i+1] == 'A') SA += modifyBit(0, 5, 1);
+                    else SU += modifyBit(0, 6, 1);
+                }
+            }
+        }
+        unsigned int dayBinary = MO | TU | WE | TH | FR | SA | SU;
+        std::cout << std::bitset<7>(dayBinary);
         //dayBinary = output
     }
 
