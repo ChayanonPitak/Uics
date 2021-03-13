@@ -13,6 +13,7 @@ public:
 	void updateTime_range();
 	void renderList();
 	std::string renderHoliday(ical::event EVENT);
+	void set_rangeVector();
 
 public:
 	//Style

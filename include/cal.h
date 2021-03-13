@@ -65,6 +65,8 @@ namespace ical {
 
             void set_range(str start, str end);
 
+            void set_DT(str start, str end);
+
             str get_startTime();
 
             str get_endTime();

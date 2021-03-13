@@ -152,6 +152,11 @@ namespace ical {
         else exdate += ical::exdate(start,end);
     }
 
+    void event::set_DT(str start, str end) {
+        DTstart = start;
+        DTend = end;
+    }
+
     void event::append_exdate(str date) {
         exdate += ", " + date;
     }
