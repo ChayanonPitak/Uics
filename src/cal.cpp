@@ -78,6 +78,11 @@ namespace ical {
         return s;
     }
 
+    int modifyBit(int n, int p, int b) {
+        int mask = 1 << p;
+        return ((n & ~mask) | (b << p));
+    }
+
 
     event::event() {
         weekstop = "SU";
@@ -147,6 +152,11 @@ namespace ical {
         else exdate += ical::exdate(start,end);
     }
 
+    void event::set_DT(str start, str end) {
+        DTstart = start;
+        DTend = end;
+    }
+
     void event::append_exdate(str date) {
         exdate += ", " + date;
     }
@@ -160,6 +170,27 @@ namespace ical {
         str time = DTend.substr(9, 4);
         time.insert(2, ":");
         return time;
+    }
+
+    // issue #14 
+    void event::set_dayBinary() {
+        unsigned int MO = 0, TU = 0, WE = 0, TH = 0, FR = 0, SA = 0, SU = 0;
+        for (int i = 0; i < day.size(); i++){
+            if (day[i] == 'M') MO += modifyBit(0, 0, 1);
+            else if(day[i] == 'W') WE += modifyBit(0, 2, 1);
+            else if(day[i] == 'F') FR += modifyBit(0, 4, 1); 
+            else if(day[i] == 'T'){
+                if (day[i+1] == 'U') TU += modifyBit(0, 1, 1);
+                else TH += modifyBit(0, 3, 1);
+                 }
+            else{
+                if (day[i] == 'S'){
+                    if (day[i+1] == 'A') SA += modifyBit(0, 5, 1);
+                    else SU += modifyBit(0, 6, 1);
+                }
+            }
+        }
+        dayBinary = MO | TU | WE | TH | FR | SA | SU;
     }
 
 

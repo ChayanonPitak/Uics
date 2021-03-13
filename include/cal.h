@@ -29,6 +29,7 @@ namespace ical {
     str checkbyday(str s);
 
     // ultilty fucntion
+    int modifyBit(int n, int p, int b);
 
 
     class event {
@@ -64,9 +65,13 @@ namespace ical {
 
             void set_range(str start, str end);
 
+            void set_DT(str start, str end);
+
             str get_startTime();
 
             str get_endTime();
+
+            void set_dayBinary();
 
         private:
             friend class boost::serialization::access;

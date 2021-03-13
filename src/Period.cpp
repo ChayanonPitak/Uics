@@ -194,7 +194,6 @@ void Period::OnAdd(wxCommandEvent& event)
 {
 	std::string holiday_s = HolidayStartDatePickerCtrl->GetValue().FormatISODate().ToStdString();
 	std::string holiday_e;
-
 	if (HolidayEndDatePickerCtrl->IsEnabled()) 
 		holiday_e = HolidayEndDatePickerCtrl->GetValue().FormatISODate().ToStdString();
 	else 
@@ -209,18 +208,17 @@ void Period::OnAdd(wxCommandEvent& event)
 	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
 	m_parent->holidays.push_back(h);
 
-	std::string t = h.subjectName + " " + h.exdate;
-	HolidayLists->Append(t);
+	HolidayLists->Append(renderHoliday(h));
 }
 
 void Period::updateTime_range() 
 {
-	wxDateTime wx_Sd = PeriodStartDatePickerCtrl->GetValue();
- 	wxDateTime wx_Ed = PeriodEndDatePickerCtrl->GetValue();
 	wxDateTime wxMid_s = MidtermExaminationStartDatePickerCtrl->GetValue();
 	wxDateTime wxMid_e = MidtermExaminationEndDatePickerCtrl->GetValue();
 	wxDateTime wxFinal_s = FinalExaminationStartDatePickerCtrl->GetValue();
 	wxDateTime wxFinal_e = FinalExaminationEndDatePickerCtrl->GetValue();
+	wxDateTime wx_Sd = PeriodStartDatePickerCtrl->GetValue();
+ 	wxDateTime wx_Ed = PeriodEndDatePickerCtrl->GetValue();
 
 	std::string	Mid_s = wxMid_s.FormatISODate().ToStdString();
 	std::string	Mid_e = wxMid_e.FormatISODate().ToStdString();
@@ -245,9 +243,36 @@ void Period::updateTime_range()
 		for (size_t j = 0; j < m_parent->holidays.size(); i++) {
 			m_parent->listSchedule[i].append_exdate(m_parent->holidays[i].exdate);
 		}
-
 		m_parent->listSchedule[i].set_range(r_start, r_end);
 	}
+}
+
+void Period::set_rangeVector() {
+	wxDateTime wxMid_s = MidtermExaminationStartDatePickerCtrl->GetValue();
+	wxDateTime wxMid_e = MidtermExaminationEndDatePickerCtrl->GetValue();
+	wxDateTime wxFinal_s = FinalExaminationStartDatePickerCtrl->GetValue();
+	wxDateTime wxFinal_e = FinalExaminationEndDatePickerCtrl->GetValue();
+	wxDateTime wx_Sd = PeriodStartDatePickerCtrl->GetValue();
+ 	wxDateTime wx_Ed = PeriodEndDatePickerCtrl->GetValue();
+
+	std::string	Mid_s = wxMid_s.FormatISODate().ToStdString();
+	std::string	Mid_e = wxMid_e.FormatISODate().ToStdString();
+	std::string	Final_s = wxFinal_s.FormatISODate().ToStdString();
+	std::string	Final_e = wxFinal_e.FormatISODate().ToStdString();
+	std::string r_start = wx_Sd.FormatISODate().ToStdString();
+	std::string r_end = wx_Ed.FormatISODate().ToStdString();
+
+	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
+
+	ical::event ev;
+	m_parent->range.clear();
+
+	ev.set_DT(Mid_s, Mid_e);
+	m_parent->range.push_back(ev);
+	ev.set_DT(Final_s, Final_e);
+	m_parent->range.push_back(ev);
+	ev.set_DT(r_start, r_end);
+	m_parent->range.push_back(ev);
 }
 
 void Period::renderList() {
@@ -255,7 +280,61 @@ void Period::renderList() {
 
 	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
 	for (size_t i = 0; i < m_parent->holidays.size(); i++) {
-		std::string t = m_parent->holidays[i].subjectName + " " + m_parent->holidays[i].exdate;
-		HolidayLists->Append(t);
+		HolidayLists->Append(renderHoliday(m_parent->holidays[i]));
 	}
+
+	std::string _mid_s = m_parent->range[0].DTstart;
+	std::string _mid_e = m_parent->range[0].DTend;
+	std::string _final_s = m_parent->range[1].DTstart;
+	std::string _final_e = m_parent->range[1].DTend;
+	std::string _r_s = m_parent->range[2].DTstart;
+	std::string _r_e = m_parent->range[2].DTend;
+	
+	wxDateTime mid_s;
+	wxDateTime mid_e;
+	wxDateTime final_s;
+	wxDateTime final_e;
+	wxDateTime r_s;
+	wxDateTime r_e;
+
+	mid_s.ParseISODate(_mid_s);
+	mid_e.ParseISODate(_mid_e);
+	final_s.ParseISODate(_final_s);
+	final_e.ParseISODate(_final_e);
+	r_s.ParseISODate(_r_s);
+ 	r_e.ParseISODate(_r_e);
+
+	MidtermExaminationStartDatePickerCtrl->SetValue(mid_s);
+	MidtermExaminationEndDatePickerCtrl->SetValue(mid_e);
+	FinalExaminationStartDatePickerCtrl->SetValue(final_s);
+	FinalExaminationEndDatePickerCtrl->SetValue(final_e);
+	PeriodStartDatePickerCtrl->SetValue(r_s);
+ 	PeriodEndDatePickerCtrl->SetValue(r_e);
+
+}
+
+std::string Period::renderHoliday(ical::event EVENT) {
+	std::vector<std::string> date;
+	std::string temp = EVENT.subjectName + " ";
+	std::string d;
+
+	if (EVENT.exdate.size() > 16) {
+		size_t j = 0;
+		for (size_t i = 0; i < EVENT.exdate.size(); i++) {
+			if (EVENT.exdate[i] == ',') {
+				j = i+2;
+				date.push_back(EVENT.exdate.substr(j, 15));
+			}
+		}
+		std::string s = date[0].substr(6, 2)  + "-" + date[0].substr(4, 2) + "-" + date[0].substr(0, 4);
+		std::string e = date[date.size() - 1].substr(6, 2) + "-" + date[date.size() - 1].substr(4, 2) + "-" + date[date.size() - 1].substr(0, 4);
+		d = s + " to " + e;	
+	}
+	else {
+		d = EVENT.exdate.substr(6, 2) + "-" + EVENT.exdate.substr(4, 2) + "-" + EVENT.exdate.substr(0, 4);
+	}
+
+	temp += "[" + d + "]";
+
+	return temp;
 }

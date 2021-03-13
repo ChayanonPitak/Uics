@@ -134,6 +134,7 @@ void mainFrame::OnOpen(wxCommandEvent& event) {
 	ical::loadEvent(midtermExam, ifs);
 	ical::loadEvent(finalExam, ifs);
 	ical::loadEvent(holidays, ifs);
+	ical::loadEvent(range, ifs);
 
 	is_loaded = true;
 	ClassSchedulePanel->renderData();
@@ -145,10 +146,13 @@ void mainFrame::OnSave(wxCommandEvent& event) {
 
 	if (is_loaded == true || is_saved == true) {
 		std::ofstream ofs(recent_path);
+		
+		PeriodPanel->set_rangeVector();
 		ical::saveEvent(listSchedule, ofs);
 		ical::saveEvent(midtermExam, ofs);
 		ical::saveEvent(finalExam, ofs);	
 		ical::saveEvent(holidays, ofs);
+		ical::saveEvent(range, ofs);
 	}
 	else {
 		wxFileDialog
@@ -159,11 +163,13 @@ void mainFrame::OnSave(wxCommandEvent& event) {
 		wxString path = saveFileDialog.GetPath();
 		recent_path = path.mb_str();
 		std::ofstream ofs(recent_path);
-
+		
+		PeriodPanel->set_rangeVector();
 		ical::saveEvent(listSchedule, ofs);
 		ical::saveEvent(midtermExam, ofs);
-		ical::saveEvent(finalExam, ofs);
+		ical::saveEvent(finalExam, ofs);	
 		ical::saveEvent(holidays, ofs);
+		ical::saveEvent(range, ofs);
 
 		is_saved = true;
 	}
@@ -182,11 +188,13 @@ void mainFrame::OnSaveas(wxCommandEvent& event) {
 	wxString path = saveFileDialog.GetPath();
 	recent_path = path.mb_str();
 	std::ofstream ofs(recent_path);
-
+		
+	PeriodPanel->set_rangeVector();
 	ical::saveEvent(listSchedule, ofs);
 	ical::saveEvent(midtermExam, ofs);
-	ical::saveEvent(finalExam, ofs);
+	ical::saveEvent(finalExam, ofs);	
 	ical::saveEvent(holidays, ofs);
+	ical::saveEvent(range, ofs);
 
 	is_saved = true;
 	event.Skip();
