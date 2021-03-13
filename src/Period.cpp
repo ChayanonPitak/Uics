@@ -194,7 +194,6 @@ void Period::OnAdd(wxCommandEvent& event)
 {
 	std::string holiday_s = HolidayStartDatePickerCtrl->GetValue().FormatISODate().ToStdString();
 	std::string holiday_e;
-
 	if (HolidayEndDatePickerCtrl->IsEnabled()) 
 		holiday_e = HolidayEndDatePickerCtrl->GetValue().FormatISODate().ToStdString();
 	else 
@@ -209,8 +208,7 @@ void Period::OnAdd(wxCommandEvent& event)
 	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
 	m_parent->holidays.push_back(h);
 
-	std::string t = h.subjectName + " " + h.exdate;
-	HolidayLists->Append(t);
+	HolidayLists->Append(renderHoliday(h));
 }
 
 void Period::updateTime_range() 
@@ -255,7 +253,32 @@ void Period::renderList() {
 
 	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
 	for (size_t i = 0; i < m_parent->holidays.size(); i++) {
-		std::string t = m_parent->holidays[i].subjectName + " " + m_parent->holidays[i].exdate;
-		HolidayLists->Append(t);
+		HolidayLists->Append(renderHoliday(m_parent->holidays[i]));
 	}
+}
+
+std::string Period::renderHoliday(ical::event EVENT) {
+	std::vector<std::string> date;
+	std::string temp = EVENT.subjectName + " ";
+	std::string d;
+
+	if (EVENT.exdate.size() > 16) {
+		size_t j = 0;
+		for (size_t i = 0; i < EVENT.exdate.size(); i++) {
+			if (EVENT.exdate[i] == ',') {
+				j = i+2;
+				date.push_back(EVENT.exdate.substr(j, 15));
+			}
+		}
+		std::string s = date[0].substr(6, 2)  + "-" + date[0].substr(4, 2) + "-" + date[0].substr(0, 4);
+		std::string e = date[date.size() - 1].substr(6, 2) + "-" + date[date.size() - 1].substr(4, 2) + "-" + date[date.size() - 1].substr(0, 4);
+		d = s + " to " + e;	
+	}
+	else {
+		d = EVENT.exdate.substr(6, 2) + "-" + EVENT.exdate.substr(4, 2) + "-" + EVENT.exdate.substr(0, 4);
+	}
+
+	temp += "[" + d + "]";
+
+	return temp;
 }

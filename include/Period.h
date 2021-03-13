@@ -1,5 +1,6 @@
 #pragma once
 #include "wxcmake.h"
+#include "cal.h"
 #include <wx/wxprec.h>
 #include <wx/datectrl.h>
 #include <wx/dateevt.h>
@@ -11,6 +12,7 @@ public:
 
 	void updateTime_range();
 	void renderList();
+	std::string renderHoliday(ical::event EVENT);
 
 public:
 	//Style
