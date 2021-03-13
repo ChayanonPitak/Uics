@@ -92,7 +92,7 @@ ExamSchedule::ExamSchedule(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoint
 		wxDefaultDateTime,
 		wxPoint(380, 65),
 		wxSize (85, 25),
-		wxDP_DROPDOWN); 
+		wxDP_DROPDOWN);  
 	//buttons
 	AddButton = new wxButton(this, ID_AddEvent,
 		"Add",

@@ -16,7 +16,7 @@ enum
 	ID_Export = 11
 };
 
-wxBEGIN_EVENT_TABLE(mainFrame, wxFrame)
+wxBEGIN_EVENT_TABLE(mainFrame, wxFrame) 
 	EVT_MENU(wxID_ABOUT, mainFrame::OnAbout)
 	EVT_MENU(wxID_EXIT, mainFrame::OnExit)
 	EVT_MENU(wxID_OPEN, mainFrame::OnOpen)
