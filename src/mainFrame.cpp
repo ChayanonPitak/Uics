@@ -54,7 +54,7 @@ mainFrame::mainFrame() : wxFrame(NULL, wxID_ANY, "Uics", wxPoint(50, 50), wxSize
 	menuBar->Append(HelpMenu, "Help");
 	SetMenuBar(menuBar);
 
-	//Panel
+	//Panel 
 	PeriodPanel = new Period(this);						//SemesterPeriod
 	ClassSchedulePanel = new ClassSchedule(this);		//ClassSchedule
 	ExamSchedulePanel = new ExamSchedule(this);			//ExamSchedule

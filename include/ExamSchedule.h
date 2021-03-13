@@ -54,7 +54,7 @@ public:
 	wxListBox*ExamScheduleLists = NULL;
 	
 	wxStaticText* PeriodSelectionLabel = NULL;
-	wxComboBox* PeriodSelection = NULL; //                   
+	wxComboBox* PeriodSelection = NULL;                     
 
 	//wxDECLARE_EVENT_TABLE();
 	void SetTextStyle();
