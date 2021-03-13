@@ -39,8 +39,6 @@ public:
 	wxTimePickerCtrl* StartTimePicker = NULL;
 	wxStaticText* EndTimeLabel = NULL;
 	wxTimePickerCtrl* EndTimePicker = NULL;
-	wxStaticText* DayLabel = NULL;
-	wxCheckBox* SunCheckmark = NULL, * MonCheckmark = NULL, * TueCheckmark = NULL, * WedCheckmark = NULL, * ThuCheckmark = NULL, * FriCheckmark = NULL, * SatCheckmark = NULL;
 	
 	wxStaticText* SelectionLable = NULL;
 	wxDatePickerCtrl* SelectDate = NULL;
@@ -51,23 +49,11 @@ public:
 	wxButton* DeleteButton = NULL;
 	wxButton* DeleteAllButton = NULL;
 	wxMessageDialog* DeleteAllConfirmDialog = NULL;
-	wxListBox*ExamScheduleLists = NULL;
+	wxListBox* MidtermExamScheduleLists = NULL;
+	wxListBox* FinalExamScheduleLists = NULL;
 	
 	wxStaticText* PeriodSelectionLabel = NULL;
-	wxComboBox* PeriodSelection = NULL;                      
+	wxComboBox* PeriodSelection = NULL;     
 
-	//wxDECLARE_EVENT_TABLE();
-	void SetTextStyle();
-	wxString render(ical::event event);
-	void AddSchedule(wxCommandEvent& event);
-	void EditSchedule(wxCommandEvent& event);
-	void DeleteSchedule(wxCommandEvent& event);
-	void DeleteAllSchedule(wxCommandEvent& event);
-	void ResetField(wxCommandEvent& event);
-	void UpdateListSelection(wxCommandEvent& event);
-	void SetItemOnSelect(wxCommandEvent& event);
-
-	
-
-	wxDECLARE_EVENT_TABLE();
+	// wxDECLARE_EVENT_TABLE();
 };
