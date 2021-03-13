@@ -61,7 +61,7 @@ mainFrame::mainFrame() : wxFrame(NULL, wxID_ANY, "Uics", wxPoint(50, 50), wxSize
 	
 
 	//Listbook
-	listBook = new wxListbook(this, wxID_ANY, wxPoint(0, 0), wxSize(1200, 600), wxLB_LEFT);
+	listBook = new wxListbook(this, wxID_ANY, wxPoint(0, 0), wxSize(1200, 1400), wxLB_LEFT);
 	listBook->GetListView()->SetColumnWidth(0, 130);
 	listBook->AddPage(ClassSchedulePanel, "Class Schedule");		//ClassSchedule
 	listBook->AddPage(ExamSchedulePanel, "Examination Schedule");	//ExamSchedule
