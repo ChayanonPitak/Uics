@@ -14,7 +14,7 @@ public:
 
 	ical::event EVENT;
 	unsigned char s_state = 0;
-	
+
 	void updateEvent(ical::event &EVENT);
 	std::string renderSchedule(ical::event EVENT);
 	void renderData();
@@ -59,6 +59,7 @@ public:
 	void AddSchedule(wxCommandEvent& event);
 	void EditSchedule(wxCommandEvent& event);
 	void DeleteSchedule(wxCommandEvent& event);
+	void DeleteAllSchedule(wxCommandEvent& event);
 	void OnC_midterm(wxCommandEvent& event);
 	void OnC_final(wxCommandEvent& event);
 };

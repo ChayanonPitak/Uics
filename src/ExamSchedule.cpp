@@ -23,6 +23,7 @@ wxBEGIN_EVENT_TABLE(ExamSchedule, wxPanel)
 	EVT_BUTTON(ID_AddEvent, ExamSchedule::AddSchedule)
 	EVT_BUTTON(ID_EditEvent, ExamSchedule::EditSchedule)
 	EVT_BUTTON(ID_DeleteEvent, ExamSchedule::DeleteSchedule)
+	EVT_BUTTON(ID_DeleteAllEvent, ExamSchedule::DeleteAllSchedule)
 	EVT_LISTBOX(ID_midtermListbox, ExamSchedule::OnC_midterm)
 	EVT_LISTBOX(ID_finalListbox, ExamSchedule::OnC_final)
 wxEND_EVENT_TABLE()
@@ -124,6 +125,7 @@ ExamSchedule::ExamSchedule(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoint
 	DeleteAllButton = new wxButton(this, ID_DeleteAllEvent,
 		"Delete All",
 		wxPoint(200, 355), wxSize(85, 25));
+	DeleteAllButton->Enable(false);
 
 	//Lists
 	MidtermExamScheduleLists = new wxListBox(this, ID_midtermListbox,
@@ -176,6 +178,7 @@ void ExamSchedule::AddSchedule(wxCommandEvent& event)
 
 	EditButton->Enable(true);
 	DeleteButton->Enable(true);
+	DeleteAllButton->Enable(true);
 	event.Skip();
 }
 
@@ -245,5 +248,30 @@ void ExamSchedule::DeleteSchedule(wxCommandEvent& event)
 		m_parent->finalExam.erase(m_parent->finalExam.begin() + f);
 		FinalExamScheduleLists->Delete(f);
 	}
+
+	if (m_parent->midtermExam.size() == 0 || m_parent->finalExam.size() == 0) {
+		EditButton->Enable(false);
+		DeleteButton->Enable(false);
+		DeleteAllButton->Enable(false);
+	}
+
+	event.Skip();
+}
+
+void ExamSchedule::DeleteAllSchedule(wxCommandEvent& event) {
+	if (wxMessageBox("This will delete all exam schedule, Are you sure?", "Confirm", wxICON_QUESTION|wxYES_NO) != wxYES) {
+		event.Skip();
+		return;
+	}
+	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
+
+	m_parent->midtermExam.clear();
+	m_parent->finalExam.clear();
+	MidtermExamScheduleLists->Clear();
+	FinalExamScheduleLists->Clear();
+
+	EditButton->Enable(false);
+	DeleteButton->Enable(false);
+	DeleteAllButton->Enable(false);
 	event.Skip();
 }
