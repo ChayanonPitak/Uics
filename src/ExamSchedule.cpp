@@ -19,6 +19,7 @@ enum
 
 wxBEGIN_EVENT_TABLE(ExamSchedule, wxPanel)
 	EVT_BUTTON(ID_AddEvent, ExamSchedule::AddSchedule)
+	EVT_BUTTON(ID_EditEvent, ExamSchedule::EditSchedule)
 wxEND_EVENT_TABLE()
 
 
@@ -168,6 +169,7 @@ void ExamSchedule::AddSchedule(wxCommandEvent& event)
 		FinalExamScheduleLists->Append(renderSchedule(EVENT));
 	}
 
+	EditButton->Enable(true);
 	DeleteButton->Enable(true);
 	event.Skip();
 }
@@ -193,4 +195,18 @@ void ExamSchedule::renderData() {
 	}
 }
 
+void ExamSchedule::EditSchedule(wxCommandEvent& event) {
+	wxString p_select = PeriodSelection->GetStringSelection();
+	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
+	if (p_select == "Midterm") {
+		int i = MidtermExamScheduleLists->GetSelection();
+		updateEvent(m_parent->midtermExam[i]);
+		MidtermExamScheduleLists->SetString(i, renderSchedule(m_parent->midtermExam[i]));
+	}
+	if (p_select == "Final") {
+		int i = FinalExamScheduleLists->GetSelection();
+		updateEvent(m_parent->finalExam[i]);
+		FinalExamScheduleLists->SetString(i, renderSchedule(m_parent->finalExam[i]));
+	}
+}
 
