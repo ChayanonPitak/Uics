@@ -22,6 +22,7 @@ enum
 wxBEGIN_EVENT_TABLE(ExamSchedule, wxPanel)
 	EVT_BUTTON(ID_AddEvent, ExamSchedule::AddSchedule)
 	EVT_BUTTON(ID_EditEvent, ExamSchedule::EditSchedule)
+	EVT_BUTTON(ID_DeleteEvent, ExamSchedule::DeleteSchedule)
 	EVT_LISTBOX(ID_midtermListbox, ExamSchedule::OnC_midterm)
 	EVT_LISTBOX(ID_finalListbox, ExamSchedule::OnC_final)
 wxEND_EVENT_TABLE()
@@ -214,16 +215,35 @@ void ExamSchedule::EditSchedule(wxCommandEvent& event)
 		updateEvent(m_parent->finalExam[i]);
 		FinalExamScheduleLists->SetString(i, renderSchedule(m_parent->finalExam[i]));
 	}
+	event.Skip();
 }
 
 void ExamSchedule::OnC_midterm(wxCommandEvent& event) 
 {
 	int i = FinalExamScheduleLists->GetSelection();
 	FinalExamScheduleLists->Deselect(i);
+	s_state = 1;
 }
 
 void ExamSchedule::OnC_final(wxCommandEvent& event) 
 {
 	int i = MidtermExamScheduleLists->GetSelection();
 	MidtermExamScheduleLists->Deselect(i);
+	s_state = 2;
+}
+
+void ExamSchedule::DeleteSchedule(wxCommandEvent& event)
+{
+	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
+	if (s_state == 1) {
+		int m = MidtermExamScheduleLists->GetSelection();
+		m_parent->midtermExam.erase(m_parent->midtermExam.begin() + m);
+		MidtermExamScheduleLists->Delete(m);
+	}
+	if (s_state == 2) {
+		int f = FinalExamScheduleLists->GetSelection();
+		m_parent->finalExam.erase(m_parent->finalExam.begin() + f);
+		FinalExamScheduleLists->Delete(f);
+	}
+	event.Skip();
 }

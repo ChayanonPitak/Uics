@@ -10,10 +10,11 @@
 class ExamSchedule : public wxPanel
 {
 public:
-	ExamSchedule(wxWindow* parent);
-	std::vector<ical::event> listSchedule;
-	
+	ExamSchedule(wxWindow* parent);\
+
 	ical::event EVENT;
+	unsigned char s_state = 0;
+	
 	void updateEvent(ical::event &EVENT);
 	std::string renderSchedule(ical::event EVENT);
 	void renderData();
@@ -57,6 +58,7 @@ public:
 	wxDECLARE_EVENT_TABLE();
 	void AddSchedule(wxCommandEvent& event);
 	void EditSchedule(wxCommandEvent& event);
+	void DeleteSchedule(wxCommandEvent& event);
 	void OnC_midterm(wxCommandEvent& event);
 	void OnC_final(wxCommandEvent& event);
 };
