@@ -47,13 +47,23 @@ public:
 	wxButton* EditButton = NULL;
 	wxButton* ResetButton = NULL;
 	wxButton* DeleteButton = NULL;
+	
 	wxButton* DeleteAllButton = NULL;
+
 	wxMessageDialog* DeleteAllConfirmDialog = NULL;
 	wxListBox* MidtermExamScheduleLists = NULL;
 	wxListBox* FinalExamScheduleLists = NULL;
 	
 	wxStaticText* PeriodSelectionLabel = NULL;
-	wxComboBox* PeriodSelection = NULL;     
+	wxComboBox* PeriodSelection = NULL;    
+
+	wxButton* DeleteAllButtonTwo = NULL;
+	wxButton* AddButtonTwo = NULL;
+	wxButton* EditButtonTwo = NULL;
+	wxButton* ResetButtonTwo = NULL;
+	wxButton* DeleteButtonTwo = NULL;
+
+	
 
 	wxDECLARE_EVENT_TABLE();
 	void AddSchedule(wxCommandEvent& event);

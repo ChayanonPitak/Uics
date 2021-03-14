@@ -15,6 +15,7 @@ enum
 	ID_EditEvent = 112,
 	ID_DeleteEvent = 113,
 	ID_DeleteAllEvent = 114,
+	ID_DeleteAllEvent2 = 69,
 	ID_midtermListbox = 115,
 	ID_finalListbox = 116
 };
@@ -121,18 +122,42 @@ ExamSchedule::ExamSchedule(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoint
 		wxPoint(310, 110), wxSize(100, 25));
 	DeleteButton = new wxButton(this, ID_DeleteEvent,
 		"Delete Selected",
-		wxPoint(100, 355), wxSize(85, 25));
+		wxPoint(100, 500), wxSize(85, 25));
 	DeleteButton->Enable(false);
 	DeleteAllButton = new wxButton(this, ID_DeleteAllEvent,
 		"Delete All",
-		wxPoint(200, 355), wxSize(85, 25));
+		wxPoint(200, 500), wxSize(85, 25));
 	DeleteAllButton->Enable(false);
+
+		DeleteAllButtonTwo = new wxButton(this, ID_DeleteAllEvent2,
+		"Delete All",
+		wxPoint(550,500),
+		wxSize(85,25));
+	DeleteAllButtonTwo->Enable(false);
+	
+
+	AddButtonTwo = new wxButton(this, ID_AddEvent,
+		"Add",
+		wxPoint(450, 110), wxSize(85, 25));
+	EditButtonTwo = new wxButton(this, ID_EditEvent,
+		"Edit Selected",
+		wxPoint(550, 110), wxSize(85, 25));
+	EditButtonTwo->Enable(false);
+	ResetButtonTwo = new wxButton(this, ID_ResetEvent,
+		"Reset all field",
+		wxPoint(660, 110), wxSize(100, 25));
+	DeleteButtonTwo = new wxButton(this, ID_DeleteEvent,
+		"Delete Selected",
+		wxPoint(450, 500), wxSize(85, 25));
+	DeleteButtonTwo->Enable(false);
 
 	//Lists
 	MidtermExamScheduleLists = new wxListBox(this, ID_midtermListbox,
 		wxPoint(100, 140), wxSize(250, 350), 0, NULL, wxLB_SINGLE | wxLB_HSCROLL);
 	FinalExamScheduleLists = new wxListBox(this, ID_finalListbox,
-		wxPoint(375, 140), wxSize(250, 350), 0, NULL, wxLB_SINGLE | wxLB_HSCROLL);
+		wxPoint(450, 140), wxSize(250, 350), 0, NULL, wxLB_SINGLE | wxLB_HSCROLL);
+
+	
 }
 
 void ExamSchedule::SetStyle()
