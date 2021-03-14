@@ -24,6 +24,7 @@ wxBEGIN_EVENT_TABLE(ExamSchedule, wxPanel)
 	EVT_BUTTON(ID_EditEvent, ExamSchedule::EditSchedule)
 	EVT_BUTTON(ID_DeleteEvent, ExamSchedule::DeleteSchedule)
 	EVT_BUTTON(ID_DeleteAllEvent, ExamSchedule::DeleteAllSchedule)
+	EVT_BUTTON(ID_ResetEvent, ExamSchedule::ResetField)
 	EVT_LISTBOX(ID_midtermListbox, ExamSchedule::OnC_midterm)
 	EVT_LISTBOX(ID_finalListbox, ExamSchedule::OnC_final)
 wxEND_EVENT_TABLE()
@@ -273,5 +274,18 @@ void ExamSchedule::DeleteAllSchedule(wxCommandEvent& event) {
 	EditButton->Enable(false);
 	DeleteButton->Enable(false);
 	DeleteAllButton->Enable(false);
+	event.Skip();
+}
+
+void ExamSchedule::ResetField(wxCommandEvent& event)
+{
+	SubjectIDTextCtrl->SetValue("");
+	SubjectNameTextCtrl->SetValue("");
+	LocationtextCtrl->SetValue("");
+	NoteNameTextCtrl->SetValue("");
+
+	StartTimePicker->SetTime(0,0,0);
+	EndTimePicker->SetTime(0,0,0);
+
 	event.Skip();
 }

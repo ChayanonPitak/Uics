@@ -10,7 +10,7 @@
 class ExamSchedule : public wxPanel
 {
 public:
-	ExamSchedule(wxWindow* parent);\
+	ExamSchedule(wxWindow* parent);
 
 	ical::event EVENT;
 	unsigned char s_state = 0;
@@ -60,6 +60,7 @@ public:
 	void EditSchedule(wxCommandEvent& event);
 	void DeleteSchedule(wxCommandEvent& event);
 	void DeleteAllSchedule(wxCommandEvent& event);
+	void ResetField(wxCommandEvent& event);
 	void OnC_midterm(wxCommandEvent& event);
 	void OnC_final(wxCommandEvent& event);
 };
