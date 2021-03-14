@@ -12,7 +12,7 @@ public :
 	wxStaticText* HeaderText = NULL;
 	wxStaticText* HeadText = NULL;
 	wxStaticText* Text = NULL;
-	wxStaticText* SpacialText = NULL;
+	wxStaticText* SpecialText = NULL;
 	//Style
 	wxFont HeaderFont;
 	wxFont HeaderFont_01;
