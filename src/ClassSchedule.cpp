@@ -204,12 +204,6 @@ void ClassSchedule::AddSchedule(wxCommandEvent& event) {
 	// append copy of event obj to list
 	m_parent->listSchedule.push_back(EVENT);
 
-	// debug code
-	/*
-	wxStreamToTextRedirector redirect(debug);
-	std::cout << m_parent->listSchedule.size();
-	*/
-
 	// render 
 	ClassScheduleLists->Append(renderSchedule(EVENT));
 	ClassScheduleLists->SetSelection(ClassScheduleLists->GetCount() - 1);

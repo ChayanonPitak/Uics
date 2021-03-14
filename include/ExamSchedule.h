@@ -14,15 +14,14 @@ public:
 	std::vector<ical::event> listSchedule;
 	
 	ical::event EVENT;
-	void updateEvent(ical::event event);
-	void renderSchedule();
-	
+	void updateEvent(ical::event &EVENT);
+	std::string renderSchedule(ical::event EVENT);
+	void renderData();
 
+	
 public:
 	//Style
 	wxFont Header1, Header2, TextCtrl1, TextCtrl2;
-
-
 
 	//Functions
 	void SetStyle();
@@ -55,5 +54,6 @@ public:
 	wxStaticText* PeriodSelectionLabel = NULL;
 	wxComboBox* PeriodSelection = NULL;     
 
-	// wxDECLARE_EVENT_TABLE();
+	wxDECLARE_EVENT_TABLE();
+	void AddSchedule(wxCommandEvent& event);
 };

@@ -44,10 +44,11 @@ namespace ical {
             unsigned int dayBinary;
             str DTstart;
             str DTend;
-            str untillD;
             str exdate;
             str startD = getTstamp() + "000000";
-            
+            str untillD;
+            str note;
+
             // default constructor
             event();
 
@@ -66,6 +67,8 @@ namespace ical {
             void set_range(str start, str end);
 
             void set_DT(str start, str end);
+
+            void set_D(str date);
 
             str get_startTime();
 

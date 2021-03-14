@@ -5,6 +5,8 @@
 #include <wx/valnum.h>
 #include <wx/wxprec.h>
 
+#include "mainFrame.h"
+
 enum
 {
 	ID_AddEvent = 101,
@@ -15,12 +17,15 @@ enum
 	ID_DeleteAllEvent = 114
 };
 
+wxBEGIN_EVENT_TABLE(ExamSchedule, wxPanel)
+	EVT_BUTTON(ID_AddEvent, ExamSchedule::AddSchedule)
+wxEND_EVENT_TABLE()
 
 
 ExamSchedule::ExamSchedule(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoint(0, 0), wxSize(500, 600))
 {	
 	SetStyle();
-	wxIntegerValidator<int>digitvalidator;
+	wxIntegerValidator<int> digitvalidator;
 	//Period Selection
 	wxString InitChoices[2] = { "Midterm", "Final" };
 	PeriodSelection = new wxComboBox(this, wxID_ANY,
@@ -120,6 +125,7 @@ ExamSchedule::ExamSchedule(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoint
 	FinalExamScheduleLists = new wxListBox(this, ID_ClassScheduleListBox,
 		wxPoint(375, 140), wxSize(250, 350), 0, NULL, wxLB_SINGLE | wxLB_HSCROLL);
 }
+
 void ExamSchedule::SetStyle()
 {
 	Header1 = wxFont(15, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
@@ -127,3 +133,64 @@ void ExamSchedule::SetStyle()
 	TextCtrl1 = wxFont(10, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 	TextCtrl2 = wxFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 }
+
+void ExamSchedule::updateEvent(ical::event &EVENT) 
+{
+	int StartHr, StartMin, StartSec;
+	int EndHr, EndMin, EndSec;
+	//Get schedule time.
+	StartTimePicker->GetTime(&StartHr, &StartMin, &StartSec);
+	EndTimePicker->GetTime(&EndHr, &EndMin, &EndSec);	
+
+	wxDateTime date = SelectDate->GetValue();
+
+	EVENT.set_D(date.FormatISODate().ToStdString());
+	EVENT.subjectID = SubjectIDTextCtrl->GetLineText(0).mb_str();
+	EVENT.subjectName = SubjectNameTextCtrl->GetLineText(0).mb_str();
+	EVENT.location = std::string((LocationtextCtrl->GetLineText(0)).mb_str()); 
+	EVENT.DTstart = ical::checkDT(StartHr, StartMin, StartSec);
+	EVENT.DTend = ical::checkDT(EndHr, EndMin, EndSec);
+	EVENT.note = NoteNameTextCtrl->GetLineText(0).mb_str();
+}
+
+void ExamSchedule::AddSchedule(wxCommandEvent& event) 
+{
+	updateEvent(EVENT);
+
+	wxString p_select = PeriodSelection->GetStringSelection();
+	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
+	if (p_select == "Midterm") {
+		m_parent->midtermExam.push_back(EVENT);
+		MidtermExamScheduleLists->Append(renderSchedule(EVENT));
+	}
+	if (p_select == "Final") {
+		m_parent->finalExam.push_back(EVENT);
+		FinalExamScheduleLists->Append(renderSchedule(EVENT));
+	}
+
+	DeleteButton->Enable(true);
+	event.Skip();
+}
+
+std::string ExamSchedule::renderSchedule(ical::event EVENT) 
+{
+	std::string temp;
+	temp = EVENT.subjectID + "  " + EVENT.subjectName + "  " + EVENT.location + "  " + EVENT.startD + "  " + EVENT.get_startTime() + "  " + EVENT.get_endTime() + " " + EVENT.note;
+	return temp;
+}
+
+void ExamSchedule::renderData() {
+	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
+
+	MidtermExamScheduleLists->Clear();
+	FinalExamScheduleLists->Clear();
+	
+	for (size_t i = 0; i < m_parent->midtermExam.size(); i++) {
+		MidtermExamScheduleLists->Append(renderSchedule(m_parent->midtermExam[i]));
+	}
+	for (size_t i = 0; i < m_parent->finalExam.size(); i++) {
+		FinalExamScheduleLists->Append(renderSchedule(m_parent->finalExam[i]));
+	}
+}
+
+

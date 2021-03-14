@@ -157,6 +157,12 @@ namespace ical {
         DTend = end;
     }
 
+    void event::set_D(str date) {
+        date.erase(remove(date.begin(), date.end(), '-'), date.end());
+        startD = date + "T000000";
+        untillD = date + "T235959";
+    }
+
     void event::append_exdate(str date) {
         exdate += ", " + date;
     }

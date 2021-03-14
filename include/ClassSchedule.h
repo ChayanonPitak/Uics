@@ -12,7 +12,8 @@ public :
 	ical::event EVENT;
 	void updateEvent(ical::event &event);
 	void renderData();
-	
+	wxString renderSchedule(ical::event EVENT);
+
 public :
 	//Style
 	wxFont Header1, Header2, TextCtrl1, TextCtrl2;
@@ -39,8 +40,8 @@ public :
 	wxListBox* ClassScheduleLists = NULL;
 
 	//Functions
+	wxDECLARE_EVENT_TABLE();
 	void SetTextStyle();
-	wxString renderSchedule(ical::event EVENT);
 	void AddSchedule(wxCommandEvent& event);
 	void EditSchedule(wxCommandEvent& event);
 	void DeleteSchedule(wxCommandEvent& event);
@@ -49,8 +50,4 @@ public :
 	void UpdateListSelection(wxCommandEvent& event);
 	void SetItemOnSelect(wxCommandEvent& event);
 
-	// debug code
-	wxDECLARE_EVENT_TABLE();
-	wxTextCtrl* debug = NULL;
-	wxButton* dbutton = NULL;
 };

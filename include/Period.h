@@ -11,7 +11,7 @@ public:
 	Period(wxWindow* parent);
 
 	void updateTime_range();
-	void renderList();
+	void renderData();
 	std::string renderHoliday(ical::event EVENT);
 	void set_rangeVector();
 

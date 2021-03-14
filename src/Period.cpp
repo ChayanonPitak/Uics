@@ -275,7 +275,7 @@ void Period::set_rangeVector() {
 	m_parent->range.push_back(ev);
 }
 
-void Period::renderList() {
+void Period::renderData() {
 	HolidayLists->Clear();
 
 	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
