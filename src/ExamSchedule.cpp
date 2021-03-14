@@ -14,12 +14,16 @@ enum
 	ID_ClassScheduleListBox = 111,
 	ID_EditEvent = 112,
 	ID_DeleteEvent = 113,
-	ID_DeleteAllEvent = 114
+	ID_DeleteAllEvent = 114,
+	ID_midtermListbox = 115,
+	ID_finalListbox = 116
 };
 
 wxBEGIN_EVENT_TABLE(ExamSchedule, wxPanel)
 	EVT_BUTTON(ID_AddEvent, ExamSchedule::AddSchedule)
 	EVT_BUTTON(ID_EditEvent, ExamSchedule::EditSchedule)
+	EVT_LISTBOX(ID_midtermListbox, ExamSchedule::OnC_midterm)
+	EVT_LISTBOX(ID_finalListbox, ExamSchedule::OnC_final)
 wxEND_EVENT_TABLE()
 
 
@@ -121,9 +125,9 @@ ExamSchedule::ExamSchedule(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoint
 		wxPoint(200, 355), wxSize(85, 25));
 
 	//Lists
-	MidtermExamScheduleLists = new wxListBox(this, ID_ClassScheduleListBox,
+	MidtermExamScheduleLists = new wxListBox(this, ID_midtermListbox,
 		wxPoint(100, 140), wxSize(250, 350), 0, NULL, wxLB_SINGLE | wxLB_HSCROLL);
-	FinalExamScheduleLists = new wxListBox(this, ID_ClassScheduleListBox,
+	FinalExamScheduleLists = new wxListBox(this, ID_finalListbox,
 		wxPoint(375, 140), wxSize(250, 350), 0, NULL, wxLB_SINGLE | wxLB_HSCROLL);
 }
 
@@ -181,7 +185,8 @@ std::string ExamSchedule::renderSchedule(ical::event EVENT)
 	return temp;
 }
 
-void ExamSchedule::renderData() {
+void ExamSchedule::renderData() 
+{
 	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
 
 	MidtermExamScheduleLists->Clear();
@@ -195,7 +200,8 @@ void ExamSchedule::renderData() {
 	}
 }
 
-void ExamSchedule::EditSchedule(wxCommandEvent& event) {
+void ExamSchedule::EditSchedule(wxCommandEvent& event) 
+{
 	wxString p_select = PeriodSelection->GetStringSelection();
 	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
 	if (p_select == "Midterm") {
@@ -210,3 +216,14 @@ void ExamSchedule::EditSchedule(wxCommandEvent& event) {
 	}
 }
 
+void ExamSchedule::OnC_midterm(wxCommandEvent& event) 
+{
+	int i = FinalExamScheduleLists->GetSelection();
+	FinalExamScheduleLists->Deselect(i);
+}
+
+void ExamSchedule::OnC_final(wxCommandEvent& event) 
+{
+	int i = MidtermExamScheduleLists->GetSelection();
+	MidtermExamScheduleLists->Deselect(i);
+}

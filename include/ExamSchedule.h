@@ -57,4 +57,6 @@ public:
 	wxDECLARE_EVENT_TABLE();
 	void AddSchedule(wxCommandEvent& event);
 	void EditSchedule(wxCommandEvent& event);
+	void OnC_midterm(wxCommandEvent& event);
+	void OnC_final(wxCommandEvent& event);
 };
