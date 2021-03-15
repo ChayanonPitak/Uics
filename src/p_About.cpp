@@ -6,7 +6,7 @@
 p_About::p_About(wxWindow* parent) :wxFrame(parent, wxID_ANY, "About", wxPoint(150, 150), wxSize(500, 500))
 {   
 	//Panel
-	p_AboutPanel = new p_AboutPanel(this);
+	_p_AboutPanel = new p_AboutPanel(this);
 }
 
 p_AboutPanel::p_AboutPanel(wxWindow* parent):wxPanel(parent,wxID_ANY, wxPoint(150, 150), wxSize(500, 500)){

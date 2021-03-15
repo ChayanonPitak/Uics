@@ -30,7 +30,7 @@ public:
 
 
 	//Panel
-	p_AboutPanel* p_AboutPanel = NULL;
+	p_AboutPanel* _p_AboutPanel = NULL;
 
 	wxGridSizer* HeaderHerderTextsize = nullptr;
 };
