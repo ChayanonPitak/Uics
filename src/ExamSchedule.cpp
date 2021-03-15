@@ -247,6 +247,7 @@ void ExamSchedule::OnC_midterm(wxCommandEvent& event)
 	int i = FinalExamScheduleLists->GetSelection();
 	FinalExamScheduleLists->Deselect(i);
 	s_state = 1;
+	DeleteButton->Enable(true);
 }
 
 void ExamSchedule::OnC_final(wxCommandEvent& event) 
@@ -254,6 +255,7 @@ void ExamSchedule::OnC_final(wxCommandEvent& event)
 	int i = MidtermExamScheduleLists->GetSelection();
 	MidtermExamScheduleLists->Deselect(i);
 	s_state = 2;
+	DeleteButton->Enable(true);
 }
 
 void ExamSchedule::DeleteSchedule(wxCommandEvent& event)
@@ -270,11 +272,12 @@ void ExamSchedule::DeleteSchedule(wxCommandEvent& event)
 		FinalExamScheduleLists->Delete(f);
 	}
 
-	if (m_parent->midtermExam.size() == 0 || m_parent->finalExam.size() == 0) {
+	if (m_parent->midtermExam.size() == 0 && m_parent->finalExam.size() == 0) {
 		EditButton->Enable(false);
 		DeleteButton->Enable(false);
 		DeleteAllButton->Enable(false);
 	}
+	DeleteButton->Enable(false);
 
 	event.Skip();
 }

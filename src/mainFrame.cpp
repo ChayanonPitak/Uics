@@ -27,7 +27,7 @@ wxBEGIN_EVENT_TABLE(mainFrame, wxFrame)
 	EVT_CLOSE(mainFrame::OnClose)
 wxEND_EVENT_TABLE()
 
-mainFrame::mainFrame() : wxFrame(NULL, wxID_ANY, "Uics", wxPoint(50, 50), wxSize(1000, 600), wxDEFAULT_FRAME_STYLE & ~wxRESIZE_BORDER)
+mainFrame::mainFrame() : wxFrame(NULL, wxID_ANY, "Uics", wxPoint(50, 50), wxSize(1000, 650), wxDEFAULT_FRAME_STYLE & ~wxRESIZE_BORDER)
 {
 	SetStyle();
 	//Menu
