@@ -23,7 +23,6 @@ wxBEGIN_EVENT_TABLE(ClassSchedule, wxPanel)
 	EVT_BUTTON(ID_DeleteEvent, ClassSchedule::DeleteSchedule)
 	EVT_BUTTON(ID_DeleteAllEvent, ClassSchedule::DeleteAllSchedule)
 	EVT_LISTBOX(ID_ClassScheduleListBox, ClassSchedule::UpdateListSelection)
-	EVT_LISTBOX_DCLICK(ID_ClassScheduleListBox, ClassSchedule::SetItemOnSelect)
 wxEND_EVENT_TABLE()
 
 
@@ -226,10 +225,13 @@ void ClassSchedule::EditSchedule(wxCommandEvent& event) {
 	event.Skip();
 }
 void ClassSchedule::DeleteSchedule(wxCommandEvent& event) {
+	
 	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
 	int i = ClassScheduleLists->GetSelection();
 	m_parent->listSchedule.erase(m_parent->listSchedule.begin() + i);
 	ClassScheduleLists->Delete(i);
+	DeleteButton->Enable(false);
+	EditButton->Enable(false);
 	event.Skip();
 }
 void ClassSchedule::DeleteAllSchedule(wxCommandEvent& event) {
@@ -248,11 +250,12 @@ void ClassSchedule::DeleteAllSchedule(wxCommandEvent& event) {
 
 // Enable edit button after select an item on the list.
 void ClassSchedule::UpdateListSelection(wxCommandEvent& event) {
+	SetItemOnSelect();
 	EditButton->Enable(true);
 	DeleteButton->Enable(true);
 	event.Skip();
 }
-void ClassSchedule::SetItemOnSelect(wxCommandEvent& event) {
+void ClassSchedule::SetItemOnSelect() {
 	// update info on all textctrl
 	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
 	int i = ClassScheduleLists->GetSelection();
@@ -273,8 +276,6 @@ void ClassSchedule::SetItemOnSelect(wxCommandEvent& event) {
 	FriCheckmark->SetValue(ical::checkbyday(ev.dayBinary, 4));
 	SatCheckmark->SetValue(ical::checkbyday(ev.dayBinary, 5));
 	SunCheckmark->SetValue(ical::checkbyday(ev.dayBinary, 6));
-	
-	event.Skip();
 }
 
 wxString ClassSchedule::renderSchedule(ical::event EVENT) {

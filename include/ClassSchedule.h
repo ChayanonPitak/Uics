@@ -13,6 +13,7 @@ public :
 	void updateEvent(ical::event &event);
 	void renderData();
 	wxString renderSchedule(ical::event EVENT);
+	void SetItemOnSelect();
 
 public :
 	//Style
@@ -48,6 +49,4 @@ public :
 	void DeleteAllSchedule(wxCommandEvent& event);
 	void ResetField(wxCommandEvent& event);
 	void UpdateListSelection(wxCommandEvent& event);
-	void SetItemOnSelect(wxCommandEvent& event);
-
 };
