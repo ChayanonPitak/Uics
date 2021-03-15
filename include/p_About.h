@@ -2,11 +2,10 @@
 #include "wxcmake.h"
 #include <wx/wxprec.h>
 
-class p_About : public wxFrame
+class p_AboutPanel : public wxPanel 
 {
 public:
-	p_About(wxWindow* parent);
-public :
+	p_AboutPanel(wxWindow* parent);
 	//Text
 	wxStaticText* BigHeaderText = NULL;
 	wxStaticText* HeaderText = NULL;
@@ -21,7 +20,17 @@ public :
 	wxFont NormalFont_02;
 	wxFont SpecialFont_Head;
 	wxFont SpecialFont_Text;
+};
+
+class p_About : public wxFrame
+{
+public:
+	p_About(wxWindow* parent);
+public:
+
+
+	//Panel
+	p_AboutPanel* p_AboutPanel = NULL;
 
 	wxGridSizer* HeaderHerderTextsize = nullptr;
 };
-

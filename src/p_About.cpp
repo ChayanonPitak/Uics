@@ -1,17 +1,23 @@
  #include "p_About.h"
 
 #include <wx/wxprec.h>
+#include <wx/window.h>//for back ground color
 
 p_About::p_About(wxWindow* parent) :wxFrame(parent, wxID_ANY, "About", wxPoint(150, 150), wxSize(500, 500))
-{
+{   
+	//Panel
+	p_AboutPanel = new p_AboutPanel(this);
+}
+
+p_AboutPanel::p_AboutPanel(wxWindow* parent):wxPanel(parent,wxID_ANY, wxPoint(150, 150), wxSize(500, 500)){
 	//----------------------------------------Font------------------------------------------------------
-	HeaderFont = wxFont(18, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
-	HeaderFont_01 = wxFont(13, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
-	HeaderFont_02 = wxFont(11, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
-	NormalFont_01 = wxFont(11, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-	NormalFont_02 = wxFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-	SpecialFont_Head = wxFont(18, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_LIGHT);
-	SpecialFont_Text = wxFont(10, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_LIGHT);
+	HeaderFont = wxFont(18, wxFONTFAMILY_SCRIPT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
+	HeaderFont_01 = wxFont(13, wxFONTFAMILY_SCRIPT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
+	HeaderFont_02 = wxFont(11, wxFONTFAMILY_SCRIPT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
+	NormalFont_01 = wxFont(11, wxFONTFAMILY_SCRIPT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+	NormalFont_02 = wxFont(8, wxFONTFAMILY_SCRIPT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+	SpecialFont_Head = wxFont(18, wxFONTFAMILY_SCRIPT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_LIGHT);
+	SpecialFont_Text = wxFont(10, wxFONTFAMILY_SCRIPT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_LIGHT);
 	//----------------------------------------Font------------------------------------------------------
 	//BigHead------------------------------
 
@@ -72,7 +78,7 @@ p_About::p_About(wxWindow* parent) :wxFrame(parent, wxID_ANY, "About", wxPoint(1
 	HeadText->SetFont(HeaderFont_02);
 	SpecialText->SetFont(SpecialFont_Text);
 	HeadText = new wxStaticText(this, wxID_ANY, "Last upadate:", wxPoint(30, 130 + plus2), wxSize(85, 25));
-	SpecialText = new wxStaticText(this, wxID_ANY, "3/14/2021", wxPoint(130, 132 + plus2), wxSize(85, 25));
+	SpecialText = new wxStaticText(this, wxID_ANY, "3/15/2021", wxPoint(130, 132 + plus2), wxSize(85, 25));
 	HeadText->SetFont(HeaderFont_02);
 	SpecialText->SetFont(SpecialFont_Text);
 }
