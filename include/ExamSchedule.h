@@ -58,9 +58,7 @@ public:
 	wxComboBox* PeriodSelection = NULL;    
 
 	wxButton* DeleteAllButtonTwo = NULL;
-	wxButton* AddButtonTwo = NULL;
-	wxButton* EditButtonTwo = NULL;
-	wxButton* ResetButtonTwo = NULL;
+
 	wxButton* DeleteButtonTwo = NULL;
 
 	
