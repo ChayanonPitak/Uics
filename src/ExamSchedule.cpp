@@ -119,7 +119,7 @@ ExamSchedule::ExamSchedule(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoint
 	EditButton->Enable(false);
 	ResetButton = new wxButton(this, ID_ResetEvent,
 		"Reset all field",
-		wxPoint(10, 340), wxSize(90, 25));
+		wxPoint(10, 340), wxSize(85, 25));
 	DeleteButton = new wxButton(this, ID_DeleteEvent,
 		"Delete Selected",
 		wxPoint(10, 440), wxSize(85, 25));

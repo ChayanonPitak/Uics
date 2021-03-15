@@ -62,7 +62,7 @@ public:
 	wxButton* DeleteButtonTwo = NULL;
 
 	wxStaticText* MidtermLable = NULL;
-	wxStaticText* FinalLable = NULL;
+	wxStaticText* FinalLable = NULL; 
 
 
 
