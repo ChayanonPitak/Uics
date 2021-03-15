@@ -76,7 +76,7 @@ ExamSchedule::ExamSchedule(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoint
 	Note->SetFont(Header2);
 	NoteNameTextCtrl = new wxTextCtrl(this, wxID_ANY,
 		"",
-		wxPoint(540, 25), wxSize(250, 25),
+		wxPoint(540, 25), wxSize(250, 100),
 		wxTE_MULTILINE);
 	NoteNameTextCtrl->SetFont(TextCtrl2);
 
@@ -112,17 +112,17 @@ ExamSchedule::ExamSchedule(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoint
 	//buttons
 	AddButton = new wxButton(this, ID_AddEvent,
 		"Add",
-		wxPoint(100, 110), wxSize(85, 25));
+		wxPoint(10, 140), wxSize(85, 25));
 	EditButton = new wxButton(this, ID_EditEvent,
 		"Edit Selected",
-		wxPoint(200, 110), wxSize(85, 25));
+		wxPoint(10, 240), wxSize(85, 25));
 	EditButton->Enable(false);
 	ResetButton = new wxButton(this, ID_ResetEvent,
 		"Reset all field",
-		wxPoint(310, 110), wxSize(100, 25));
+		wxPoint(10, 340), wxSize(90, 25));
 	DeleteButton = new wxButton(this, ID_DeleteEvent,
 		"Delete Selected",
-		wxPoint(450, 110), wxSize(85, 25));
+		wxPoint(10, 440), wxSize(85, 25));
 	DeleteButton->Enable(false);
 	DeleteAllButton = new wxButton(this, ID_DeleteAllEvent,
 		"Delete All",
@@ -134,6 +134,17 @@ ExamSchedule::ExamSchedule(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoint
 		wxPoint(450,500),
 		wxSize(85,25));
 	DeleteAllButtonTwo->Enable(false);
+
+	MidtermLable = new wxStaticText(this, wxID_ANY,
+	"Midterm Exam",
+	wxPoint(100,120));
+	MidtermLable->SetFont(TextCtrl2);
+
+	FinalLable = new wxStaticText(this, wxID_ANY,
+	"Final Exam",
+	wxPoint(450,120));
+	FinalLable->SetFont(TextCtrl2);
+
 	
 
 	//Lists
@@ -142,7 +153,6 @@ ExamSchedule::ExamSchedule(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoint
 	FinalExamScheduleLists = new wxListBox(this, ID_finalListbox,
 		wxPoint(450, 140), wxSize(250, 350), 0, NULL, wxLB_SINGLE | wxLB_HSCROLL);
 
-	
 }
 
 void ExamSchedule::SetStyle()

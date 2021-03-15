@@ -61,6 +61,11 @@ public:
 
 	wxButton* DeleteButtonTwo = NULL;
 
+	wxStaticText* MidtermLable = NULL;
+	wxStaticText* FinalLable = NULL;
+
+
+
 	
 
 	wxDECLARE_EVENT_TABLE();
