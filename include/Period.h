@@ -10,6 +10,8 @@ class Period : public wxPanel
 public:
 	Period(wxWindow* parent);
 
+	ical::event H;
+	void updateH_event(ical::event &EVENT);
 	void updateTime_range();
 	void renderData();
 	std::string renderHoliday(ical::event EVENT);

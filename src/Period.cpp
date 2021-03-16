@@ -194,7 +194,7 @@ void Period::SetPeriodRange(wxDateEvent& event)
 	event.Skip();
 }
 
-void Period::OnAdd(wxCommandEvent& event) 
+void Period::updateH_event(ical::event &EVENT)
 {
 	std::string holiday_s = HolidayStartDatePickerCtrl->GetValue().FormatISODate().ToStdString();
 	std::string holiday_e;
@@ -205,13 +205,16 @@ void Period::OnAdd(wxCommandEvent& event)
 
 	std::string name = HolidayNameTextCtrl->GetLineText(0).ToStdString();
 
-	ical::event h;
-	h.subjectName = name;
-	h.set_exdate(holiday_s, holiday_e);
+	EVENT.subjectName = name;
+	EVENT.set_exdate(holiday_s, holiday_e);
+}
 
-	const mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
-	m_parent->holidays.push_back(h);
-	HolidayLists->Append(renderHoliday(h));
+void Period::OnAdd(wxCommandEvent& event) 
+{
+	updateH_event(H);
+	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
+	m_parent->holidays.push_back(H);
+	HolidayLists->Append(renderHoliday(H));
 
 	DeleteAllButton->Enable(true);
 	event.Skip();
@@ -323,34 +326,13 @@ void Period::renderData()
 
 std::string Period::renderHoliday(ical::event EVENT) 
 {
-	std::vector<std::string> date;
-	std::string temp = EVENT.subjectName + " ";
-	std::string d;
-
-	if (EVENT.exdate.size() > 16) {
-		size_t j = 0;
-		for (size_t i = 0; i < EVENT.exdate.size(); i++) {
-			if (EVENT.exdate[i] == ',') {
-				j = i+2;
-				date.push_back(EVENT.exdate.substr(j, 15));
-			}
-		}
-		std::string s = date[0].substr(6, 2)  + "-" + date[0].substr(4, 2) + "-" + date[0].substr(0, 4);
-		std::string e = date[date.size() - 1].substr(6, 2) + "-" + date[date.size() - 1].substr(4, 2) + "-" + date[date.size() - 1].substr(0, 4);
-		d = s + " to " + e;	
-	}
-	else {
-		d = EVENT.exdate.substr(6, 2) + "-" + EVENT.exdate.substr(4, 2) + "-" + EVENT.exdate.substr(0, 4);
-	}
-
-	temp += "[" + d + "]";
-
+	std::string temp = EVENT.subjectName + " [" + EVENT.startD + " to " + EVENT.untillD + "]";
 	return temp;
 }
 
 void Period::OnClick(wxCommandEvent& event) 
 {
-	int i = HolidayLists->GetSelection();
+	const int i = HolidayLists->GetSelection();
 	const mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
 	const ical::event EVENT = m_parent->holidays[i];
 
@@ -373,10 +355,20 @@ void Period::OnClick(wxCommandEvent& event)
 
 void Period::DeleteDay(wxCommandEvent &event) 
 {
+	const int i = HolidayLists->GetSelection();
+	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
+	m_parent->holidays.erase(m_parent->holidays.begin() + i);
+	HolidayLists->Delete(i);
 
+	event.Skip();
 }
 
 void Period::EditDay(wxCommandEvent &event) 
 {
-	
+	const int i = HolidayLists->GetSelection();
+	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
+	updateH_event(m_parent->holidays[i]);
+	HolidayLists->SetString(i, renderHoliday(m_parent->holidays[i]));
+
+	event.Skip();
 }
