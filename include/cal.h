@@ -70,6 +70,8 @@ namespace ical {
 
             void set_D(str date);
 
+            str get_D();
+
             str get_startTime();
 
             str get_endTime();
@@ -90,6 +92,7 @@ namespace ical {
                 ar & untillD;
                 ar & exdate;
                 ar & startD;
+                ar & note;
             }
     }; //end event class
 

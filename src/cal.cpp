@@ -163,6 +163,10 @@ namespace ical {
         untillD = date + "T235959";
     }
 
+    str event::get_D() {
+        return startD.substr(0, 4) + "-" + startD.substr(4, 2) + "-" + startD.substr(6, 2);
+    }
+
     void event::append_exdate(str date) {
         exdate += ", " + date;
     }

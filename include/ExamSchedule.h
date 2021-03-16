@@ -17,8 +17,8 @@ public:
 
 	void updateEvent(ical::event &EVENT);
 	std::string renderSchedule(ical::event EVENT);
+	void renderSelected(ical::event EVENT);
 	void renderData();
-
 	
 public:
 	//Style

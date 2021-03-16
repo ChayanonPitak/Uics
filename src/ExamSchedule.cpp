@@ -204,7 +204,7 @@ void ExamSchedule::AddSchedule(wxCommandEvent& event)
 std::string ExamSchedule::renderSchedule(ical::event EVENT) 
 {
 	std::string temp;
-	temp = EVENT.subjectID + "  " + EVENT.subjectName + "  " + EVENT.location + "  " + EVENT.startD + "  " + EVENT.get_startTime() + "  " + EVENT.get_endTime() + " " + EVENT.note;
+	temp = EVENT.subjectID + "  " + EVENT.subjectName + "  " + EVENT.location + "  " + EVENT.get_D() + "  " + EVENT.get_startTime() + "  " + EVENT.get_endTime() + " " + EVENT.note;
 	return temp;
 }
 
@@ -247,6 +247,9 @@ void ExamSchedule::OnC_midterm(wxCommandEvent& event)
 		FinalExamScheduleLists->Deselect(i);
 		s_state = 1;
 	}
+	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
+	int i = MidtermExamScheduleLists->GetSelection();
+	renderSelected(m_parent->midtermExam[i]);
 
 	DeleteButton->Enable(true);
 	EditButton->Enable(true);
@@ -260,6 +263,10 @@ void ExamSchedule::OnC_final(wxCommandEvent& event)
 		MidtermExamScheduleLists->Deselect(i);
 		s_state = 2;
 	}
+	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
+	int i = FinalExamScheduleLists->GetSelection();
+	renderSelected(m_parent->finalExam[i]);
+
 	DeleteButton->Enable(true);
 	EditButton->Enable(true);
 	event.Skip();
@@ -296,7 +303,8 @@ void ExamSchedule::DeleteSchedule(wxCommandEvent& event)
 	event.Skip();
 }
 
-void ExamSchedule::DeleteAllSchedule(wxCommandEvent& event) {
+void ExamSchedule::DeleteAllSchedule(wxCommandEvent& event) 
+{
 	if (wxMessageBox("This will delete all exam schedule, Are you sure?", "Confirm", wxICON_QUESTION|wxYES_NO) != wxYES) {
 		event.Skip();
 		return;
@@ -325,4 +333,19 @@ void ExamSchedule::ResetField(wxCommandEvent& event)
 	EndTimePicker->SetTime(0,0,0);
 
 	event.Skip();
+}
+
+void ExamSchedule::renderSelected(ical::event EVENT) 
+{
+	SubjectIDTextCtrl->SetValue(EVENT.subjectID);
+	SubjectNameTextCtrl->SetValue(EVENT.subjectName);
+	LocationtextCtrl->SetValue(EVENT.location);
+	NoteNameTextCtrl->SetValue(EVENT.note);
+	
+	StartTimePicker->SetTime(std::stoi(EVENT.DTstart.substr(9, 2)), std::stoi(EVENT.DTstart.substr(11, 2)), std::stoi(EVENT.DTstart.substr(13, 2)));
+	EndTimePicker->SetTime(std::stoi(EVENT.DTend.substr(9, 2)), std::stoi(EVENT.DTend.substr(11, 2)), std::stoi(EVENT.DTend.substr(13, 2)));
+
+	wxDateTime t;
+	t.ParseISODate(EVENT.get_D());
+	SelectDate->SetValue(t);
 }
