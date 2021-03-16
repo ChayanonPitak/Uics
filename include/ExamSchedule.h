@@ -64,15 +64,12 @@ public:
 	wxStaticText* MidtermLable = NULL;
 	wxStaticText* FinalLable = NULL; 
 
-
-
-	
-
 	wxDECLARE_EVENT_TABLE();
 	void AddSchedule(wxCommandEvent& event);
 	void EditSchedule(wxCommandEvent& event);
 	void DeleteSchedule(wxCommandEvent& event);
 	void DeleteAllSchedule(wxCommandEvent& event);
+	void DeleteAllScheduleTwo(wxCommandEvent& event);
 	void ResetField(wxCommandEvent& event);
 	void OnC_midterm(wxCommandEvent& event);
 	void OnC_final(wxCommandEvent& event);

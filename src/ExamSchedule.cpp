@@ -25,6 +25,7 @@ wxBEGIN_EVENT_TABLE(ExamSchedule, wxPanel)
 	EVT_BUTTON(ID_EditEvent, ExamSchedule::EditSchedule)
 	EVT_BUTTON(ID_DeleteEvent, ExamSchedule::DeleteSchedule)
 	EVT_BUTTON(ID_DeleteAllEvent, ExamSchedule::DeleteAllSchedule)
+	EVT_BUTTON(ID_DeleteAllEvent2, ExamSchedule::DeleteAllScheduleTwo)
 	EVT_BUTTON(ID_ResetEvent, ExamSchedule::ResetField)
 	EVT_LISTBOX(ID_midtermListbox, ExamSchedule::OnC_midterm)
 	EVT_LISTBOX(ID_finalListbox, ExamSchedule::OnC_final)
@@ -113,16 +114,16 @@ ExamSchedule::ExamSchedule(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoint
 	AddButton = new wxButton(this, ID_AddEvent,
 		"Add",
 		wxPoint(10, 140), wxSize(85, 25));
-	EditButton = new wxButton(this, ID_EditEvent,
-		"Edit Selected",
-		wxPoint(10, 240), wxSize(85, 25));
-	EditButton->Enable(false);
 	ResetButton = new wxButton(this, ID_ResetEvent,
 		"Reset all field",
-		wxPoint(10, 340), wxSize(85, 25));
+		wxPoint(10, 180), wxSize(85, 25));
+	EditButton = new wxButton(this, ID_EditEvent,
+		"Edit Selected",
+		wxPoint(10, 220), wxSize(85, 25));
+	EditButton->Enable(false);
 	DeleteButton = new wxButton(this, ID_DeleteEvent,
 		"Delete Selected",
-		wxPoint(10, 440), wxSize(85, 25));
+		wxPoint(10, 260), wxSize(85, 25));
 	DeleteButton->Enable(false);
 	DeleteAllButton = new wxButton(this, ID_DeleteAllEvent,
 		"Delete All",
@@ -191,20 +192,22 @@ void ExamSchedule::AddSchedule(wxCommandEvent& event)
 	if (p_select == "Midterm") {
 		m_parent->midtermExam.push_back(EVENT);
 		MidtermExamScheduleLists->Append(renderSchedule(EVENT));
+		DeleteAllButton->Enable(true);
 	}
 	if (p_select == "Final") {
 		m_parent->finalExam.push_back(EVENT);
 		FinalExamScheduleLists->Append(renderSchedule(EVENT));
+		DeleteAllButtonTwo->Enable(true);
 	}
 
-	DeleteAllButton->Enable(true);
 	event.Skip();
 }
 
 std::string ExamSchedule::renderSchedule(ical::event EVENT) 
 {
 	std::string temp;
-	temp = EVENT.subjectID + "  " + EVENT.subjectName + "  " + EVENT.location + "  " + EVENT.get_D() + "  " + EVENT.get_startTime() + "  " + EVENT.get_endTime() + " " + EVENT.note;
+	temp = "[" + EVENT.subjectID + " " + EVENT.subjectName + "] " +
+	" " + EVENT.location + " (" + EVENT.get_D() + ") " + EVENT.get_startTime() + " to " + EVENT.get_endTime() + " {" + EVENT.note + "}";
 	return temp;
 }
 
@@ -287,12 +290,8 @@ void ExamSchedule::DeleteSchedule(wxCommandEvent& event)
 		FinalExamScheduleLists->Delete(f);
 	}
 
-	if (m_parent->midtermExam.size() == 0 && m_parent->finalExam.size() == 0) {
-		EditButton->Enable(false);
-		DeleteButton->Enable(false);
-		DeleteAllButton->Enable(false);
-	}
-
+	if (m_parent->midtermExam.size() == 0) DeleteAllButton->Enable(false);
+	if (m_parent->finalExam.size() == 0) DeleteAllButtonTwo->Enable(false);
 	
 	int m = MidtermExamScheduleLists->GetSelection();
 	int f = FinalExamScheduleLists->GetSelection();
@@ -310,15 +309,29 @@ void ExamSchedule::DeleteAllSchedule(wxCommandEvent& event)
 		return;
 	}
 	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
-
 	m_parent->midtermExam.clear();
-	m_parent->finalExam.clear();
 	MidtermExamScheduleLists->Clear();
-	FinalExamScheduleLists->Clear();
+	DeleteAllButton->Enable(false);
 
 	EditButton->Enable(false);
 	DeleteButton->Enable(false);
-	DeleteAllButton->Enable(false);
+	event.Skip();
+}
+
+void ExamSchedule::DeleteAllScheduleTwo(wxCommandEvent& event)
+{
+	if (wxMessageBox("This will delete all exam schedule, Are you sure?", "Confirm", wxICON_QUESTION|wxYES_NO) != wxYES) {
+		event.Skip();
+		return;
+	}
+	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
+
+	m_parent->finalExam.clear();
+	FinalExamScheduleLists->Clear();
+	DeleteAllButtonTwo->Enable(false);
+
+	EditButton->Enable(false);
+	DeleteButton->Enable(false);
 	event.Skip();
 }
 
