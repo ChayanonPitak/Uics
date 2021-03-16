@@ -29,6 +29,9 @@ wxBEGIN_EVENT_TABLE(Period, wxPanel)
 	EVT_CHECKBOX(ID_SingleDayCheckBox, Period::CheckSingleDay)
 	EVT_BUTTON(ID_ResetDay, Period::ResetField)
 	EVT_BUTTON(ID_AddDay, Period::OnAdd)
+	EVT_LISTBOX(ID_HolidayListBox, Period::OnClick)
+	EVT_BUTTON(ID_DeleteDay, Period::DeleteDay)
+	EVT_BUTTON(ID_EditDay, Period::EditDay)
 wxEND_EVENT_TABLE()
 
 
@@ -148,9 +151,10 @@ Period::Period(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoint(0, 0), wxSi
 		"Delete Selected",
 		wxPoint(20, 435), wxSize(85, 25));
 	DeleteButton->Enable(false);
-	DeleteButton = new wxButton(this, ID_DeleteAllDay,
+	DeleteAllButton = new wxButton(this, ID_DeleteAllDay,
 		"Delete All",
 		wxPoint(120, 435), wxSize(85, 25));
+	DeleteAllButton->Enable(false);
 
 	//Lists
 	HolidayLists = new wxListBox(this, ID_HolidayListBox,
@@ -199,16 +203,18 @@ void Period::OnAdd(wxCommandEvent& event)
 	else 
 		holiday_e = "";
 
-	std::string name = HolidayNameTextCtrl->GetLineText(0).mb_str();
+	std::string name = HolidayNameTextCtrl->GetLineText(0).ToStdString();
 
 	ical::event h;
 	h.subjectName = name;
 	h.set_exdate(holiday_s, holiday_e);
 
-	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
+	const mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
 	m_parent->holidays.push_back(h);
-
 	HolidayLists->Append(renderHoliday(h));
+
+	DeleteAllButton->Enable(true);
+	event.Skip();
 }
 
 void Period::updateTime_range() 
@@ -247,7 +253,8 @@ void Period::updateTime_range()
 	}
 }
 
-void Period::set_rangeVector() {
+void Period::set_rangeVector() 
+{
 	wxDateTime wxMid_s = MidtermExaminationStartDatePickerCtrl->GetValue();
 	wxDateTime wxMid_e = MidtermExaminationEndDatePickerCtrl->GetValue();
 	wxDateTime wxFinal_s = FinalExaminationStartDatePickerCtrl->GetValue();
@@ -275,7 +282,8 @@ void Period::set_rangeVector() {
 	m_parent->range.push_back(ev);
 }
 
-void Period::renderData() {
+void Period::renderData() 
+{
 	HolidayLists->Clear();
 
 	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
@@ -313,7 +321,8 @@ void Period::renderData() {
 
 }
 
-std::string Period::renderHoliday(ical::event EVENT) {
+std::string Period::renderHoliday(ical::event EVENT) 
+{
 	std::vector<std::string> date;
 	std::string temp = EVENT.subjectName + " ";
 	std::string d;
@@ -337,4 +346,37 @@ std::string Period::renderHoliday(ical::event EVENT) {
 	temp += "[" + d + "]";
 
 	return temp;
+}
+
+void Period::OnClick(wxCommandEvent& event) 
+{
+	int i = HolidayLists->GetSelection();
+	const mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
+	const ical::event EVENT = m_parent->holidays[i];
+
+	HolidayNameTextCtrl->SetValue(EVENT.subjectName);
+
+	wxDateTime s;
+	s.ParseISODate(EVENT.startD);
+	HolidayStartDatePickerCtrl->SetValue(s);
+
+	if (EVENT.untillD != "") {
+		wxDateTime e;
+		e.ParseISODate(EVENT.untillD);
+		HolidayEndDatePickerCtrl->SetValue(e);
+	}
+
+	EditButton->Enable(true);
+	DeleteButton->Enable(true);
+	event.Skip();
+}
+
+void Period::DeleteDay(wxCommandEvent &event) 
+{
+
+}
+
+void Period::EditDay(wxCommandEvent &event) 
+{
+	
 }

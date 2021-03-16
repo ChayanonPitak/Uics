@@ -57,6 +57,9 @@ public:
 	void ResetField(wxCommandEvent& event);
 	void SetPeriodRange(wxDateEvent& event);
 	void OnAdd(wxCommandEvent& event);
+	void OnClick(wxCommandEvent &event);
+	void DeleteDay(wxCommandEvent &event);
+	void EditDay(wxCommandEvent &event);
 
 	wxDECLARE_EVENT_TABLE();
 
