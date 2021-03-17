@@ -3,6 +3,8 @@
 #include "ClassSchedule.h"
 #include "ExamSchedule.h"
 #include "cal.h"
+#include "p_About.h"
+#include "Help.h"
 #include "wxcmake.h"
 
 #include <wx/wxprec.h>
@@ -44,11 +46,16 @@ public:
 	//Menu
 	wxMenu* FileMenu = NULL;		//File
 	wxMenu* HelpMenu = NULL;		//Help
-	wxMenu* ToolMenu = NULL;
+	wxMenu* ToolMenu = NULL;		//Tool
+
+	//Panel
+	p_About* AboutFrame = NULL;		//About
+	HelpFrame* _helpFrame = NULL;	//Help
 
 	//Functions
 	void SetStyle();
 	void OnClose(wxCloseEvent& event);
+	void OnHelp(wxCommandEvent& event);
 	void OnAbout(wxCommandEvent& event);
 	void OnExit(wxCommandEvent& event);
 	void OnOpen(wxCommandEvent& event);

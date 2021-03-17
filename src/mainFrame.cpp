@@ -1,5 +1,6 @@
 #include "mainFrame.h"
 #include "p_About.h"
+#include "Help.h"
 #include "Period.h"
 #include "ClassSchedule.h"
 #include "ExamSchedule.h"
@@ -19,6 +20,7 @@ enum
 wxBEGIN_EVENT_TABLE(mainFrame, wxFrame) 
 	EVT_MENU(wxID_ABOUT, mainFrame::OnAbout)
 	EVT_MENU(wxID_EXIT, mainFrame::OnExit)
+	EVT_MENU(wxID_HELP, mainFrame::OnHelp)
 	EVT_MENU(wxID_OPEN, mainFrame::OnOpen)
 	EVT_MENU(wxID_SAVE, mainFrame::OnSave)
 	EVT_MENU(wxID_SAVEAS, mainFrame::OnSaveas)
@@ -27,23 +29,26 @@ wxBEGIN_EVENT_TABLE(mainFrame, wxFrame)
 	EVT_CLOSE(mainFrame::OnClose)
 wxEND_EVENT_TABLE()
 
-mainFrame::mainFrame() : wxFrame(NULL, wxID_ANY, "Uics", wxPoint(50, 50), wxSize(1000, 650), wxDEFAULT_FRAME_STYLE & ~wxRESIZE_BORDER)
+mainFrame::mainFrame() : wxFrame(NULL, wxID_ANY, "Uics", wxPoint(50, 50), wxSize(1000, 650), wxDEFAULT_FRAME_STYLE & ~wxRESIZE_BORDER & ~wxMAXIMIZE_BOX)
 {
 	SetStyle();
 	//Menu
 	FileMenu = new wxMenu;		//Menu - File
-	FileMenu->Append(wxID_EXIT,		//Exit
-		"Exit",
-		"Get out of here.");
 	FileMenu->Append(wxID_OPEN);
 	FileMenu->Append(wxID_SAVE);
 	FileMenu->Append(wxID_SAVEAS);
 	FileMenu->Append(ID_Export, "Export .ics");
+	FileMenu->AppendSeparator();
+	FileMenu->Append(wxID_EXIT,		//Exit
+		"Exit",
+		"Exit the program.");
 
 	ToolMenu = new wxMenu;
 	ToolMenu->Append(ID_GetScan, "Scan image", "Scan your schedule.");
 
 	HelpMenu = new wxMenu;		//Menu - Help
+	HelpMenu->Append(wxID_HELP);
+	FileMenu->AppendSeparator();
 	HelpMenu->Append(wxID_ABOUT,
 		"About",
 		"About this software.");
@@ -61,7 +66,7 @@ mainFrame::mainFrame() : wxFrame(NULL, wxID_ANY, "Uics", wxPoint(50, 50), wxSize
 	
 
 	//Listbook
-	listBook = new wxListbook(this, wxID_ANY, wxPoint(0, 0), wxSize(1200, 1400), wxLB_LEFT);
+	listBook = new wxListbook(this, wxID_ANY, wxPoint(0, 0), wxSize(1000, 650), wxLB_LEFT);
 	listBook->GetListView()->SetColumnWidth(0, 130);
 	listBook->AddPage(ClassSchedulePanel, "Class Schedule");		//ClassSchedule
 	listBook->AddPage(ExamSchedulePanel, "Examination Schedule");	//ExamSchedule
@@ -91,8 +96,16 @@ void mainFrame::OnClose(wxCloseEvent& event) {
 
 void mainFrame::OnAbout(wxCommandEvent& event)
 {
-	p_About* aboutFrame = new p_About(this); 
-	aboutFrame->Show(true);
+	AboutFrame = new p_About(this); 
+	AboutFrame->Show(true);
+	event.Skip();
+}
+
+void mainFrame::OnHelp(wxCommandEvent& event)
+{
+	_helpFrame = new HelpFrame(this);
+	_helpFrame->Show(true);
+	event.Skip();
 }
 
 void mainFrame::OnExit(wxCommandEvent& event)
