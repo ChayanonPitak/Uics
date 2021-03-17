@@ -45,7 +45,7 @@ namespace ical {
             str DTstart;
             str DTend;
             str exdate;
-            str startD = getTstamp() + "000000";
+            str startD = getTstamp() + "000000"; // this should has DTstamp name, I fucked up
             str untillD;
             str note;
 
@@ -85,6 +85,7 @@ namespace ical {
                 ar & freq;
                 ar & weekstop;
                 ar & subjectName;
+                ar & subjectID;
                 ar & location;
                 ar & day;
                 ar & DTstart;

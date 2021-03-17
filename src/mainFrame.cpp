@@ -154,6 +154,8 @@ void mainFrame::OnSave(wxCommandEvent& event) {
 		ical::saveEvent(finalExam, ofs);	
 		ical::saveEvent(holidays, ofs);
 		ical::saveEvent(range, ofs);
+
+		is_saved = true;
 	}
 	else {
 		wxFileDialog

@@ -143,7 +143,9 @@ namespace ical {
         m_end = end.substr(5,2);
         day_end = end.substr(8,2);
 
-        startD = year_start + m_start + day_start + "T000000";
+        // ugly fix
+        DTstart = year_start + m_start + day_start + DTstart.substr(8, 7);
+        DTend = year_start + m_start + day_start + DTend.substr(8, 7);
         untillD = year_end + m_end + day_end + "T000000";
     } 
 
@@ -319,7 +321,7 @@ namespace ical {
         file << "RRULE:FREQ=" << event.freq << ";WKST=" << event.weekstop << ";UNTIL=" << event.untillD << ";BYDAY=" << event.day << '\n';
         file << "DTSTAMP:" << event.startD << '\n';
         file << "LOCATION:" << event.location << '\n';
-        file << "SUMMARY:" << event.subjectName + " " + event.subjectID << '\n';
+        file << "SUMMARY:" << event.subjectID + " " + event.subjectName << '\n';
         file << "END:VEVENT" << '\n';
     }
 

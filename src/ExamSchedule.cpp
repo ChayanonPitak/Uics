@@ -146,8 +146,6 @@ ExamSchedule::ExamSchedule(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoint
 	wxPoint(450,120));
 	FinalLable->SetFont(TextCtrl2);
 
-	
-
 	//Lists
 	MidtermExamScheduleLists = new wxListBox(this, ID_midtermListbox,
 		wxPoint(100, 140), wxSize(250, 350), 0, NULL, wxLB_SINGLE | wxLB_HSCROLL);
