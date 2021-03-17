@@ -172,12 +172,14 @@ void ExamSchedule::updateEvent(ical::event &EVENT)
 
 	wxDateTime date = SelectDate->GetValue();
 
-	EVENT.set_D(date.FormatISODate().ToStdString());
 	EVENT.subjectID = SubjectIDTextCtrl->GetLineText(0).mb_str();
 	EVENT.subjectName = SubjectNameTextCtrl->GetLineText(0).mb_str();
 	EVENT.location = std::string((LocationtextCtrl->GetLineText(0)).mb_str()); 
+
 	EVENT.DTstart = ical::checkDT(StartHr, StartMin, StartSec);
 	EVENT.DTend = ical::checkDT(EndHr, EndMin, EndSec);
+	EVENT.set_D(date.FormatISODate().ToStdString());
+	
 	EVENT.note = NoteNameTextCtrl->GetLineText(0).mb_str();
 }
 

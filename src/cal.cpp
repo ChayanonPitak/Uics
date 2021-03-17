@@ -163,12 +163,14 @@ namespace ical {
 
     void event::set_D(str date) {
         date.erase(remove(date.begin(), date.end(), '-'), date.end());
-        startD = date + "T000000";
-        untillD = date + "T235959";
+        // ugly fix
+        DTstart = date + DTstart.substr(8, 7);
+        DTend = date + DTend.substr(8, 7);
     }
 
     str event::get_D() {
-        return startD.substr(0, 4) + "-" + startD.substr(4, 2) + "-" + startD.substr(6, 2);
+        // more ugly fix
+        return DTstart.substr(0, 4) + "-" + DTstart.substr(4, 2) + "-" + DTstart.substr(6, 2);
     }
 
     void event::append_exdate(str date) {
@@ -318,6 +320,7 @@ namespace ical {
         file << "DTSTART:" << event.DTstart << '\n';
         file << "DTEND:" << event.DTend << '\n';
         file << "EXDATE:" << event.exdate << '\n';
+        if (event.day != "") 
         file << "RRULE:FREQ=" << event.freq << ";WKST=" << event.weekstop << ";UNTIL=" << event.untillD << ";BYDAY=" << event.day << '\n';
         file << "DTSTAMP:" << event.startD << '\n';
         file << "LOCATION:" << event.location << '\n';
