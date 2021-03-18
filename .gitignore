@@ -391,11 +391,6 @@ MigrationBackup/
 /test/saveload_test/build
 /.vscode
 
-
-# Images
-*.png
-*.jpg
-
 # Folder
 /.vscode
 /test/ocr_test/build
