@@ -24,7 +24,7 @@
 - [x] Semester period.
 - [x] Examination period.
 - [x] **Holiday**
-- [ ] ~~*Bonus : Get holiday data from API.*
+- [ ] ~~*Bonus : Get holiday data from API.*~~
 - [x] **Schedule list.**
 
 ### Save & Exporting.
