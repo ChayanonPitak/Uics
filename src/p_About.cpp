@@ -32,35 +32,35 @@ p_AboutPanel::p_AboutPanel(wxWindow* parent):wxPanel(parent,wxID_ANY, wxPoint(15
 	//Detail01
 	HeadText = new wxStaticText(this, wxID_ANY, "TANAT TANGUN", wxPoint(30, 80 + plus1), wxSize(85, 25));
 	SpecialText = new wxStaticText(this, wxID_ANY, "630610737", wxPoint(163, 80 + plus1), wxSize(85, 25));
-	Text = new wxStaticText(this, wxID_ANY, "-Project manager -Coding", wxPoint(50, 105 + plus1), wxSize(85, 75));
+	Text = new wxStaticText(this, wxID_ANY, "-Project manager -Coding Backend", wxPoint(50, 105 + plus1), wxSize(85, 75));
 	HeadText->SetFont(HeaderFont_02);
 	SpecialText->SetFont(SpecialFont_Text);
 	Text->SetFont(NormalFont_01);
 
 	HeadText = new wxStaticText(this, wxID_ANY, "CHAYANON PITAK", wxPoint(30, 130 + plus1), wxSize(85, 25));
 	SpecialText = new wxStaticText(this, wxID_ANY, "630610724", wxPoint(178, 130 + plus1), wxSize(85, 25));
-	Text = new wxStaticText(this, wxID_ANY, "-Project manager -Coding", wxPoint(50, 155 + plus1), wxSize(85, 75));
+	Text = new wxStaticText(this, wxID_ANY, "-Project manager -Coding User interface", wxPoint(50, 155 + plus1), wxSize(85, 75));
 	HeadText->SetFont(HeaderFont_02);
 	SpecialText->SetFont(SpecialFont_Text);
 	Text->SetFont(NormalFont_01);
 
 	HeadText = new wxStaticText(this, wxID_ANY, "CHETSADA CHAINANTI", wxPoint(30, 180 + plus1), wxSize(85, 25));
 	SpecialText = new wxStaticText(this, wxID_ANY, "630610723", wxPoint(210, 180 + plus1), wxSize(85, 25));
-	Text = new wxStaticText(this, wxID_ANY, "-Coding", wxPoint(50, 205 + plus1), wxSize(85, 165));
+	Text = new wxStaticText(this, wxID_ANY, "-Coding User interface", wxPoint(50, 205 + plus1), wxSize(85, 165));
 	HeadText->SetFont(HeaderFont_02);
 	SpecialText->SetFont(SpecialFont_Text);
 	Text->SetFont(NormalFont_01);
 
 	HeadText = new wxStaticText(this, wxID_ANY, "TANANUN CHOWDEE", wxPoint(30, 230 + plus1), wxSize(85, 25));
 	SpecialText = new wxStaticText(this, wxID_ANY, "630610735", wxPoint(204, 230 + plus1), wxSize(85, 25));
-	Text = new wxStaticText(this, wxID_ANY, "-Coding", wxPoint(50, 255 + plus1), wxSize(85, 250));
+	Text = new wxStaticText(this, wxID_ANY, "-Coding Backend", wxPoint(50, 255 + plus1), wxSize(85, 250));
 	HeadText->SetFont(HeaderFont_02);
 	SpecialText->SetFont(SpecialFont_Text);
 	Text->SetFont(NormalFont_01);
 
 	HeadText = new wxStaticText(this, wxID_ANY, "THIDTANAI KAEWPHET", wxPoint(30, 280 + plus1), wxSize(85, 25));
 	SpecialText = new wxStaticText(this, wxID_ANY, "630610741", wxPoint(210, 280 + plus1), wxSize(85, 25));
-	Text = new wxStaticText(this, wxID_ANY, "-UI/UX", wxPoint(50, 305 + plus1), wxSize(85, 300));
+	Text = new wxStaticText(this, wxID_ANY, "-UI/UX Asset design -Coding User interfacce ", wxPoint(50, 305 + plus1), wxSize(85, 300));
 	HeadText->SetFont(HeaderFont_02);
 	SpecialText->SetFont(SpecialFont_Text);
 	Text->SetFont(NormalFont_01);
@@ -78,7 +78,7 @@ p_AboutPanel::p_AboutPanel(wxWindow* parent):wxPanel(parent,wxID_ANY, wxPoint(15
 	HeadText->SetFont(HeaderFont_02);
 	SpecialText->SetFont(SpecialFont_Text);
 	HeadText = new wxStaticText(this, wxID_ANY, "Last upadate:", wxPoint(30, 130 + plus2), wxSize(85, 25));
-	SpecialText = new wxStaticText(this, wxID_ANY, "3/15/2021", wxPoint(130, 132 + plus2), wxSize(85, 25));
+	SpecialText = new wxStaticText(this, wxID_ANY, "3/18/2021", wxPoint(130, 132 + plus2), wxSize(85, 25));
 	HeadText->SetFont(HeaderFont_02);
 	SpecialText->SetFont(SpecialFont_Text);
 }
