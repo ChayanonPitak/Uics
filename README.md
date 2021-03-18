@@ -17,14 +17,14 @@
 
 ### Schedule input
 
-- [ ] **Course schedule input.**
-- [ ] Class schedule.
-- [ ] Examination schedule.
-- [ ] **Semester period & holiday input.**
+- [x] **Course schedule input.**
+- [x] Class schedule.
+- [x] Examination schedule.
+- [x] **Semester period & holiday input.**
 - [x] Semester period.
 - [x] Examination period.
-- [ ] **Holiday**
-- [ ] *Bonus : Get holiday data from API.*
+- [x] **Holiday**
+- [ ] ~~*Bonus : Get holiday data from API.*
 - [x] **Schedule list.**
 
 ### Save & Exporting.
