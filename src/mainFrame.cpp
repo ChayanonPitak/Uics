@@ -96,7 +96,8 @@ void mainFrame::OnClose(wxCloseEvent& event) {
 
 void mainFrame::OnAbout(wxCommandEvent& event)
 {
-	AboutFrame = new p_About(this); 
+	AboutFrame = new p_About(this);
+	AboutFrame->SetIcons(wxIconBundle("..\\resources\\icon.png", wxBITMAP_TYPE_PNG));
 	AboutFrame->Show(true);
 	event.Skip();
 }
@@ -104,6 +105,7 @@ void mainFrame::OnAbout(wxCommandEvent& event)
 void mainFrame::OnHelp(wxCommandEvent& event)
 {
 	_helpFrame = new HelpFrame(this);
+	_helpFrame->SetIcons(wxIconBundle("..\\resources\\icon.png", wxBITMAP_TYPE_PNG));
 	_helpFrame->Show(true);
 	event.Skip();
 }
