@@ -27,6 +27,7 @@ public:
 	bool is_loaded = false;
 	bool is_saved = false;
 	bool is_scanned = false;
+	bool is_edited = false;
 
 public:
 	//Style

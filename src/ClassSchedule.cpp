@@ -193,6 +193,9 @@ void ClassSchedule::updateEvent(ical::event &EVENT) {
 
 	EVENT.DTstart = ical::checkDT(StartHr, StartMin, StartSec);
 	EVENT.DTend = ical::checkDT(EndHr, EndMin, EndSec);
+
+	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
+	m_parent->is_edited = true;
 }
 
 void ClassSchedule::AddSchedule(wxCommandEvent& event) {

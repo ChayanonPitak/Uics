@@ -160,11 +160,6 @@ Period::Period(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoint(0, 0), wxSi
 	HolidayLists = new wxListBox(this, ID_HolidayListBox,
 		wxPoint(20, 220), wxSize(450, 200), 0, NULL, wxLB_SINGLE | wxLB_HSCROLL);
 
-	// debug code
-	/*
-	debug = new wxTextCtrl(this, wxID_ANY, "", wxPoint(20, 180), wxSize(500, 80), wxTE_MULTILINE);
-	dbutton = new wxButton(this, 1, "CLICK", wxPoint(20, 260));
-	*/
 }
 
 void Period::SetStyle()
@@ -207,6 +202,9 @@ void Period::updateH_event(ical::event &EVENT)
 
 	EVENT.subjectName = name;
 	EVENT.set_exdate(holiday_s, holiday_e);
+	
+	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
+	m_parent->is_edited = true;
 }
 
 void Period::OnAdd(wxCommandEvent& event) 

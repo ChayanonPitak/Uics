@@ -83,7 +83,7 @@ void mainFrame::SetStyle()
 }
 
 void mainFrame::OnClose(wxCloseEvent& event) {
-	bool file_notSaved = is_saved != true && (listSchedule.size() != 0);
+	bool file_notSaved = is_saved != true && (listSchedule.size() != 0) && is_edited == true;
 	if (event.CanVeto() && file_notSaved) {
 		if (wxMessageBox("You did not save the schedules. Continue?", "Confirm", wxICON_QUESTION|wxYES_NO) != wxYES) 
 			{
@@ -110,7 +110,7 @@ void mainFrame::OnHelp(wxCommandEvent& event)
 
 void mainFrame::OnExit(wxCommandEvent& event)
 {
-	if (is_saved != true && (listSchedule.size() != 0)) {
+	if (is_saved != true && (listSchedule.size() != 0) && is_edited == true) {
 		if (wxMessageBox("You did not save the schedules. Continue?", "Confirm", wxICON_QUESTION|wxYES_NO) != wxYES)
 		{
 			event.Skip();

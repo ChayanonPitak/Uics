@@ -181,6 +181,9 @@ void ExamSchedule::updateEvent(ical::event &EVENT)
 	EVENT.set_D(date.FormatISODate().ToStdString());
 	
 	EVENT.note = NoteNameTextCtrl->GetLineText(0).mb_str();
+
+	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
+	m_parent->is_edited = true;
 }
 
 void ExamSchedule::AddSchedule(wxCommandEvent& event) 
