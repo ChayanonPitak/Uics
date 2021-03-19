@@ -163,6 +163,7 @@ namespace ical {
     void event::set_D(str date) {
         date.erase(remove(date.begin(), date.end(), '-'), date.end());
         // ugly fix
+        startD = date + "T000000";
         DTstart = date + DTstart.substr(8, 7);
         DTend = date + DTend.substr(8, 7);
     }

@@ -45,7 +45,7 @@ namespace ical {
             str DTstart;
             str DTend;
             str exdate;
-            str startD; // this should has DTstamp name, I fucked up
+            str startD = getTstamp() + "000000"; // this should has DTstamp name, I fucked up
             str untillD;
             str note;
 
