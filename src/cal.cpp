@@ -147,12 +147,11 @@ namespace ical {
         DTstart = year_start + m_start + day_start + DTstart.substr(8, 7);
         DTend = year_start + m_start + day_start + DTend.substr(8, 7);
         untillD = year_end + m_end + day_end + "T000000";
+        startD = getTstamp() + "000000";
     } 
 
     void event::set_exdate(str start, str end) {
-        startD = start;
-        untillD = end;
-        if (exdate != "") exdate += ", " + ical::exdate(start, end);
+        if (exdate != "") exdate += "," + ical::exdate(start, end);
         else exdate += ical::exdate(start,end);
     }
 
@@ -174,7 +173,7 @@ namespace ical {
     }
 
     void event::append_exdate(str date) {
-        exdate += ", " + date;
+        exdate += "," + date;
     }
 
     str event::get_startTime() {
@@ -223,7 +222,7 @@ namespace ical {
         start.erase(remove(start.begin(), start.end(), '-'), start.end());
         end.erase(remove(end.begin(), end.end(), '-'), end.end());
 
-        if (end == "") return start + "T000000";        
+        if (end == "") return start;        
 
         str s_pre = start.substr(0, 6);
 
@@ -238,10 +237,10 @@ namespace ical {
         if (s_month == e_month) {
             str temp = "";
             for (int i = s; i <= e; i++) {
-                if (i < 10) temp += s_pre + "0" + std::to_string(i) + "T000000" + ", ";
-                else temp += s_pre + std::to_string(i) + "T000000" + ", ";
+                if (i < 10) temp += s_pre + "0" + std::to_string(i) + ",";
+                else temp += s_pre + std::to_string(i) + ",";
             }
-            return temp.erase(temp.size()-2, 2);
+            return temp.erase(temp.size()-1, 1);
         }
         else { 
             str s_year = start.substr(0, 4);
@@ -251,39 +250,39 @@ namespace ical {
             if (s_month == "02") {
                 str temp = "";
                 for (int i = s; i <= 28; i++) {
-                    if (i < 10) temp += s_year + s_month + "0" + std::to_string(i) + "T000000" + ", ";
-                    else temp += s_year + s_month + std::to_string(i) + "T000000" + ", ";   
+                    if (i < 10) temp += s_year + s_month + "0" + std::to_string(i) + ",";
+                    else temp += s_year + s_month + std::to_string(i) + ",";   
                 }
                 for (int i = 1; i <= e; i++) {
-                    if (i < 10) temp += s_year + e_month + "0" + std::to_string(i) + "T000000" + ", ";
-                    else temp += s_year + e_month + std::to_string(i) + "T000000" + ", ";   
+                    if (i < 10) temp += s_year + e_month + "0" + std::to_string(i) + ",";
+                    else temp += s_year + e_month + std::to_string(i) + ",";   
                 }
-                return temp.erase(temp.size()-2, 2);            }
+                return temp.erase(temp.size()-1, 1);            }
 
             if (Is_inarr(s_month, thirtyone)) {
                 str temp = "";
                 for (int i = s; i <= 31; i++) {
-                    if (i < 10) temp += s_year + s_month + "0" + std::to_string(i) + "T000000" + ", ";
-                    else temp += s_year + s_month + std::to_string(i) + "T000000" + ", ";   
+                    if (i < 10) temp += s_year + s_month + "0" + std::to_string(i) + ",";
+                    else temp += s_year + s_month + std::to_string(i) + ",";   
                 }
                 for (int i = 1; i <= e; i++) {
-                    if (i < 10) temp += s_year + e_month + "0" + std::to_string(i) + "T000000" + ", ";
-                    else temp += s_year + e_month + std::to_string(i) + "T000000" + ", ";   
+                    if (i < 10) temp += s_year + e_month + "0" + std::to_string(i) + ",";
+                    else temp += s_year + e_month + std::to_string(i) + ",";   
                 }
-                return temp.erase(temp.size()-2, 2);  
+                return temp.erase(temp.size()-1, 1);  
             }
 
             if (Is_inarr(s_month, thirty)) {
                 str temp = "";
                 for (int i = s; i <= 30; i++) {
-                    if (i < 10) temp += s_year + s_month + "0" + std::to_string(i) + "T000000" + ", ";
-                    else temp += s_year + s_month + std::to_string(i) + "T000000" + ", ";   
+                    if (i < 10) temp += s_year + s_month + "0" + std::to_string(i) + ",";
+                    else temp += s_year + s_month + std::to_string(i) + ",";   
                 }
                 for (int i = 1; i <= e; i++) {
-                    if (i < 10) temp += s_year + e_month + "0" + std::to_string(i) + "T000000" + ", ";
-                    else temp += s_year + e_month + std::to_string(i) + "T000000" + ", ";   
+                    if (i < 10) temp += s_year + e_month + "0" + std::to_string(i) + ",";
+                    else temp += s_year + e_month + std::to_string(i) + ",";   
                 }
-                return temp.erase(temp.size()-2, 2);  
+                return temp.erase(temp.size()-1, 1);  
             }
         }
         return "";
@@ -315,11 +314,12 @@ namespace ical {
 
 
     // function to creat iCal event.
-    void createEvent(event event, std::ofstream &file) {
+    void createEvent(const event event, std::ofstream &file) {
         file << "BEGIN:VEVENT" << '\n';
         file << "DTSTART:" << event.DTstart << '\n';
         file << "DTEND:" << event.DTend << '\n';
-        file << "EXDATE:" << event.exdate << '\n';
+        if (event.exdate != "")
+        file << "EXDATE;VALUE=DATE:" << event.exdate << '\n';
         if (event.day != "") 
         file << "RRULE:FREQ=" << event.freq << ";WKST=" << event.weekstop << ";UNTIL=" << event.untillD << ";BYDAY=" << event.day << '\n';
         file << "DTSTAMP:" << event.startD << '\n';

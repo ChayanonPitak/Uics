@@ -45,7 +45,7 @@ namespace ical {
             str DTstart;
             str DTend;
             str exdate;
-            str startD = getTstamp() + "000000"; // this should has DTstamp name, I fucked up
+            str startD; // this should has DTstamp name, I fucked up
             str untillD;
             str note;
 
@@ -111,7 +111,7 @@ namespace ical {
     void calFooter(std::ofstream& file);
 
     // function to creat iCal event.
-    void createEvent(event event, std::ofstream &file);
+    void createEvent(const event event, std::ofstream &file);
     
     //
     void saveEvent(std::vector<event> list, std::ofstream &file);
