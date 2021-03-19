@@ -126,7 +126,7 @@ namespace ical {
     strVector tostrVector(char *in); 
 
     // Function to process img and return vector of string.
-    strVector process_Image(const char *imgPath, const char *datapath = "./resources/tessdata");
+    strVector process_Image(const char *imgPath, const char *datapath = "..\\resources\\tessdata");
 
     //
     bool ocr_to_event(strVector in, std::vector<event> &out);

@@ -384,10 +384,7 @@ namespace ical {
         strVector out;
 
         tesseract::TessBaseAPI *api = new tesseract::TessBaseAPI();
-        if (api->Init(datapath, "eng")) {
-            std::cout << "Could not initialize tesseract.\n";
-            exit(1);
-        }
+        if (api->Init(datapath, "eng")) return out;
 
         api->SetImage(image);
         outText = api->GetUTF8Text();
@@ -397,7 +394,6 @@ namespace ical {
         api->End();
         delete api;
         pixDestroy(&image);
-
         return out;
     }
 
