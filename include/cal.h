@@ -123,7 +123,7 @@ namespace ical {
     void exportEvent(std::vector<event> list, std::ofstream &file);
 
     // Function to convert char* to vector<string> by splitting char* on '\\n'
-    strVector tostrVector(char *in); 
+    strVector tostrVector(char *&in); 
 
     // Function to process img and return vector of string.
     strVector process_Image(const char *imgPath, const char *datapath = "..\\resources\\tessdata");

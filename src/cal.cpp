@@ -361,7 +361,7 @@ namespace ical {
     }
 
     // Function to convert char* to vector<string> by splitting char* on '\\n'
-    strVector tostrVector(char * in) {
+    strVector tostrVector(char *&in) {
         strVector text;
         size_t i = 0, j = 0;
 
@@ -381,7 +381,7 @@ namespace ical {
     }
 
     // Function to process img and return vector of string.
-    strVector process_Image(const char* imgPath, const char * datapath) {
+    strVector process_Image(const char* imgPath, const char* datapath) {
         char * outText;
         Pix *image  = pixRead(imgPath);
         strVector out;
@@ -393,7 +393,6 @@ namespace ical {
         outText = api->GetUTF8Text();
         out = tostrVector(outText);
 
-        delete [] outText;
         api->End();
         delete api;
         pixDestroy(&image);
