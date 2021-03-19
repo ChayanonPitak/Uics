@@ -327,7 +327,9 @@ void Period::renderData()
 
 std::string Period::renderHoliday(ical::event EVENT) 
 {
-	std::string temp = EVENT.subjectName + " [" + EVENT.startD + " to " + EVENT.untillD + "]";
+	std::string temp = EVENT.subjectName + " [" + EVENT.startD;
+	if (EVENT.untillD != "") temp += " to " + EVENT.untillD;
+	temp += "]";
 	return temp;
 }
 
