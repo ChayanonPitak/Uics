@@ -151,6 +151,8 @@ namespace ical {
     } 
 
     void event::set_exdate(str start, str end) {
+        startD = start;
+        untillD = end;
         if (exdate != "") exdate += "," + ical::exdate(start, end);
         else exdate += ical::exdate(start,end);
     }

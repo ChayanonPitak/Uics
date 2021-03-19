@@ -247,8 +247,8 @@ void Period::updateTime_range()
 			m_parent->listSchedule[i].set_exdate(Final_s, Final_e);
 		}
 
-		for (size_t j = 0; j < m_parent->holidays.size(); i++) {
-			m_parent->listSchedule[i].append_exdate(m_parent->holidays[i].exdate);
+		for (size_t j = 0; j < m_parent->holidays.size(); j++) {
+			m_parent->listSchedule[i].append_exdate(m_parent->holidays[j].exdate);
 		}
 		m_parent->listSchedule[i].set_range(r_start, r_end);
 	}
@@ -285,6 +285,7 @@ void Period::set_rangeVector()
 
 void Period::renderData() 
 {
+
 	HolidayLists->Clear();
 
 	mainFrame* m_parent = dynamic_cast<mainFrame*>(GetParent());
@@ -319,6 +320,8 @@ void Period::renderData()
 	FinalExaminationEndDatePickerCtrl->SetValue(final_e);
 	PeriodStartDatePickerCtrl->SetValue(r_s);
  	PeriodEndDatePickerCtrl->SetValue(r_e);
+	HolidayStartDatePickerCtrl->SetRange(PeriodStartDatePickerCtrl->GetValue(), PeriodEndDatePickerCtrl->GetValue());
+	HolidayEndDatePickerCtrl->SetRange(PeriodStartDatePickerCtrl->GetValue(), PeriodEndDatePickerCtrl->GetValue());
 
 }
 
