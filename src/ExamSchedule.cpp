@@ -109,7 +109,7 @@ ExamSchedule::ExamSchedule(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoint
 		wxDefaultDateTime,
 		wxPoint(380, 65),
 		wxSize (85, 25),
-		wxDP_DROPDOWN);  
+		wxDP_DROPDOWN); 
 	//buttons
 	AddButton = new wxButton(this, ID_AddEvent,
 		"Add",
@@ -128,13 +128,11 @@ ExamSchedule::ExamSchedule(wxWindow* Parent) : wxPanel(Parent, wxID_ANY, wxPoint
 	DeleteAllButton = new wxButton(this, ID_DeleteAllEvent,
 		"Delete All",
 		wxPoint(100, 500), wxSize(85, 25));
-	DeleteAllButton->Enable(false);
 
-		DeleteAllButtonTwo = new wxButton(this, ID_DeleteAllEvent2,
+	DeleteAllButtonTwo = new wxButton(this, ID_DeleteAllEvent2,
 		"Delete All",
 		wxPoint(450,500),
 		wxSize(85,25));
-	DeleteAllButtonTwo->Enable(false);
 
 	MidtermLable = new wxStaticText(this, wxID_ANY,
 	"Midterm Exam",
@@ -195,12 +193,10 @@ void ExamSchedule::AddSchedule(wxCommandEvent& event)
 	if (p_select == "Midterm") {
 		m_parent->midtermExam.push_back(EVENT);
 		MidtermExamScheduleLists->Append(renderSchedule(EVENT));
-		DeleteAllButton->Enable(true);
 	}
 	if (p_select == "Final") {
 		m_parent->finalExam.push_back(EVENT);
 		FinalExamScheduleLists->Append(renderSchedule(EVENT));
-		DeleteAllButtonTwo->Enable(true);
 	}
 
 	event.Skip();
@@ -292,9 +288,6 @@ void ExamSchedule::DeleteSchedule(wxCommandEvent& event)
 		m_parent->finalExam.erase(m_parent->finalExam.begin() + f);
 		FinalExamScheduleLists->Delete(f);
 	}
-
-	if (m_parent->midtermExam.size() == 0) DeleteAllButton->Enable(false);
-	if (m_parent->finalExam.size() == 0) DeleteAllButtonTwo->Enable(false);
 	
 	int m = MidtermExamScheduleLists->GetSelection();
 	int f = FinalExamScheduleLists->GetSelection();
